@@ -27,7 +27,7 @@ class PilotServiceTest {
         PilotRepository pilotRepository = Mockito.mock(PilotRepository.class);
         PilotService testingObject = new PilotService(pilotRepository);
 
-        Mockito.when(testingObject.findAll()).thenReturn(mockPilots);
+        Mockito.when(pilotRepository.findAll()).thenReturn(mockPilots);
         //when
         List<Pilot> allPilots = testingObject.findAll();
         //then
