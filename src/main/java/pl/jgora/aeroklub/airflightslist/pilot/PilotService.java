@@ -12,6 +12,6 @@ public class PilotService {
     private final PilotRepository pilotRepository;
 
     List<Pilot> findAll() {
-        return null;
+        return pilotRepository.findPilotsByOrderByName();
     }
 }
