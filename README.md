@@ -3,7 +3,7 @@
 2. Stwórz repozytorium na GitHub
 3. Uzupełnij pliki .gitignore pom.xml i application.properties 
 4. Stwórz plik README.md
-5. Stwórz bazę danych 
+5. Stwórz bazę danych
 #Zadanie 2
 1. Stwórz Encję Pilot 
 posiadającą właściwości :
@@ -27,7 +27,8 @@ Pilot
 	- SEPL (LocalDate)
 	- FI(S) (LocalDate)
 	- FI(A) (LocalDate)
-2. Stwórz PilotRepository do połączenia z bazą danych
-3. Stwórz PilotService zawierający metody dodawania edytowania i dezaktywowania Pilota 
-4. Stwórz PilotController z akcjami do wyświetlania widoków listy pilotów, dodawania/edycji pilota, aktywacji/dezaktywacji pilota 
-5. Stwórz widoki wyświetlające wszystkich pilotów, dodawania pilota, edycji pilota, na liście pilotów dodaj przycisk aktywujący/dezaktywujący pilota
+2. Dodaj plik sql ładujący przykładowych pilotów 
+3. Stwórz PilotRepository do połączenia z bazą danych
+4. Stwórz PilotService zawierający metody dodawania edytowania i dezaktywowania Pilota 
+5. Stwórz PilotController z akcjami do wyświetlania widoków listy pilotów, dodawania/edycji pilota, aktywacji/dezaktywacji pilota 
+6. Stwórz widoki wyświetlające wszystkich pilotów, dodawania pilota, edycji pilota, na liście pilotów dodaj przycisk aktywujący/dezaktywujący pilota
