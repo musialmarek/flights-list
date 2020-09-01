@@ -5,6 +5,9 @@ import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.util.List;
 
-public interface PilotRepository extends JpaRepository<Pilot,Long> {
+public interface PilotRepository extends JpaRepository<Pilot, Long> {
     List<Pilot> findPilotsByOrderByName();
+
+    Pilot findFirstById(Long id);
+
 }
