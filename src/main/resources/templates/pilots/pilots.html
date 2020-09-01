@@ -26,7 +26,7 @@
             <button>Szczegóły</button>
         </td>
         <td>
-            <button>Edytuj</button>
+            <button><a th:href="@{/admin/pilot/edit(id=${pilot.id})}">Edytuj</a></button>
         </td>
         <td>
             <form th:if="${pilot.active==true}"
