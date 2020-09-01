@@ -20,7 +20,6 @@ public class PilotController {
 
     @GetMapping
     public String showAllPilots(Model model) {
-
         List<Pilot> pilots = pilotService.findAll();
         log.info("Got list of pilots with size: {} \n Adding list of pilots to model as \"pilots\" ", pilots.size());
         model.addAttribute("pilots", pilots);
@@ -36,7 +35,7 @@ public class PilotController {
         Pilot toDeactivate = pilotService.findById(pilot.getId());
         log.info("\nPILOT TO DEACTIVATE : {}", toDeactivate.getName());
         toDeactivate.setActive(false);
-        pilotService.update(toDeactivate);
+        pilotService.activationUpdate(toDeactivate);
         log.info("\nPILOT: {} IS NOT ACTIVE NOW", toDeactivate.getName());
         return "redirect:/admin/pilots";
     }
@@ -46,7 +45,7 @@ public class PilotController {
         Pilot toActivate = pilotService.findById(pilot.getId());
         log.info("\nPILOT TO ACTIVATE : {}", toActivate.getName());
         toActivate.setActive(true);
-        pilotService.update(toActivate);
+        pilotService.activationUpdate(toActivate);
         log.info("\nPILOT: {} IS ACTIVE NOW", toActivate.getName());
         return "redirect:/admin/pilots";
     }
