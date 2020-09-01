@@ -14,4 +14,13 @@ public class PilotService {
     List<Pilot> findAll() {
         return pilotRepository.findPilotsByOrderByName();
     }
+
+    Pilot findById(Long id) {
+        return pilotRepository.getOne(id);
+    }
+
+    void update(Pilot pilot){
+        pilotRepository.save(pilot);
+    }
+
 }
