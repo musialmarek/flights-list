@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pilot.name}"></title>
+</head>
+<body>
+<div>
+    <div>Nazwisko i Imię:</div>
+    <div th:text="${pilot.name}"></div>
+</div>
+<div>
+    <div>Nr Licencji</div>
+    <div th:text="${pilot.licence}"></div>
+</div>
+<div>
+    <div>Aktywny:</div>
+    <div th:if="${pilot.active==true}">TAK</div>
+    <div th:if="${pilot.active==false}">NIE</div>
+</div>
+<div>
+    <div>KWT:</div>
+    <div th:text="${pilot.theory}"></div>
+</div>
+<div>
+    <button><a th:href="@{/admin/pilots}">Powrót</a></button>
+</div>
+<div>
+    <button><a th:href="@{/admin/pilot/edit(id=${pilot.id})}">Edytuj</a></button>
+</div>
+</body>
+</html>
