@@ -9,7 +9,7 @@
 <h1>Lista pilotów</h1>
 <p>Liczba pilotów: <span th:text="${pilots.size()}"/></p>
 <div>
-    <button><a th:href="@{/admin/pilot/add}">DODAJ PILOTA</a> </button>
+    <button><a th:href="@{/admin/pilot/add}">DODAJ PILOTA</a></button>
 </div>
 <table>
     <thead>
@@ -26,7 +26,7 @@
         <td th:text="${count.count}"></td>
         <td th:text="${pilot.name}"/>
         <td>
-            <button>Szczegóły</button>
+            <button><a th:href="@{/admin/pilots/details(id=${pilot.id})}">Szczegóły</a></button>
         </td>
         <td>
             <button><a th:href="@{/admin/pilot/edit(id=${pilot.id})}">Edytuj</a></button>
@@ -36,13 +36,13 @@
                   th:action="@{/admin/pilots/deactivate}"
                   method="post" th:object="${pilot}">
                 <input type="hidden" name="id" th:value="*{id}">
-                <input type="submit" value="deactivate"/>
+                <input type="submit" value="DEAKTYWUJ"/>
             </form>
             <form th:if="${pilot.active==false}"
                   th:action="@{/admin/pilots/activate}"
                   method="post" th:object="${pilot}">
                 <input type="hidden" name="id" th:value="*{id}">
-                <input type="submit" value="activate"/>
+                <input type="submit" value="AKTYWUJ"/>
             </form>
         </td>
     </tr>
