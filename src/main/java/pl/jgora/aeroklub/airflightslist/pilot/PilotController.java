@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class PilotController {
         List<Pilot> pilots = pilotService.findAll();
         log.info("Got list of pilots with size: {} \n Adding list of pilots to model as \"pilots\" ", pilots.size());
         model.addAttribute("pilots", pilots);
-        log.info("Added: ");
+        log.info("List of pilots:");
         for (Pilot pilot : pilots) {
             log.info(" Pilot {}", pilot);
         }
@@ -47,6 +48,16 @@ public class PilotController {
         toActivate.setActive(true);
         pilotService.activationUpdate(toActivate);
         log.info("\nPILOT: {} IS ACTIVE NOW", toActivate.getName());
+        return "redirect:/admin/pilots";
+    }
+
+    @GetMapping("/details")
+    public String details(Model model, @RequestParam("id") Long id) {
+        Pilot pilot = pilotService.findById(id);
+        if (pilot != null) {
+            model.addAttribute("pilot", pilot);
+            return "pilots/pilot-details";
+        }
         return "redirect:/admin/pilots";
     }
 }
