@@ -8,6 +8,9 @@
 <body>
 <h1>Lista pilotów</h1>
 <p>Liczba pilotów: <span th:text="${pilots.size()}"/></p>
+<div>
+    <button><a th:href="@{/admin/pilot/add}">DODAJ PILOTA</a> </button>
+</div>
 <table>
     <thead>
     <tr>
