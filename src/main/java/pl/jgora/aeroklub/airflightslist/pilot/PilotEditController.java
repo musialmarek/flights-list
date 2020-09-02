@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
-import javax.servlet.http.HttpServletRequest;
-
 @Controller
 @RequestMapping("/admin/pilot")
 @RequiredArgsConstructor
@@ -20,7 +18,7 @@ public class PilotEditController {
     private final PilotService pilotService;
 
     @GetMapping("/edit")
-    public String editForm(Model model, @RequestParam("id") Long id, HttpServletRequest request) {
+    public String editForm(Model model, @RequestParam("id") Long id) {
         Pilot toEdit = pilotService.findById(id);
         if (toEdit != null) {
             log.info("\n ADDING PILOT: {} TO MODEL", toEdit.getName());
@@ -32,7 +30,7 @@ public class PilotEditController {
     }
 
     @PostMapping("/edit")
-    public String editAction(Model model, Pilot pilot) {
+    public String editAction(Pilot pilot) {
         log.info("\n{}", pilot);
         pilotService.update(pilot);
         log.info("\n SUCCESSFUL EDITING OF PILOT: {}", pilot.getName());
