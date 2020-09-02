@@ -1,6 +1,7 @@
 package pl.jgora.aeroklub.airflightslist.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -31,16 +32,23 @@ public class Pilot {
     @Column(name = "engine_instructor")
     private Boolean engineInstructor;
     private Boolean tow;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate medicine;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate theory;
     @Column(name = "glider_practise")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate gliderPractise;
     @Column(name = "engine_practise")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate enginePractise;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate SEPL;
     @Column(name = "fi_s")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate FiS;
     @Column(name = "fi_a")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate FiA;
 
 }
