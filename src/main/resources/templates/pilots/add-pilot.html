@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Pilot</title>
+</head>
+<body>
+<h1>Dodaj pilota</h1>
+<form th:action="@{/admin/pilot/add}" th:object="${pilot}" method="post">
+    <input th:type="hidden" th:name="id" th:value="*{id}">
+    <div>
+        <label>
+            Nazwa:
+            <input th:type="text" th:field="*{name}" th:value="*{name}">
+        </label>
+    </div>
+    <div>
+        <label>
+            Licencja:
+            <input type="text" th:filed="*{licence}" th:value="*{licence}">
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{active}" th:value="*{active}">
+            AKTYWNY
+        </label>
+    </div>
+    <div>
+        <label>
+            BADANIA:
+            <input type="date" th:field="*{medicine}" th:value="*{medicine}">
+        </label>
+    </div>
+    <div>
+        <label>
+            KWT:
+            <input type="date" th:field="*{theory}" th:value="*{theory}">
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{gliderPilot}" th:value="*{gliderPilot}">
+            PILOT SZYBOWCOWY
+        </label>
+    </div>
+    <div>
+        <label>
+            KTP SZYBOWCOWE:
+            <input type="date" th:field="*{gliderPractise}" th:value="*{gliderPractise}">
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{gliderInstructor}" th:value="*{gliderInstructor}">
+            INSTRUKTOR SZYBOWCOWY
+        </label>
+    </div>
+    <div>
+        <label>
+            FI(S):
+            <input type="date" th:field="*{fiS}" th:value="*{fiS}">
+        </label>
+    </div>
+    <div>
+        <label>
+            <input th:type="checkbox" th:field="*{enginePilot}" th:value="*{enginePilot}">
+            PILOT SAMOLOTOWY
+        </label>
+    </div>
+    <div>
+        <label>
+            KTP SAMOLOTOWE:
+            <input th:type="date" th:field="*{enginePractise}" th:value="*{enginePractise}">
+        </label>
+    </div>
+    <div>
+        <label>
+
+            <input type="checkbox" th:field="*{engineInstructor}" th:value="*{engineInstructor}">
+            INSTRUKTOR SAMOLOTOWY
+        </label>
+    </div>
+    <div>
+        <label>
+            FI(A):
+            <input type="date" th:field="*{fiA}" th:value="*{fiA}">
+        </label>
+    </div>
+    <div>
+        <label>
+            <input type="checkbox" th:field="*{tow}" th:value="*{tow}">
+            HOLOWNIK
+        </label>
+    </div>
+    <div>
+        <label>
+            SEPL:
+            <input type="date" th:field="*{SEPL}" th:value="*{SEPL}">
+        </label>
+    </div>
+    <input th:type="submit" value="DODAJ PILOTA">
+</form>
+</body>
+</html>
