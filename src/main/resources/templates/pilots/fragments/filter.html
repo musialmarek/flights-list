@@ -1,0 +1,82 @@
+<div th:fragment="filter">
+    <form action="/admin/pilots" method="get">
+        <input type="hidden" name="filter" value="true">
+        <div>
+            <label>
+                Nazwisko/Imię
+                <input type="text" name="name">
+            </label>
+        </div>
+        <div>
+            <label>
+                Numer Licencji
+                <input type="text" name="licence">
+            </label>
+        </div>
+        <div>
+            <label>
+                Aktywny:<br>
+                <input type="radio" name="active" value=true th:checked="${active}">
+                Tak
+                <br>
+                <input type="radio" name="active" value=false th:checked="${active}">
+                Nie
+            </label>
+        </div>
+        <div>
+            <label>
+                Szybowcowy:<br>
+                <input type="radio" name="glider" value=true>
+                Tak
+                <br>
+                <input type="radio" name="glider" value=false>
+                Nie
+            </label>
+        </div>
+        <div>
+            <label>
+                Samolotowy:<br>
+                <input type="radio" name="engine" value=true>
+                Tak
+                <br>
+                <input type="radio" name="engine" value=false>
+                Nie
+            </label>
+        </div>
+        <div>
+            <label>
+                Instruktor Szybowcowy:<br>
+                <input type="radio" name="fis" value=true>
+                Tak
+                <br>
+                <input type="radio" name="fis" value=false>
+                Nie
+            </label>
+        </div>
+        <div>
+            <label>
+                Instruktor Samolotowy:<br>
+                <input type="radio" name="fia" value=true>
+                Tak
+                <br>
+                <input type="radio" name="fia" value=false>
+                Nie
+            </label>
+        </div>
+        <div>
+            <label>
+                Holownik:<br>
+                <input type="radio" name="tow" value=true>
+                Tak
+                <br>
+                <input type="radio" name="tow" value=false>
+                Nie
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="submit" value="SZUKAJ">
+            </label>
+        </div>
+    </form>
+</div>
