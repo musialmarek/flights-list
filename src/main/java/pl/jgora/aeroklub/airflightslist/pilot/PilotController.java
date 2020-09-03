@@ -20,8 +20,23 @@ public class PilotController {
     private final PilotService pilotService;
 
     @GetMapping
-    public String showAllPilots(Model model) {
-        List<Pilot> pilots = pilotService.findAll();
+    public String showAllPilots(Model model,
+                                @RequestParam(value = "filter", required = false) Boolean filter,
+                                @RequestParam(required = false) String name,
+                                @RequestParam(required = false) String licence,
+                                @RequestParam(required = false) Boolean active,
+                                @RequestParam(required = false) Boolean glider,
+                                @RequestParam(required = false) Boolean fis,
+                                @RequestParam(required = false) Boolean engine,
+                                @RequestParam(required = false) Boolean fia,
+                                @RequestParam(required = false) Boolean tow) {
+        List<Pilot> pilots;
+        if (filter != null) {
+            log.info("\n FILTER IS TRUE");
+            pilots = pilotService.filteredPilots(name, licence, active, glider, fis, engine, fia, tow);
+        } else {
+            pilots = pilotService.findAll();
+        }
         log.info("Got list of pilots with size: {} \n Adding list of pilots to model as \"pilots\" ", pilots.size());
         model.addAttribute("pilots", pilots);
         log.info("List of pilots:");
