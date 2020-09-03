@@ -11,6 +11,11 @@
 <div>
     <button><a th:href="@{/admin/pilot/add}">DODAJ PILOTA</a></button>
 </div>
+<div th:include="pilots/fragments/filter :: filter"></div>
+<div><button>
+    <a th:href="@{/admin/pilots}">RESETUJ</a>
+</button>
+</div>
 <table>
     <thead>
     <tr>
