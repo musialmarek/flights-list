@@ -2,7 +2,7 @@
 /*---- Main style ----*/
 /*------------------------------*/
 :root {
-    --link-color: #87dbff;
+    --link-color: #bbff96;
     --light-link-color: #fffffa;
     --background-color: #4b4c4a;
     --lighter-background-color: rgba(184, 134, 9, 0.62);
@@ -181,7 +181,7 @@ hr {
 /*------------------------------*/
 
 .list {
-    height: 80vh;
+    height: 65vh;
     overflow: auto;
 }
 
