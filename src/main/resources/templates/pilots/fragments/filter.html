@@ -1,26 +1,36 @@
 <ul class="nav flex-column long-bg" th:fragment="filter">
-    <h4>FILTRY</h4>
+    <h4 class="text-light">FILTRY</h4>
     <form action="/admin/pilots" method="get">
         <input type="hidden" name="filter" value="true">
         <li class="nav-item">
+            <button><a class="btn btn-danger rounded-0 pt-0 pb-0 pr-4 pl-4" th:href="@{/admin/pilots}">RESETUJ</a>
+            </button>
+        </li>
+        <li class="nav-item">
+            <label>
+                <button><input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
+                </button>
+            </label>
+        </li>
+        <li class="nav-item">
             <label>
                 Nazwisko/Imię
-                <input type="text" name="name">
+                <input type="text" name="name" th:value="${#httpServletRequest.getParameter('name')}">
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Numer Licencji
-                <input type="text" name="licence">
+                <input type="text" name="licence" th:value="${#httpServletRequest.getParameter('licence')}">
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Aktywny:<br>
-                <input type="radio" name="active" value=true th:checked="${active}">
+                <input type="radio" name="active" value=true th:checked="${#httpServletRequest.getParameter('active')}">
                 Tak
                 <br>
-                <input type="radio" name="active" value=false th:checked="${active}">
+                <input type="radio" name="active" value=false>
                 Nie
             </label>
         </li>
@@ -72,11 +82,6 @@
                 <br>
                 <input type="radio" name="tow" value=false>
                 Nie
-            </label>
-        </li>
-        <li class="nav-item">
-            <label>
-                <input type="submit" value="SZUKAJ">
             </label>
         </li>
     </form>
