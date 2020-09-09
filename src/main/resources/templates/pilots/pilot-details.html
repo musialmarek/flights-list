@@ -2,32 +2,117 @@
 <html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${pilot.name}"></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lista Pilotów</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
-<div>
-    <div>Nazwisko i Imię:</div>
-    <div th:text="${pilot.name}"></div>
-</div>
-<div>
-    <div>Nr Licencji</div>
-    <div th:text="${pilot.licence}"></div>
-</div>
-<div>
-    <div>Aktywny:</div>
-    <div th:if="${pilot.active==true}">TAK</div>
-    <div th:if="${pilot.active==false}">NIE</div>
-</div>
-<div>
-    <div>KWT:</div>
-    <div th:text="${pilot.theory}"></div>
-</div>
-<div>
-    <button><a th:href="@{/admin/pilots}">Powrót</a></button>
-</div>
-<div>
-    <button><a th:href="@{/admin/pilot/edit(id=${pilot.id})}">Edytuj</a></button>
-</div>
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
+
+</header>
+
+<section class="width-medium text-color-darker">
+    <div class="pb-2">
+        <div class="border-dashed view-height w-100">
+            <div class="mt-4 ml-4 mr-4">
+                <div class="row border-bottom border-3">
+                    <div class="col"><h3 class="text-color-darker text-uppercase">Szczegółowe dane pilota</h3></div>
+                    <div class="col d-flex justify-content-end mb-2">
+                        <button class="btn-warning"><a th:href="@{/admin/pilots}"
+                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        </button>
+                    </div>
+                </div>
+
+                <table class="table borderless" th:object="${pilot}">
+                    <tbody>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">Nazwisko i imię:</th>
+                        <td class="col-7" th:text="*{name}"/>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">Nr Licencji</th>
+                        <td class="col-7" th:text="*{licence}"/>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">Aktywny:</th>
+                        <td class="col-7" th:if="*{active==true}">TAK</td>
+                        <td class="col-7" th:if="*{active==false}">NIE</td>
+                    </tr>
+                    <tr class="d-flex">
+                    <th scope="row" class="col-2">Badania</th>
+                    <td class="col-7" th:text="*{medicine}"/>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">KWT</th>
+                        <td class="col-7" th:text="*{theory}"/>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">PILOT SZYBOWCOWY:</th>
+                        <td class="col-7" th:if="*{gliderPilot==true}">TAK</td>
+                        <td class="col-7" th:if="*{gliderPilot==false}">NIE</td>
+                    </tr>
+                    <glider-pilot th:if="*{gliderPilot==true}">
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">KTP SZYBOWCOWE</th>
+                            <td class="col-7" th:text="*{gliderPractise}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">INSTRUKTOR SZYBOWCOWY</th>
+                            <td class="col-7" th:if="*{gliderInstructor==true}">TAK</td>
+                            <td class="col-7" th:if="*{gliderInstructor==false}">NIE</td>
+                        </tr>
+                        <tr th:if="*{gliderInstructor==true}" class="d-flex">
+                            <th scope="row" class="col-2">UPRAWNIENIA INSTRUKTORSKIE FI(S)</th>
+                            <td class="col-7" th:text="*{fiS}"></td>
+                        </tr>
+                    </glider-pilot>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">PILOT SAMOLOTOWY:</th>
+                        <td class="col-7" th:if="*{enginePilot==true}">TAK</td>
+                        <td class="col-7" th:if="*{enginePilot==false}">NIE</td>
+                    </tr>
+                    <engine-pilot th:if="*{enginePilot==true}">
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">KTP SAMOLOTOWE</th>
+                            <td class="col-7" th:text="*{enginePractise}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">SEPL</th>
+                            <td class="col-7" th:text="*{SEPL}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">HOLOWNIK</th>
+                            <td class="col-7" th:if="*{tow==true}">TAK</td>
+                            <td class="col-7" th:if="*{tow==false}">NIE</td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">INSTRUKTOR SAMOLOTOWY</th>
+                            <td class="col-7" th:if="*{engineInstructor==true}">TAK</td>
+                            <td class="col-7" th:if="*{engineInstructor==false}">NIE</td>
+                        </tr>
+                        <tr th:if="*{engineInstructor==true}" class="d-flex">
+                            <th scope="row" class="col-2">UPRAWNIENIA INSTRUKTORSKIE FI(A)</th>
+                            <td class="col-7" th:text="*{fiS}"></td>
+                        </tr>
+                    </engine-pilot>
+                    </tbody>
+
+                    <div>
+                        <a class="col-1 btn btn-warning nav-link"th:href="@{/admin/pilot/edit(id=*{id})}">EDYTUJ</a>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
 </body>
 </html>

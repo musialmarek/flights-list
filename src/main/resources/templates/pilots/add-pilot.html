@@ -2,105 +2,115 @@
 <html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Nowy Pilot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Lista Pilotów</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 </head>
 <body>
-<h1>Dodaj pilota</h1>
-<form th:action="@{/admin/pilot/add}" th:object="${pilot}" method="post">
-    <input th:type="hidden" th:name="id" th:value="*{id}">
-    <div>
-        <label>
-            Nazwa:
-            <input th:type="text" th:field="*{name}" th:value="*{name}">
-        </label>
-    </div>
-    <div>
-        <label>
-            Licencja:
-            <input th:type="text" th:field="*{licence}" th:value="*{licence}">
-        </label>
-    </div>
-    <div>
-        <label>
-            <input th:type="checkbox" th:field="*{active}" th:value="*{active}">
-            AKTYWNY
-        </label>
-    </div>
-    <div>
-        <label>
-            BADANIA:
-            <input th:type="date" th:field="*{medicine}" th:value="*{medicine}">
-        </label>
-    </div>
-    <div>
-        <label>
-            KWT:
-            <input th:type="date" th:field="*{theory}" th:value="*{theory}">
-        </label>
-    </div>
-    <div>
-        <label>
-            <input th:type="checkbox" th:field="*{gliderPilot}" th:value="*{gliderPilot}">
-            PILOT SZYBOWCOWY
-        </label>
-    </div>
-    <div>
-        <label>
-            KTP SZYBOWCOWE:
-            <input th:type="date" th:field="*{gliderPractise}" th:value="*{gliderPractise}">
-        </label>
-    </div>
-    <div>
-        <label>
-            <input th:type="checkbox" th:field="*{gliderInstructor}" th:value="*{gliderInstructor}">
-            INSTRUKTOR SZYBOWCOWY
-        </label>
-    </div>
-    <div>
-        <label>
-            FI(S):
-            <input th:type="date" th:field="*{fiS}" th:value="*{fiS}">
-        </label>
-    </div>
-    <div>
-        <label>
-            <input th:type="checkbox" th:field="*{enginePilot}" th:value="*{enginePilot}">
-            PILOT SAMOLOTOWY
-        </label>
-    </div>
-    <div>
-        <label>
-            KTP SAMOLOTOWE:
-            <input th:type="date" th:field="*{enginePractise}" th:value="*{enginePractise}">
-        </label>
-    </div>
-    <div>
-        <label>
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
 
-            <input th:type="checkbox" th:field="*{engineInstructor}" th:value="*{engineInstructor}">
-            INSTRUKTOR SAMOLOTOWY
-        </label>
+</header>
+
+<section class="width-medium text-color-darker">
+    <div class="pb-2">
+        <div class="border-dashed view-height w-100">
+            <div class="mt-4 ml-4 mr-4">
+                <div class="row border-bottom border-3">
+                    <div class="col"><h3 class="text-color-darker text-uppercase">dodaj pilota</h3></div>
+                    <div class="col d-flex justify-content-end mb-2">
+                        <button class="btn-warning"><a th:href="@{/admin/pilots}"
+                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        </button>
+                    </div>
+                </div>
+                <form th:action="@{/admin/pilot/add}" th:object="${pilot}" method="post">
+                    <table class="table borderless" th:object="${pilot}">
+                        <tbody>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">Nazwisko i imię:</th>
+                            <td class="col-7"><input th:type="text" th:field="*{name}" th:value="*{name}"></td>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">Nr Licencji</th>
+                            <td class="col-7"><input th:type="text" th:field="*{licence}" th:value="*{licence}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">Aktywny:</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{active}" th:value="*{active}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">Badania</th>
+                            <td class="col-7"><input th:type="date" th:field="*{medicine}" th:value="*{medicine}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">KWT</th>
+                            <td class="col-7"><input th:type="date" th:field="*{theory}" th:value="*{theory}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">PILOT SZYBOWCOWY:</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{gliderPilot}"
+                                                     th:value="*{gliderPilot}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">KTP SZYBOWCOWE</th>
+                            <td class="col-7"><input th:type="date" th:field="*{gliderPractise}"
+                                                     th:value="*{gliderPractise}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">INSTRUKTOR SZYBOWCOWY</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{gliderInstructor}"
+                                                     th:value="*{gliderInstructor}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">UPRAWNIENIA INSTRUKTORSKIE FI(S)</th>
+                            <td class="col-7"><input th:type="date" th:field="*{fiS}" th:value="*{fiS}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">PILOT SAMOLOTOWY:</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{enginePilot}"
+                                                     th:value="*{enginePilot}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">KTP SAMOLOTOWE</th>
+                            <td class="col-7"><input th:type="date" th:field="*{enginePractise}"
+                                                     th:value="*{enginePractise}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">SEPL</th>
+                            <td class="col-7"><input th:type="date" th:field="*{SEPL}" th:value="*{SEPL}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">HOLOWNIK</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{tow}" th:value="*{tow}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">INSTRUKTOR SAMOLOTOWY</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{engineInstructor}"
+                                                     th:value="*{engineInstructor}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">UPRAWNIENIA INSTRUKTORSKIE FI(A)</th>
+                            <td class="col-7"><input th:type="date" th:field="*{fiA}" th:value="*{fiA}"></td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input class="btn btn-warning nav-link" th:type="submit" value="Dodaj pilota">
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
     </div>
-    <div>
-        <label>
-            FI(A):
-            <input th:type="date" th:field="*{fiA}" th:value="*{fiA}">
-        </label>
-    </div>
-    <div>
-        <label>
-            <input th:type="checkbox" th:field="*{tow}" th:value="*{tow}">
-            HOLOWNIK
-        </label>
-    </div>
-    <div>
-        <label>
-            SEPL:
-            <input th:type="date" th:field="*{SEPL}" th:value="*{SEPL}">
-        </label>
-    </div>
-    <input th:type="submit" value="DODAJ PILOTA">
-</form>
+</section>
 </body>
 </html>
