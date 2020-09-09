@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -56,11 +58,14 @@ public class PilotService {
                                Boolean engineInstructor,
                                Boolean tow) {
         StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String,String> filters = new HashMap<>();
         if (name != null && !name.isEmpty()) {
-            whereSectionBuilder.append(" p.name like '%").append(name).append("%'").append(" AND");
+            whereSectionBuilder.append(" p.name like '%:name%' AND");
+            filters.put("name",name);
         }
         if (licence != null && !licence.isEmpty()) {
-            whereSectionBuilder.append(" p.licence like '%").append(licence).append("%'").append(" AND");
+            whereSectionBuilder.append(" p.licence like :licence AND");
+            filters.put("licence",licence);
         }
         if (active != null) {
             whereSectionBuilder.append(" p.active=").append(active).append(" AND");
@@ -83,6 +88,6 @@ public class PilotService {
         whereSectionBuilder.append(" p.id IS NOT NULL ");
         String whereSection = whereSectionBuilder.toString();
         log.info("\nWHERE SECTION \"{}\"", whereSection);
-        return pilotRepository.filteringPilots(whereSection);
+        return pilotRepository.filteringPilots(whereSection,filters);
     }
 }
