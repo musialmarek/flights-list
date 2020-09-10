@@ -30,9 +30,9 @@ public class PilotService {
     void update(Pilot pilot) {
         if (pilot != null && pilot.getId() != null) {
             Pilot toEdit = findById(pilot.getId());
-            toEdit.setFiA(pilot.getFiA());
-            toEdit.setFiS(pilot.getFiS());
-            toEdit.setSEPL(pilot.getSEPL());
+            toEdit.setFia(pilot.getFia());
+            toEdit.setFis(pilot.getFis());
+            toEdit.setSepl(pilot.getSepl());
             toEdit.setActive(pilot.getActive());
             toEdit.setEngineInstructor(pilot.getEngineInstructor());
             toEdit.setEnginePilot(pilot.getEnginePilot());
@@ -60,11 +60,11 @@ public class PilotService {
         StringBuilder whereSectionBuilder = new StringBuilder();
         Map<String,String> filters = new HashMap<>();
         if (name != null && !name.isEmpty()) {
-            whereSectionBuilder.append(" p.name like '%:name%' AND");
+            whereSectionBuilder.append(" p.name like concat('%',:name,'%') AND");
             filters.put("name",name);
         }
         if (licence != null && !licence.isEmpty()) {
-            whereSectionBuilder.append(" p.licence like :licence AND");
+            whereSectionBuilder.append(" p.licence like concat('%',:licence,'%') AND");
             filters.put("licence",licence);
         }
         if (active != null) {
