@@ -27,9 +27,12 @@ public class AircraftController {
                                    @RequestParam(required = false) Boolean active,
                                    @RequestParam(required = false) Boolean engine) {
         List<Aircraft> aircrafts;
-
-        aircrafts = aircraftService.findAll();
-
+        if (filter != null) {
+            log.info("\n FILTER IS TRUE");
+            aircrafts = aircraftService.filteredAircrafts(type, registration, active, engine);
+        } else {
+            aircrafts = aircraftService.findAll();
+        }
         log.info("Got list of aircrafts with size: {} \n Adding list of aircrafts to model as \"aircrafts\" ", aircrafts.size());
         model.addAttribute("aircrafts", aircrafts);
         log.info("List of aircrafts:");

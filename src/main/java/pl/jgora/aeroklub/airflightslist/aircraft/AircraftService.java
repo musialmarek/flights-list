@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +47,28 @@ public class AircraftService {
             toEdit.setWorkTimeMinutes(aircraft.getWorkTimeMinutes());
             aircraftRepository.save(toEdit);
         }
+    }
+
+    List<Aircraft> filteredAircrafts(String type, String registration, Boolean active, Boolean engine) {
+        StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String, String> filters = new HashMap<>();
+        if (type != null && !type.isEmpty()) {
+            whereSectionBuilder.append(" a.type like concat('%',:type,'%') AND");
+            filters.put("type", type);
+        }
+        if (registration != null && !registration.isEmpty()) {
+            whereSectionBuilder.append(" a.registrationNumber like concat('%',:registration,'%') AND");
+            filters.put("registration", registration);
+        }
+        if (active != null) {
+            whereSectionBuilder.append(" a.active=").append(active).append(" AND");
+        }
+        if (engine != null) {
+            whereSectionBuilder.append(" a.engine=").append(engine).append(" AND");
+        }
+        whereSectionBuilder.append(" a.id IS NOT NULL ");
+        String whereSection = whereSectionBuilder.toString();
+        log.info("\nWHERE SECTION \"{}\"", whereSection);
+        return aircraftRepository.filteringAircrafts(whereSection, filters);
     }
 }
