@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -28,9 +30,9 @@ public class PilotService {
     void update(Pilot pilot) {
         if (pilot != null && pilot.getId() != null) {
             Pilot toEdit = findById(pilot.getId());
-            toEdit.setFiA(pilot.getFiA());
-            toEdit.setFiS(pilot.getFiS());
-            toEdit.setSEPL(pilot.getSEPL());
+            toEdit.setFia(pilot.getFia());
+            toEdit.setFis(pilot.getFis());
+            toEdit.setSepl(pilot.getSepl());
             toEdit.setActive(pilot.getActive());
             toEdit.setEngineInstructor(pilot.getEngineInstructor());
             toEdit.setEnginePilot(pilot.getEnginePilot());
@@ -56,11 +58,14 @@ public class PilotService {
                                Boolean engineInstructor,
                                Boolean tow) {
         StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String,String> filters = new HashMap<>();
         if (name != null && !name.isEmpty()) {
-            whereSectionBuilder.append(" p.name like '%").append(name).append("%'").append(" AND");
+            whereSectionBuilder.append(" p.name like concat('%',:name,'%') AND");
+            filters.put("name",name);
         }
         if (licence != null && !licence.isEmpty()) {
-            whereSectionBuilder.append(" p.licence like '%").append(licence).append("%'").append(" AND");
+            whereSectionBuilder.append(" p.licence like concat('%',:licence,'%') AND");
+            filters.put("licence",licence);
         }
         if (active != null) {
             whereSectionBuilder.append(" p.active=").append(active).append(" AND");
@@ -83,6 +88,6 @@ public class PilotService {
         whereSectionBuilder.append(" p.id IS NOT NULL ");
         String whereSection = whereSectionBuilder.toString();
         log.info("\nWHERE SECTION \"{}\"", whereSection);
-        return pilotRepository.filteringPilots(whereSection);
+        return pilotRepository.filteringPilots(whereSection,filters);
     }
 }

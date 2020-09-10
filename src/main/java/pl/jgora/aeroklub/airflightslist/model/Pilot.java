@@ -43,12 +43,12 @@ public class Pilot {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate enginePractise;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate SEPL;
+    private LocalDate sepl;
     @Column(name = "fi_s")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate FiS;
+    private LocalDate fis;
     @Column(name = "fi_a")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate FiA;
+    private LocalDate fia;
 
 }
