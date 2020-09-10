@@ -3,6 +3,7 @@ package pl.jgora.aeroklub.airflightslist.model;
 import jdk.jfr.Unsigned;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.annotations.ColumnDefault;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -29,8 +30,9 @@ public class Aircraft {
     @Column(name = "registration_number", unique = true)
     private String registrationNumber;
     @Positive
-    @Column(name = "flying_time")
+    @Column(name = "flying_time", nullable = false)
     @Unsigned
+    @ColumnDefault("0")
     private Integer flyingTime;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate arc;
@@ -41,8 +43,9 @@ public class Aircraft {
     private LocalDate nextWorkDate;
     @Column(name = "next_work_date_description")
     private String nextWorkDateDescription;
-    @Column(name = "next_work_time")
+    @Column(name = "next_work_time", nullable = false)
     @Unsigned
+    @ColumnDefault("0")
     private Integer nextWorkTime;
     @Column(name = "next_work_time_description")
     private String nextWorkTimeDescription;
