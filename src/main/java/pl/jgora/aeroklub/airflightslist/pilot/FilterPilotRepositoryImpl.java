@@ -14,7 +14,7 @@ import java.util.Map;
 @Slf4j
 public class FilterPilotRepositoryImpl implements FilterPilotRepository {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public List<Pilot> filteringPilots(String whereSection, Map<String,String> filters) {
