@@ -558,3 +558,17 @@ hr {
 .slider.round:before {
     border-radius: 50%;
 }
+
+/*------------------------------*/
+/*---- Forms ----*/
+/*------------------------------*/
+
+.hours {
+    width: 150px;
+    text-align: right;
+}
+
+.minutes {
+    width: 80px;
+    text-align: right;
+}
