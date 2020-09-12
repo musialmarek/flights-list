@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="${aircraft.registrationNumber}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
+</header>
+
+<section class="width-medium text-color-darker">
+    <div class="pb-2">
+        <div class="border-dashed view-height w-100">
+            <div class="mt-4 ml-4 mr-4">
+                <div class="row border-bottom border-3">
+                    <div class="col"><h3 class="text-color-darker text-uppercase">Szczegółowe dane statku powietrznego</h3></div>
+                    <div class="col d-flex justify-content-end mb-2">
+                        <button class="btn-warning"><a th:href="@{/admin/aircrafts}"
+                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        </button>
+                    </div>
+                </div>
+
+                <table class="table borderless" th:object="${aircraft}">
+                    <tbody>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">KLASA</th>
+                        <td th:if="*{engine==true}" class="col-7">
+                        SAMOLOT</td>
+                        <td th:if="*{engine==false}" class="col-7">
+                        SZYBOWIEC</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">TYP</th>
+                        <td class="col-7" th:text="*{type}"/>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">ZNAKI REJESTRACYJNE</th>
+                        <td class="col-7" th:text="*{registrationNumber}"/>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">Aktywny:</th>
+                        <td class="col-7" th:if="*{active==true}">TAK</td>
+                        <td class="col-7" th:if="*{active==false}">NIE</td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">ARC</th>
+                        <td class="col-7" th:text="*{arc}"/>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">UBEZPIECZENIE</th>
+                        <td class="col-7" th:text="*{insurance}"/>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">NALOT CAŁKOWITY</th>
+                        <td class="col-7"><span th:text="*{flyingTimeHours}"/>:<span th:text="*{flyingTimeMinutes}"/>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA PRZY NALOCIE</th>
+                        <td class="col-7"><span th:text="*{workTimeHours}"/>:<span th:text="*{workTimeMinutes}"/>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA PRZY NALOCIE - OPIS</th>
+                        <td class="col-7" th:text="*{nextWorkTimeDescription}"></td>
+
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA W DNIU</th>
+                        <td class="col-7" th:text="*{nextWorkDate}"></td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA W DNIU - OPIS</th>
+                        <td class="col-7" th:text="*{nextWorkDateDescription}"></td>
+                    </tr>
+                    </tbody>
+                    <div>
+                        <a class="col-1 btn btn-warning nav-link" th:href="@{/admin/aircraft/edit(id=*{id})}">EDYTUJ</a>
+                    </div>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
