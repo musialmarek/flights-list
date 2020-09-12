@@ -36,7 +36,7 @@ public class AircraftService {
             toEdit.setRegistrationNumber(aircraft.getRegistrationNumber());
             toEdit.setFlyingTime(aircraft.getFlyingTime());
             toEdit.setArc(aircraft.getArc());
-            toEdit.setInsuring(aircraft.getInsuring());
+            toEdit.setInsurance(aircraft.getInsurance());
             toEdit.setNextWorkDate(aircraft.getNextWorkDate());
             toEdit.setNextWorkDateDescription(aircraft.getNextWorkDateDescription());
             toEdit.setNextWorkTime(aircraft.getNextWorkTime());
