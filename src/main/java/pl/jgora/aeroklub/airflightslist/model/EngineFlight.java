@@ -12,4 +12,5 @@ import javax.persistence.Table;
 @Setter
 public class EngineFlight extends AbstractFlight {
     private String crew;
+    private Boolean tow;
 }
