@@ -37,7 +37,7 @@ public class Aircraft {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate arc;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate insuring;
+    private LocalDate insurance;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "next_work_date")
     private LocalDate nextWorkDate;
