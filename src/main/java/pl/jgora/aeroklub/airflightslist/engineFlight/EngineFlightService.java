@@ -3,6 +3,7 @@ package pl.jgora.aeroklub.airflightslist.engineFlight;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -17,5 +18,9 @@ public class EngineFlightService {
         LocalDate start = LocalDate.of(year, 1, 1);
         LocalDate finish = LocalDate.of(year, 12, 31);
         return engineFlightRepository.getFlyingEngineDays(start, finish);
+    }
+
+    public Set<EngineFlight> getByDate(LocalDate date) {
+        return engineFlightRepository.getDistinctByDateOrderByStart(date);
     }
 }
