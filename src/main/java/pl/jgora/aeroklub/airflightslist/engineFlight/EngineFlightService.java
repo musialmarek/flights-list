@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -22,5 +23,15 @@ public class EngineFlightService {
 
     public Set<EngineFlight> getByDate(LocalDate date) {
         return engineFlightRepository.getDistinctByDateOrderByStart(date);
+    }
+
+    public EngineFlight save(EngineFlight flight) {
+        if (flight.getInstructor()) {
+            Pilot pic = flight.getCopilot();
+            Pilot copilot = flight.getPic();
+            flight.setPic(pic);
+            flight.setCopilot(copilot);
+        }
+        return engineFlightRepository.save(flight);
     }
 }
