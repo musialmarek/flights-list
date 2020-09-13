@@ -8,6 +8,7 @@ import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -89,5 +90,13 @@ public class PilotService {
         String whereSection = whereSectionBuilder.toString();
         log.info("\nWHERE SECTION \"{}\"", whereSection);
         return pilotRepository.filteringPilots(whereSection,filters);
+    }
+
+    public Set<Pilot> getEnginePilots() {
+        return pilotRepository.findByEnginePilotTrueAndActiveTrue();
+    }
+
+    public Set<Pilot> getEngineInstructors(){
+        return pilotRepository.findByEngineInstructorTrueAndActiveTrue();
     }
 }
