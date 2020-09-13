@@ -32,16 +32,16 @@ public class PilotController {
                                 @RequestParam(required = false) Boolean tow) {
         List<Pilot> pilots;
         if (filter != null) {
-            log.info("\n FILTER IS TRUE");
+            log.debug("\n FILTER IS TRUE");
             pilots = pilotService.filteredPilots(name, licence, active, glider, fis, engine, fia, tow);
         } else {
             pilots = pilotService.findAll();
         }
-        log.info("Got list of pilots with size: {} \n Adding list of pilots to model as \"pilots\" ", pilots.size());
+        log.debug("Got list of pilots with size: {} \n Adding list of pilots to model as \"pilots\" ", pilots.size());
         model.addAttribute("pilots", pilots);
-        log.info("List of pilots:");
+        log.debug("List of pilots:");
         for (Pilot pilot : pilots) {
-            log.info(" Pilot {}", pilot);
+            log.debug(" Pilot {}", pilot);
         }
         return "pilots/pilots";
     }
@@ -49,20 +49,20 @@ public class PilotController {
     @PostMapping("/deactivate")
     public String deactivate(Pilot pilot) {
         Pilot toDeactivate = pilotService.findById(pilot.getId());
-        log.info("\nPILOT TO DEACTIVATE : {}", toDeactivate.getName());
+        log.debug("\nPILOT TO DEACTIVATE : {}", toDeactivate.getName());
         toDeactivate.setActive(false);
         pilotService.activationUpdate(toDeactivate);
-        log.info("\nPILOT: {} IS NOT ACTIVE NOW", toDeactivate.getName());
+        log.debug("\nPILOT: {} IS NOT ACTIVE NOW", toDeactivate.getName());
         return "redirect:/admin/pilots";
     }
 
     @PostMapping("/activate")
     public String activate(Pilot pilot) {
         Pilot toActivate = pilotService.findById(pilot.getId());
-        log.info("\nPILOT TO ACTIVATE : {}", toActivate.getName());
+        log.debug("\nPILOT TO ACTIVATE : {}", toActivate.getName());
         toActivate.setActive(true);
         pilotService.activationUpdate(toActivate);
-        log.info("\nPILOT: {} IS ACTIVE NOW", toActivate.getName());
+        log.debug("\nPILOT: {} IS ACTIVE NOW", toActivate.getName());
         return "redirect:/admin/pilots";
     }
 

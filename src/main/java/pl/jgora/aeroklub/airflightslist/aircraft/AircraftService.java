@@ -68,7 +68,7 @@ public class AircraftService {
         }
         whereSectionBuilder.append(" a.id IS NOT NULL ");
         String whereSection = whereSectionBuilder.toString();
-        log.info("\nWHERE SECTION \"{}\"", whereSection);
+        log.debug("\nWHERE SECTION \"{}\"", whereSection);
         return aircraftRepository.filteringAircrafts(whereSection, filters);
     }
 }

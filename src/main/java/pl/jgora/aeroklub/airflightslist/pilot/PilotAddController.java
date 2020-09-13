@@ -18,17 +18,17 @@ public class PilotAddController {
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        log.info("\n ADDING EMPTY PILOT TO MODEL");
+        log.debug("\n ADDING EMPTY PILOT TO MODEL");
         model.addAttribute("pilot", new Pilot());
         return "pilots/add-pilot";
     }
 
     @PostMapping("/add")
     public String addAction(Pilot pilot) {
-        log.info("\n{}", pilot);
+        log.debug("\n{}", pilot);
         Pilot saved = pilotRepository.save(pilot);
         if (saved.getId() != null) {
-            log.info("\n SUCCESSFUL ADDING PILOT: {} WITH ID : {}", saved.getName(), saved.getId());
+            log.debug("\n SUCCESSFUL ADDING PILOT: {} WITH ID : {}", saved.getName(), saved.getId());
         }
         return "redirect:/admin/pilots";
     }

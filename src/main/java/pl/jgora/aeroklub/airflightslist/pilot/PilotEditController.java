@@ -21,19 +21,19 @@ public class PilotEditController {
     public String editForm(Model model, @RequestParam("id") Long id) {
         Pilot toEdit = pilotService.findById(id);
         if (toEdit != null) {
-            log.info("\n ADDING PILOT: {} TO MODEL", toEdit.getName());
+            log.debug("\n ADDING PILOT: {} TO MODEL", toEdit.getName());
             model.addAttribute("pilot", toEdit);
             return "pilots/edit-pilot";
         }
-        log.info("\nTHERE IS NO PILOT WITH ID: {}", id);
+        log.debug("\nTHERE IS NO PILOT WITH ID: {}", id);
         return "redirect:/admin/pilots";
     }
 
     @PostMapping("/edit")
     public String editAction(Pilot pilot) {
-        log.info("\n{}", pilot);
+        log.debug("\n{}", pilot);
         pilotService.update(pilot);
-        log.info("\n SUCCESSFUL EDITING OF PILOT: {}", pilot.getName());
+        log.debug("\n SUCCESSFUL EDITING OF PILOT: {}", pilot.getName());
         return "redirect:/admin/pilots";
     }
 

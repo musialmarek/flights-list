@@ -32,9 +32,9 @@ public class GliderFlightController {
 
     @GetMapping("/list")
     public String gliderDailyFlights(@RequestParam("date") String date, Model model) {
-        log.info("\ndate {}", date);
+        log.debug("\ndate {}", date);
         Set<GliderFlight> flightsInDay = gliderFlightService.getByDate(LocalDate.parse(date));
-        log.info("\n flying-list size {}", flightsInDay.size());
+        log.debug("\n flying-list size {}", flightsInDay.size());
         model.addAttribute("date", date);
         model.addAttribute("flights", flightsInDay);
         return "flights/glider-daily";

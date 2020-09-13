@@ -32,9 +32,9 @@ public class EngineFlightController {
 
     @GetMapping("/list")
     public String engineDailyFlights(@RequestParam("date") String date, Model model) {
-        log.info("\ndate {}",date);
+        log.debug("\ndate {}",date);
         Set<EngineFlight> flightsInDay = engineFlightService.getByDate(LocalDate.parse(date));
-        log.info("\n flying-list size {}",flightsInDay.size());
+        log.debug("\n flying-list size {}",flightsInDay.size());
         model.addAttribute("date",date);
         model.addAttribute("flights", flightsInDay);
         return "flights/engine-daily";

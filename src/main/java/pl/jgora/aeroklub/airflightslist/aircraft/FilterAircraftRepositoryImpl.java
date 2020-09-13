@@ -20,7 +20,7 @@ public class FilterAircraftRepositoryImpl implements FilterAircraftRepository {
     public List<Aircraft> filteringAircrafts(String whereSection, Map<String,String> filters) {
         TypedQuery<Aircraft> query = entityManager.createQuery("SELECT a FROM Aircraft a WHERE " + whereSection + "  ORDER BY a.type", Aircraft.class);
         filters.forEach(query::setParameter);
-        log.info("\nQUERY {}", query.toString());
+        log.debug("\nQUERY {}", query.toString());
         return query.getResultList();
     }
 }

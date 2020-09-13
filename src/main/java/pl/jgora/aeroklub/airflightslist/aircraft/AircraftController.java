@@ -28,16 +28,16 @@ public class AircraftController {
                                    @RequestParam(required = false) Boolean engine) {
         List<Aircraft> aircrafts;
         if (filter != null) {
-            log.info("\n FILTER IS TRUE");
+            log.debug("\n FILTER IS TRUE");
             aircrafts = aircraftService.filteredAircrafts(type, registration, active, engine);
         } else {
             aircrafts = aircraftService.findAll();
         }
-        log.info("Got list of aircrafts with size: {} \n Adding list of aircrafts to model as \"aircrafts\" ", aircrafts.size());
+        log.debug("Got list of aircrafts with size: {} \n Adding list of aircrafts to model as \"aircrafts\" ", aircrafts.size());
         model.addAttribute("aircrafts", aircrafts);
-        log.info("List of aircrafts:");
+        log.debug("List of aircrafts:");
         for (Aircraft aircraft : aircrafts) {
-            log.info(" Aircraft {}", aircraft);
+            log.debug(" Aircraft {}", aircraft);
         }
         return "aircrafts/aircrafts";
     }
@@ -45,20 +45,20 @@ public class AircraftController {
     @PostMapping("/deactivate")
     public String deactivate(Aircraft aircraft) {
         Aircraft toDeactivate = aircraftService.findById(aircraft.getId());
-        log.info("\nAIRCRAFT TO DEACTIVATE : {}", toDeactivate.getRegistrationNumber());
+        log.debug("\nAIRCRAFT TO DEACTIVATE : {}", toDeactivate.getRegistrationNumber());
         toDeactivate.setActive(false);
         aircraftService.activationUpdate(toDeactivate);
-        log.info("\nAIRCRAFT: {} IS NOT ACTIVE NOW", toDeactivate.getRegistrationNumber());
+        log.debug("\nAIRCRAFT: {} IS NOT ACTIVE NOW", toDeactivate.getRegistrationNumber());
         return "redirect:/admin/aircrafts";
     }
 
     @PostMapping("/activate")
     public String activate(Aircraft aircraft) {
         Aircraft toActivate = aircraftService.findById(aircraft.getId());
-        log.info("\nAIRCRAFT TO ACTIVATE : {}", toActivate.getRegistrationNumber());
+        log.debug("\nAIRCRAFT TO ACTIVATE : {}", toActivate.getRegistrationNumber());
         toActivate.setActive(true);
         aircraftService.activationUpdate(toActivate);
-        log.info("\nAIRCRAFT: {} IS ACTIVE NOW", toActivate.getRegistrationNumber());
+        log.debug("\nAIRCRAFT: {} IS ACTIVE NOW", toActivate.getRegistrationNumber());
         return "redirect:/admin/aircrafts";
     }
 

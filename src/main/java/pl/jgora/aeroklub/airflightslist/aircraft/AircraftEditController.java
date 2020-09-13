@@ -21,19 +21,19 @@ public class AircraftEditController {
     public String editForm(Model model, @RequestParam("id") Long id) {
         Aircraft toEdit = aircraftService.findById(id);
         if (toEdit != null) {
-            log.info("\n ADDING AIRCRAFT: {} TO MODEL", toEdit.getRegistrationNumber());
+            log.debug("\n ADDING AIRCRAFT: {} TO MODEL", toEdit.getRegistrationNumber());
             model.addAttribute("aircraft", toEdit);
             return "aircrafts/edit-aircraft";
         }
-        log.info("\nTHERE IS NO AIRCRAFT WITH ID: {}", id);
+        log.debug("\nTHERE IS NO AIRCRAFT WITH ID: {}", id);
         return "redirect:/admin/aircrafts";
     }
 
     @PostMapping("/edit")
     public String editAction(Aircraft aircraft) {
-        log.info("\n{}", aircraft);
+        log.debug("\n{}", aircraft);
         aircraftService.update(aircraft);
-        log.info("\n SUCCESSFUL EDITING OF AIRCRAFT: {}", aircraft.getRegistrationNumber());
+        log.debug("\n SUCCESSFUL EDITING OF AIRCRAFT: {}", aircraft.getRegistrationNumber());
         return "redirect:/admin/aircrafts";
     }
 

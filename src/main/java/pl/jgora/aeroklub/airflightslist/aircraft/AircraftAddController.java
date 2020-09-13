@@ -18,17 +18,17 @@ public class AircraftAddController {
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        log.info("\n ADDING EMPTY AIRCRAFT TO MODEL");
+        log.debug("\n ADDING EMPTY AIRCRAFT TO MODEL");
         model.addAttribute("aircraft", new Aircraft());
         return "aircrafts/add-aircraft";
     }
 
     @PostMapping("/add")
     public String addAction(Aircraft aircraft) {
-        log.info("\n{}", aircraft);
+        log.debug("\n{}", aircraft);
         Aircraft saved = aircraftRepository.save(aircraft);
         if (saved.getId() != null) {
-            log.info("\n SUCCESSFUL ADDING AIRCRAFT: {} WITH ID : {}", saved.getRegistrationNumber(), saved.getId());
+            log.debug("\n SUCCESSFUL ADDING AIRCRAFT: {} WITH ID : {}", saved.getRegistrationNumber(), saved.getId());
         }
         return "redirect:/admin/aircrafts";
     }
