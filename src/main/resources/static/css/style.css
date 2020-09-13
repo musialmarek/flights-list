@@ -572,3 +572,8 @@ hr {
     width: 80px;
     text-align: right;
 }
+.table .dashed{
+    border-color: grey;
+    border-style: dashed;
+    border-width: 1px;
+}
