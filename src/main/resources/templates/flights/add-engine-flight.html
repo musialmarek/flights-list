@@ -88,7 +88,7 @@
                             <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO</th>
                             <td class="col-7">
                                 <select th:field="*{aircraft}">
-                                    <option value=null></option>
+                                    <option value="">brak</option>
                                     <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
                                             th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
                                 </select>
