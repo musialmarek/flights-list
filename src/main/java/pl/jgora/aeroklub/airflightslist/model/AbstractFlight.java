@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -48,7 +49,7 @@ public class AbstractFlight {
 
     @PrePersist
     @PreUpdate
-    private void fillStringFields() {
+    private void prePersistPreUpdate() {
         if (pic != null) {
             picName = pic.getName();
         }
@@ -59,6 +60,7 @@ public class AbstractFlight {
             aircraftType = aircraft.getType();
             aircraftRegistrationNumber = aircraft.getRegistrationNumber();
         }
+        flightTime = (int) (Duration.between(start, touchdown).getSeconds() / 60);
     }
 }
 
