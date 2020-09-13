@@ -33,8 +33,7 @@
                         LOT</a>
                     </button>
                 </div>
-
-                <div class="schedules-content list">
+                <div class="col=12">
                     <table class="table">
                         <thead>
                         <tr class="d-flex">
@@ -50,6 +49,11 @@
                             <th class="col-1">Szczegóły</th>
                         </tr>
                         </thead>
+                    </table>
+                </div>
+
+                <div class="schedules-content list">
+                    <table class="table">
                         <tbody class="text-color-lighter list">
                         <tr class="d-flex" th:each="flight,count: ${flights}">
                             <td class="col-1" th:text="${count.count}"></td>
@@ -67,9 +71,14 @@
                             <td class="col-1" th:text="${flight.aircraftRegistrationNumber}"></td>
                             <td class="col-1" th:text="${flight.start}"></td>
                             <td class="col-1" th:text="${flight.touchdown}"></td>
-                            <td class="col-1" th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
+                            <td class="col-1" th:if="${flight.flightTime%60>9}"
+                                th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
+                            <td class="col-1" th:if="${flight.flightTime%60<10}"
+                                th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
                             <td class="col-1">
                                 <button>SZCZEGÓŁY</button>
+                                <button>Edytuj</button>
+                                <button>Kopiuj</button>
                             </td>
                         </tr>
                         </tbody>
