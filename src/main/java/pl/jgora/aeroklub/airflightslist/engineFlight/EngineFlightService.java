@@ -34,4 +34,8 @@ public class EngineFlightService {
         }
         return engineFlightRepository.save(flight);
     }
+
+    public EngineFlight getById(Long id) {
+        return engineFlightRepository.findFirstById(id);
+    }
 }

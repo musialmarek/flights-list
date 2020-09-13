@@ -12,4 +12,6 @@ public interface EngineFlightRepository extends JpaRepository<EngineFlight, Long
     Set<LocalDate> getFlyingEngineDays(LocalDate start, LocalDate finish);
 
     Set<EngineFlight> getDistinctByDateOrderByStart(LocalDate date);
+
+    EngineFlight findFirstById(Long id);
 }
