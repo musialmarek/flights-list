@@ -8,6 +8,7 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -70,5 +71,9 @@ public class AircraftService {
         String whereSection = whereSectionBuilder.toString();
         log.debug("\nWHERE SECTION \"{}\"", whereSection);
         return aircraftRepository.filteringAircrafts(whereSection, filters);
+    }
+
+    public Set<Aircraft> getEngineAircrafts() {
+        return aircraftRepository.findByEngineTrue();
     }
 }
