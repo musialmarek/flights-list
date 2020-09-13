@@ -25,7 +25,7 @@ public class EngineFlightAddController {
     private final EngineFlightService engineFlightService;
 
     @GetMapping("/add")
-    public String addFlightForm(Model model, @RequestParam("date") String date) {
+    public String addFlightForm(Model model, @RequestParam("date") String date, @RequestParam(name = "id", required = false) Long id) {
         Set<Pilot> engineInstructors = pilotService.getEngineInstructors();
         Set<Pilot> enginePilots = pilotService.getEnginePilots();
         Set<Aircraft> engineAircrafts = aircraftService.getEngineAircrafts();
@@ -33,6 +33,10 @@ public class EngineFlightAddController {
         model.addAttribute("pilots", enginePilots);
         EngineFlight flight = new EngineFlight();
         flight.setDate(LocalDate.parse(date));
+        if (id != null) {
+            flight = engineFlightService.getById(id);
+            flight.setId(null);
+        }
         model.addAttribute("flight", flight);
         model.addAttribute("aircrafts", engineAircrafts);
         model.addAttribute("instructors", engineInstructors);
