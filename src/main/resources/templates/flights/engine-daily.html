@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="|Samolotowe ${date}|"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
+
+</header>
+<section class="dashboard-section">
+    <div class="row dashboard-nowrap">
+        <div class="m-4 p-3 width-medium">
+            <div class="m-4 p-3 border-dashed view-height">
+
+                <div class="row border-bottom border-3 p-1 m-1">
+                    <div class="col noPadding">
+                        <h3 class="text-color-darker text-uppercase" th:text="|Loty samolotowe ${date}|"></h3>
+                    </div>
+                </div>
+
+                <div class="schedules-content list">
+                    <table class="table">
+                        <thead>
+                        <tr class="d-flex">
+                            <th class="col-1">Lp.</th>
+                            <th class="col-1">Pilot /Uczeń-Pilot</th>
+                            <th class="col-1">Instruktor/ Pasażer/ II Pilot</th>
+                            <th class="col-1">Zadanie</th>
+                            <th class="col-1">Typ</th>
+                            <th class="col-1">Znaki</th>
+                            <th class="col-1">Godzina Startu</th>
+                            <th class="col-1">Godzina Lądowania</th>
+                            <th class="col-1">Czas Lotu</th>
+                            <th class="col-1">Szczegóły</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-color-lighter list">
+                        <tr class="d-flex" th:each="flight,count: ${flights}">
+                            <td class="col-1" th:text="${count.count}"></td>
+                            <instr th:if="${flight.instructor==true}">
+                                <td class="col-1" th:text="${flight.copilotName}"></td>
+                                <td class="col-1" th:text="${flight.picName}"></td>
+                            </instr>
+                            <not-instr th:if="${flight.instructor==false or flight.instructor==null}">
+                                <td class="col-1" th:text="${flight.picName}"></td>
+                                <td class="col-1" th:text="${flight.copilotName}"></td>
+                            </not-instr>
+                            <td class="col-1"
+                                th:text="${flight.task}"></td>
+                            <td class="col-1" th:text="${flight.aircraftType}"></td>
+                            <td class="col-1" th:text="${flight.aircraftRegistrationNumber}"></td>
+                            <td class="col-1" th:text="${flight.start}"></td>
+                            <td class="col-1" th:text="${flight.touchdown}"></td>
+                            <td class="col-1" th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
+                            <td class="col-1" ><button>SZCZEGÓŁY</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
