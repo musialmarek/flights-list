@@ -27,8 +27,11 @@
                         <h3 class="text-color-darker text-uppercase">lista pilotów</h3>
                     </div>
                     <div>
-                        <button><a class="btn btn-success nav-link" th:href="@{/admin/pilot/add}">DODAJ PILOTA</a>
-                        </button>
+                        <form method="get" action="/admin/engine-flights/list">
+                            <input type="date" name="date">
+                            <button><input type="submit" class="btn btn-success nav-link" value="PRZEJDŹ"/>
+                            </button>
+                        </form>
                     </div>
                     <div class="col d-flex justify-content-end mb-2 noPadding">
                         <button><a class="btn btn-danger nav-link" th:href="@{/admin/pilots}">Resetuj
