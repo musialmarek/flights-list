@@ -20,6 +20,7 @@ public class AbstractFlight {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Boolean active;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     @DateTimeFormat(pattern = "HH:mm")
