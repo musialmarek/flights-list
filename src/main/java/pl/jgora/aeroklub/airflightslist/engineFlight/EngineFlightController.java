@@ -7,9 +7,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Controller
@@ -20,13 +20,23 @@ public class EngineFlightController {
     private final EngineFlightService engineFlightService;
 
     @GetMapping
-    public String engineFlightsDates(Model model, @RequestParam(name = "year",required = false) Integer year){
+    public String engineFlightsDates(Model model, @RequestParam(name = "year", required = false) Integer year) {
         Set<LocalDate> allFlyingDays;
-        if(year==null){
+        if (year == null) {
             year = LocalDate.now().getYear();
         }
         allFlyingDays = engineFlightService.getAllFlyingDays(year);
-        model.addAttribute("dates",allFlyingDays);
+        model.addAttribute("dates", allFlyingDays);
         return "flights/engine-dates";
+    }
+
+    @GetMapping("/list")
+    public String engineDailyFlights(@RequestParam("date") String date, Model model) {
+        log.info("\ndate {}",date);
+        Set<EngineFlight> flightsInDay = engineFlightService.getByDate(LocalDate.parse(date));
+        log.info("\n flying-list size {}",flightsInDay.size());
+        model.addAttribute("date",date);
+        model.addAttribute("flights", flightsInDay);
+        return "flights/engine-daily";
     }
 }
