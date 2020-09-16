@@ -25,7 +25,7 @@
                 <div class="row border-bottom border-3">
                     <div class="col"><h3 class="text-color-darker text-uppercase">Edytuj lot</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
-                        <button class="btn-warning"><a th:href="@{/admin/pilots}"
+                        <button class="btn-warning"><a th:href="@{/admin/engine-flights/list(date=${flight.date})}"
                                                        class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                         </button>
                     </div>
@@ -37,6 +37,13 @@
                         <input th:type="hidden" th:field="*{active}" th:value="*{active}">
                         <input th:type="hidden" th:field="*{date}" th:value="*{date}">
                         <input th:type="hidden" th:field="*{tow}" th:value="*{tow}">
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">AKTYWNY</th>
+                            <td class="col-7">
+                                <input type="checkbox" th:field="*{active}" th:value="*{active}">
+                            </td>
+                            </td>
+                        </tr>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">PILOT / UCZEŃ PILOT</th>
                             <td class="col-7">
