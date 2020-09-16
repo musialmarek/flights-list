@@ -12,4 +12,6 @@ public interface GliderFlightRepository extends JpaRepository<GliderFlight, Long
     Set<LocalDate> getFlyingGliderDays(LocalDate start, LocalDate finish);
 
     Set<GliderFlight> getDistinctByDateOrderByStart(LocalDate date);
+
+    GliderFlight findFirstById(Long id);
 }
