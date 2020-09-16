@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.mapping.ToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -30,11 +31,11 @@ public class AbstractFlight {
     private LocalTime touchdown;
     @Unsigned
     private Integer flightTime;
-    @OneToOne
+    @ManyToOne
     private Pilot pic;
     @Column(name = "pic_name")
     private String picName;
-    @OneToOne
+    @ManyToOne
     private Pilot copilot;
     @Column(name = "copilot_name")
     private String copilotName;
