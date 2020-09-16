@@ -46,7 +46,7 @@
                             <th class="col-1">Godzina Startu</th>
                             <th class="col-1">Godzina Lądowania</th>
                             <th class="col-1">Czas Lotu</th>
-                            <th class="col-1">Szczegóły</th>
+                            <th class="col-3 center">AKCJE</th>
                         </tr>
                         </thead>
                     </table>
@@ -75,14 +75,14 @@
                                 th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
                             <td class="col-1" th:if="${flight.flightTime%60<10}"
                                 th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
-                            <td class="col-1">
-                                <button>SZCZEGÓŁY</button>
-                                <button><a
-                                        th:href="@{/admin/engine-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
-                                </button>
-                                <button><a
-                                        th:href="@{/admin/engine-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
-                                </button>
+                            <td class="col-3 center">
+                                <a class="btn btn-info"
+                                   th:href="@{/admin/engine-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
+                                <a class="btn btn-warning"
+                                   th:href="@{/admin/engine-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
+
+                                <a class="btn btn-success"
+                                   th:href="@{/admin/engine-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
                             </td>
                         </tr>
                         </tbody>
