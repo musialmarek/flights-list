@@ -54,6 +54,8 @@ public class EngineFlightAddEditController {
     @PostMapping("/add")
     public String addFlightAction(@ModelAttribute("flight") EngineFlight engineFlight) {
         String date = engineFlight.getDate().toString();
+        engineFlight.setTow(false);
+        engineFlight.setActive(false);
         log.debug("\n ENGINE-FLIGHT BEFORE SAVE: {}", engineFlight);
         engineFlightService.save(engineFlight);
         log.debug("\n ENGINE-FLIGHT AFTER SAVE: {}", engineFlight);
