@@ -33,9 +33,7 @@
                 <form th:action="@{/admin/engine-flights/add}" th:object="${flight}" method="post">
                     <table class="table borderless">
                         <tbody>
-                        <input th:type="hidden" th:field="*{active}" value='false'/>
                         <input th:type="hidden" th:field="*{date}" th:value="*{date}"/>
-                        <input th:type="hidden" th:field="*{tow}" th:value=false/>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">PILOT / UCZEŃ PILOT</th>
                             <td class="col-7">
