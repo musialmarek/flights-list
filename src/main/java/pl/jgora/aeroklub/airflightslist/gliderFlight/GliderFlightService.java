@@ -42,4 +42,9 @@ public class GliderFlightService {
         log.debug("\n SAVING GLIDER FLIGHT {}", flight);
         return gliderFlightRepository.save(flight);
     }
+    public GliderFlight getById(Long id) {
+        return gliderFlightRepository.findFirstById(id);
+    }
+
+
 }
