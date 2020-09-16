@@ -38,4 +38,30 @@ public class EngineFlightService {
     public EngineFlight getById(Long id) {
         return engineFlightRepository.findFirstById(id);
     }
+
+    public void update(EngineFlight engineFlight) {
+        log.debug("\nCHECKING ENGINE FLIGHT {}", engineFlight);
+        if (engineFlight != null && engineFlight.getId() != null) {
+            log.debug("\nGETTING ENGINE-FLIGHT FROM DATABASE");
+            EngineFlight toEdit = engineFlightRepository.findFirstById(engineFlight.getId());
+            log.debug("\n SETTING ALL FIELDS IN ENGINE-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA{}",toEdit,engineFlight);
+            toEdit.setActive(engineFlight.getActive());
+            toEdit.setAircraftRegistrationNumber(engineFlight.getAircraftRegistrationNumber());
+            toEdit.setCopilotName(engineFlight.getCopilotName());
+            toEdit.setDate(engineFlight.getDate());
+            toEdit.setFlightTime(engineFlight.getFlightTime());
+            toEdit.setInstructor(engineFlight.getInstructor());
+            toEdit.setPicName(engineFlight.getPicName());
+            toEdit.setStart(engineFlight.getStart());
+            toEdit.setTask(engineFlight.getTask());
+            toEdit.setTouchdown(engineFlight.getTouchdown());
+            toEdit.setCrew(engineFlight.getCrew());
+            toEdit.setTow(engineFlight.getTow());
+            toEdit.setAircraft(engineFlight.getAircraft());
+            toEdit.setCopilot(engineFlight.getCopilot());
+            toEdit.setPic(engineFlight.getPic());
+            log.debug("SAVING ENGINE-FLIGHT WITH NEW DATA");
+            engineFlightRepository.save(toEdit);
+        }
+    }
 }

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>EDYTUJ LOT </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
+
+</header>
+
+<section class="width-medium text-color-darker">
+    <div class="pb-2">
+        <div class="border-dashed view-height w-100">
+            <div class="mt-4 ml-4 mr-4">
+                <div class="row border-bottom border-3">
+                    <div class="col"><h3 class="text-color-darker text-uppercase">Edytuj lot</h3></div>
+                    <div class="col d-flex justify-content-end mb-2">
+                        <button class="btn-warning"><a th:href="@{/admin/pilots}"
+                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        </button>
+                    </div>
+                </div>
+                <form th:action="@{/admin/engine-flights/add}" th:object="${flight}" method="post">
+                    <table class="table borderless">
+                        <tbody>
+                        <input th:type="hidden" th:field="*{id}" th:value="*{date}">
+                        <input th:type="hidden" th:field="*{active}" th:value="*{active}">
+                        <input th:type="hidden" th:field="*{date}" th:value="*{date}">
+                        <input th:type="hidden" th:field="*{tow}" th:value="*{tow}">
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">PILOT / UCZEŃ PILOT</th>
+                            <td class="col-7">
+                                <select th:field="*{pic}">
+                                    <option value="">brak</option>
+                                    <option th:each="pilot: ${pilots}" th:value="${pilot.id}"
+                                            th:text="${pilot.name}"></option>
+                                </select>
+                            </td>
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Nazwisko i Imię Pilota / Ucznia-Pilota</th>
+                            <td class="col-7">
+                                <input type="text" th:field="*{picName}" th:value="*{picName}">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">INSTRUKTOR</th>
+                            <td class="col-7">
+                                <input type="checkbox" th:field="*{instructor}" th:value="*{instructor}">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">INSTRUKTOR / II PILOT</th>
+                            <td class="col-7">
+                                <select th:field="*{copilot}">
+                                    <option value="">brak</option>
+                                    <option class="pilots" th:each="pilot: ${pilots}" th:value="${pilot.id}"
+                                            th:text="${pilot.name}"></option>
+                                    <option class="instructors" th:each="instructor: ${instructors}"
+                                            th:value="${instructor.id}"
+                                            th:text="${instructor.name}"></option>
+                                </select>
+                            </td>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Nazwisko i Imię Instruktora / II Pilota</th>
+                            <td class="col-7">
+                                <input type="text" th:field="*{copilotName}" th:value="*{copilotName}">
+                            </td>
+                        </tr>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">ZADANIE</th>
+                            <td class="col-7">
+                                <input type="text" th:field="*{task}" th:value="*{task}">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO</th>
+                            <td class="col-7">
+                                <select th:field="*{aircraft}">
+                                    <option value="">brak</option>
+                                    <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
+                                            th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO<br>ZNAKI STATKU POWIETRZNEGO</th>
+                            <td class="col-7">
+                                <input type="text" th:field="*{aircraftType}" th:value="*{aircraftType}"><br><br>
+                                <input type="text" th:field="*{aircraftRegistrationNumber}"
+                                       th:value="*{aircraftRegistrationNumber}">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Godzina startu</th>
+                            <td class="col-7">
+                                <input type="time" th:field="*{start}" th:value="*{start}">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Godzina lądowania</th>
+                            <td class="col-7">
+                                <input th:type="time" th:field="*{touchdown}" th:value="*{touchdown}">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Załoga</th>
+                            <td class="col-7">
+                                <textarea th:field="*{crew}" th:value="*{crew}"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input class="btn btn-warning nav-link" th:type="submit" value="Dodaj">
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -19,18 +19,28 @@ import java.util.Set;
 @RequestMapping("admin/engine-flights")
 @RequiredArgsConstructor
 @Slf4j
-public class EngineFlightAddController {
+public class EngineFlightAddEditController {
     private final PilotService pilotService;
     private final AircraftService aircraftService;
     private final EngineFlightService engineFlightService;
 
+    @ModelAttribute("pilots")
+    Set<Pilot> getPilots() {
+        return pilotService.getEnginePilots();
+    }
+
+    @ModelAttribute("instructors")
+    Set<Pilot> getInstructors() {
+        return pilotService.getEngineInstructors();
+    }
+
+    @ModelAttribute("aircrafts")
+    Set<Aircraft> getAircrafts() {
+        return aircraftService.getEngineAircrafts();
+    }
+
     @GetMapping("/add")
     public String addFlightForm(Model model, @RequestParam("date") String date, @RequestParam(name = "id", required = false) Long id) {
-        Set<Pilot> engineInstructors = pilotService.getEngineInstructors();
-        Set<Pilot> enginePilots = pilotService.getEnginePilots();
-        Set<Aircraft> engineAircrafts = aircraftService.getEngineAircrafts();
-        log.debug("\n pilots size {}", enginePilots.size());
-        model.addAttribute("pilots", enginePilots);
         EngineFlight flight = new EngineFlight();
         flight.setDate(LocalDate.parse(date));
         if (id != null) {
@@ -38,20 +48,31 @@ public class EngineFlightAddController {
             flight.setId(null);
         }
         model.addAttribute("flight", flight);
-        model.addAttribute("aircrafts", engineAircrafts);
-        model.addAttribute("instructors", engineInstructors);
         return "flights/add-engine-flight";
     }
 
     @PostMapping("/add")
     public String addFlightAction(@ModelAttribute("flight") EngineFlight engineFlight) {
-
         String date = engineFlight.getDate().toString();
-        engineFlight.setActive(false);
-        engineFlight.setTow(false);
         log.debug("\n ENGINE-FLIGHT BEFORE SAVE: {}", engineFlight);
         engineFlightService.save(engineFlight);
         log.debug("\n ENGINE-FLIGHT AFTER SAVE: {}", engineFlight);
         return "redirect:/admin/engine-flights/list?date=" + date;
+    }
+
+    @GetMapping("/edit")
+    public String engineFlightEditForm(Model model, @RequestParam Long id) {
+        EngineFlight toEdit = engineFlightService.getById(id);
+        log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
+        model.addAttribute("flight", toEdit);
+        return "flights/edit-engine-flight";
+    }
+
+    @PostMapping("/edit")
+    public String engineFlightEditAction(@ModelAttribute("flight") EngineFlight toEdit) {
+        log.debug("\nEDITING FLIGHT WITH ID {}", toEdit.getId());
+        engineFlightService.update(toEdit);
+        String date = toEdit.getDate().toString();
+        return "redirect:/admin/engine-flights?date=" + date;
     }
 }

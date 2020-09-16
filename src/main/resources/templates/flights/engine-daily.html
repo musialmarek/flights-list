@@ -77,8 +77,12 @@
                                 th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
                             <td class="col-1">
                                 <button>SZCZEGÓŁY</button>
-                                <button>Edytuj</button>
-                                <button><a th:href="@{/admin/engine-flights/add(date=${flight.date}, id=${flight.id} )}" >Kopiuj</a></button>
+                                <button><a
+                                        th:href="@{/admin/engine-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
+                                </button>
+                                <button><a
+                                        th:href="@{/admin/engine-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
+                                </button>
                             </td>
                         </tr>
                         </tbody>
