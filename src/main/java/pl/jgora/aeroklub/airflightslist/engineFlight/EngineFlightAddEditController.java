@@ -73,6 +73,6 @@ public class EngineFlightAddEditController {
         log.debug("\nEDITING FLIGHT WITH ID {}", toEdit.getId());
         engineFlightService.update(toEdit);
         String date = toEdit.getDate().toString();
-        return "redirect:/admin/engine-flights?date=" + date;
+        return "redirect:/admin/engine-flights/list?date=" + date;
     }
 }
