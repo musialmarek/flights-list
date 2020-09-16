@@ -60,5 +60,22 @@ public class GliderFlightService {
             gliderFlightRepository.save(toEdit);
         }
     }
+    private boolean isEveryFlightActive(LocalDate date) {
+        boolean anyInactive = true;
+        Set<GliderFlight> flights = getByDate(date);
+        for (GliderFlight flight : flights) {
+            if (!flight.getActive()) {
+                anyInactive = false;
+                break;
+            }
+        }
+        return anyInactive;
+    }
 
+    Map<LocalDate, Boolean> getDatesAndActives(int year) {
+        Map<LocalDate, Boolean> datesAndActives = new LinkedHashMap<>();
+        Set<LocalDate> allFlyingDays = getAllFlyingDays(year);
+        allFlyingDays.forEach(date -> datesAndActives.put(date, isEveryFlightActive(date)));
+        return datesAndActives;
+    }
 }
