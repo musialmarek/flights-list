@@ -31,12 +31,22 @@ public class EngineFlightController {
     }
 
     @GetMapping("/list")
-    public String engineDailyFlights(@RequestParam("date") String date, Model model) {
-        log.debug("\ndate {}",date);
+    public String engineDailyFlights(Model model, @RequestParam("date") String date) {
+        log.debug("\ndate {}", date);
         Set<EngineFlight> flightsInDay = engineFlightService.getByDate(LocalDate.parse(date));
-        log.debug("\n flying-list size {}",flightsInDay.size());
-        model.addAttribute("date",date);
+        log.debug("\n flying-list size {}", flightsInDay.size());
+        model.addAttribute("date", date);
         model.addAttribute("flights", flightsInDay);
         return "flights/engine-daily";
+    }
+
+    @GetMapping("/details")
+    public String showFlightDetails(Model model, @RequestParam("id") Long id, @RequestParam("date") String date) {
+        log.debug("\n SHOWING DETAILS OF FLIGHT WITH ID: {}", id);
+        if (engineFlightService.getById(id) != null) {
+            model.addAttribute("flight", engineFlightService.getById(id));
+            return "flights/engine-flight-details";
+        }
+        return engineDailyFlights(model, date);
     }
 }
