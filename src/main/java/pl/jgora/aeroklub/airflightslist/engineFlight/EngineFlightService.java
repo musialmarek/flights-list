@@ -3,8 +3,8 @@ package pl.jgora.aeroklub.airflightslist.engineFlight;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import pl.jgora.aeroklub.airflightslist.AbstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
-import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
@@ -28,12 +28,7 @@ public class EngineFlightService {
     }
 
     public EngineFlight save(EngineFlight flight) {
-        if (flight.getInstructor()) {
-            Pilot pic = flight.getCopilot();
-            Pilot copilot = flight.getPic();
-            flight.setPic(pic);
-            flight.setCopilot(copilot);
-        }
+        log.debug("\n SAVING ENGINE FLIGHT {}", flight);
         return engineFlightRepository.save(flight);
     }
 
@@ -41,30 +36,19 @@ public class EngineFlightService {
         return engineFlightRepository.findFirstById(id);
     }
 
-    public void update(EngineFlight engineFlight) {
-        log.debug("\nCHECKING ENGINE FLIGHT {}", engineFlight);
-        if (engineFlight != null && engineFlight.getId() != null) {
+    public EngineFlight update(EngineFlight flight) {
+        log.debug("\nCHECKING ENGINE FLIGHT {}", flight);
+        if (flight != null && flight.getId() != null) {
             log.debug("\nGETTING ENGINE-FLIGHT FROM DATABASE");
-            EngineFlight toEdit = engineFlightRepository.findFirstById(engineFlight.getId());
-            log.debug("\n SETTING ALL FIELDS IN ENGINE-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA{}", toEdit, engineFlight);
-            toEdit.setActive(engineFlight.getActive());
-            toEdit.setAircraftRegistrationNumber(engineFlight.getAircraftRegistrationNumber());
-            toEdit.setCopilotName(engineFlight.getCopilotName());
-            toEdit.setDate(engineFlight.getDate());
-            toEdit.setFlightTime(engineFlight.getFlightTime());
-            toEdit.setInstructor(engineFlight.getInstructor());
-            toEdit.setPicName(engineFlight.getPicName());
-            toEdit.setStart(engineFlight.getStart());
-            toEdit.setTask(engineFlight.getTask());
-            toEdit.setTouchdown(engineFlight.getTouchdown());
-            toEdit.setCrew(engineFlight.getCrew());
-            toEdit.setTow(engineFlight.getTow());
-            toEdit.setAircraft(engineFlight.getAircraft());
-            toEdit.setCopilot(engineFlight.getCopilot());
-            toEdit.setPic(engineFlight.getPic());
+            EngineFlight toEdit = engineFlightRepository.findFirstById(flight.getId());
+            log.debug("\n SETTING ALL FIELDS IN ENGINE-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA{}", toEdit, flight);
+            AbstractFlightService.updateFlight(flight,toEdit);
+            toEdit.setCrew(flight.getCrew());
+            toEdit.setTow(flight.getTow());
             log.debug("SAVING ENGINE-FLIGHT WITH NEW DATA");
-            engineFlightRepository.save(toEdit);
+            return engineFlightRepository.save(toEdit);
         }
+        return flight;
     }
 
     private boolean isEveryFlightActive(LocalDate date) {
