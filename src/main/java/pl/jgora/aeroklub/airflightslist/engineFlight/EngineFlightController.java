@@ -27,6 +27,7 @@ public class EngineFlightController {
             log.debug("\n NOT YEAR PARAMETER - GETTING THIS YEAR ");
             year = LocalDate.now().getYear();
         }
+        log.debug("\n YEAR: {}",year);
         Map<LocalDate, Boolean> datesAndActives = engineFlightService.getDatesAndActives(year);
         for (Map.Entry<LocalDate, Boolean> entry : datesAndActives.entrySet()) {
             log.debug("\ndate {} active {}", entry.getKey().toString(), entry.getValue());

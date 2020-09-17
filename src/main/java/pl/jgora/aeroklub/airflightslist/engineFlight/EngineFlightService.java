@@ -20,6 +20,7 @@ public class EngineFlightService {
     private Set<LocalDate> getAllFlyingDays(int year) {
         LocalDate start = LocalDate.of(year, 1, 1);
         LocalDate finish = LocalDate.of(year, 12, 31);
+        log.debug("\n START: {} FINISH: {}",start,finish);
         return engineFlightRepository.getFlyingEngineDays(start, finish);
     }
 
