@@ -62,4 +62,20 @@ public class GliderFlightAddEditController {
         log.debug("\n GLIDER-FLIGHT AFTER SAVE: {}", gliderFlight);
         return "redirect:/admin/glider-flights/list?date=" + date;
     }
+
+    @GetMapping("/edit")
+    public String gliderFlightEditForm(Model model, @RequestParam Long id) {
+        GliderFlight toEdit = gliderFlightService.getById(id);
+        log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
+        model.addAttribute("flight", toEdit);
+        return "flights/glider-edit-flight";
+    }
+
+    @PostMapping("/edit")
+    public String gliderFlightEditAction(@ModelAttribute("flight") GliderFlight toEdit) {
+        log.debug("\nEDITING FLIGHT WITH ID {}", toEdit.getId());
+        gliderFlightService.update(toEdit);
+        String date = toEdit.getDate().toString();
+        return "redirect:/admin/glider-flights/list?date=" + date;
+    }
 }
