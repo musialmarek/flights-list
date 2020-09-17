@@ -47,6 +47,7 @@ public class EngineFlightAddEditController {
             flight = engineFlightService.getById(id);
             flight.setId(null);
         }
+        log.debug("ADDING FLIGHT TO MODEL");
         model.addAttribute("flight", flight);
         return "flights/engine-add-flight";
     }
