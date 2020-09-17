@@ -12,4 +12,6 @@ public interface AircraftRepository extends JpaRepository<Aircraft, Long>, Filte
     Aircraft findFirstById(Long id);
 
     Set<Aircraft> findByEngineTrue();
+
+    Set<Aircraft> findByEngineFalse();
 }

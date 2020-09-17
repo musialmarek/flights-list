@@ -76,4 +76,8 @@ public class AircraftService {
     public Set<Aircraft> getEngineAircrafts() {
         return aircraftRepository.findByEngineTrue();
     }
+
+    public Set<Aircraft> getGliders() {
+        return aircraftRepository.findByEngineFalse();
+    }
 }
