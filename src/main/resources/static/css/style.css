@@ -184,6 +184,9 @@ hr {
     height: 65vh;
     overflow: auto;
 }
+.table-header {
+    overflow: auto;
+    }
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -576,4 +579,9 @@ hr {
     border-color: grey;
     border-style: dashed;
     border-width: 1px;
+}
+
+.btn-slim{
+    height: 10px;
+
 }
