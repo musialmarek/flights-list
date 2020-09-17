@@ -28,12 +28,22 @@ public class GliderFlightController {
     }
 
     @GetMapping("/list")
-    public String gliderDailyFlights(@RequestParam("date") String date, Model model) {
+    public String gliderDailyFlights(Model model, @RequestParam("date") String date) {
         log.debug("\ndate {}", date);
         Set<GliderFlight> flightsInDay = gliderFlightService.getByDate(LocalDate.parse(date));
         log.debug("\n flying-list size {}", flightsInDay.size());
         model.addAttribute("date", date);
         model.addAttribute("flights", flightsInDay);
         return "flights/glider-daily";
+    }
+
+    @GetMapping("/details")
+    public String showFlightDetails(Model model, @RequestParam("id") Long id, @RequestParam("date") String date) {
+        log.debug("\n SHOWING DETAILS OF FLIGHT WITH ID: {}", id);
+        if (gliderFlightService.getById(id) != null) {
+            model.addAttribute("flight", gliderFlightService.getById(id));
+            return "flights/glider-flight-details";
+        }
+        return gliderDailyFlights(model, date);
     }
 }
