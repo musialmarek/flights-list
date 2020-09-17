@@ -31,6 +31,7 @@ public class EngineFlightController {
         for (Map.Entry<LocalDate, Boolean> entry : datesAndActives.entrySet()) {
             log.debug("\ndate {} active {}", entry.getKey().toString(), entry.getValue());
         }
+        model.addAttribute("today",LocalDate.now());
         model.addAttribute("dates", datesAndActives);
         return "flights/engine-dates";
     }

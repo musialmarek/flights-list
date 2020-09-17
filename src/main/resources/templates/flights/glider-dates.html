@@ -27,8 +27,8 @@
                         <h3 class="text-color-darker text-uppercase">dni lotne szybowców</h3>
                     </div>
                     <div>
-                        <form method="get" action="/admin/engine-flights/list">
-                            <input type="date" name="date">
+                        <form method="get" action="/admin/glider-flights/list">
+                            <input type="date" name="date" th:value="${today}">
                             <button><input type="submit" class="btn btn-success nav-link" value="PRZEJDŹ"/>
                             </button>
                         </form>

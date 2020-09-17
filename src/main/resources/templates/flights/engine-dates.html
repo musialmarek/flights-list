@@ -28,7 +28,7 @@
                     </div>
                     <div>
                         <form method="get" action="/admin/engine-flights/list">
-                            <input type="date" name="date">
+                            <input type="date" name="date" th:value="${today}">
                             <button><input type="submit" class="btn btn-success nav-link" value="PRZEJDŹ"/>
                             </button>
                         </form>
