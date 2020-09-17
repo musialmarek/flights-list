@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.jgora.aeroklub.airflightslist.AbstractFlight.AbstractFlightControllerUtil;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 
 import java.time.LocalDate;
-import java.util.Map;
 import java.util.Set;
 
 @Controller
@@ -23,16 +23,7 @@ public class EngineFlightController {
 
     @GetMapping
     public String engineFlightsDates(Model model, @RequestParam(name = "year", required = false) Integer year) {
-        Set<LocalDate> allFlyingDays;
-        if (year == null) {
-            year = LocalDate.now().getYear();
-        }
-        Map<LocalDate, Boolean> datesAndActives = engineFlightService.getDatesAndActives(year);
-        for (Map.Entry<LocalDate, Boolean> entry : datesAndActives.entrySet()) {
-            log.debug("\ndate {} active {}", entry.getKey().toString(), entry.getValue());
-        }
-
-        model.addAttribute("dates", datesAndActives);
+        AbstractFlightControllerUtil.showDates(model, year, log, engineFlightService.getDatesAndActives(year));
         return "flights/engine-dates";
     }
 
