@@ -14,4 +14,10 @@ public interface PilotRepository extends JpaRepository<Pilot, Long>, FilterPilot
     Set<Pilot> findByEnginePilotTrueAndActiveTrue();
 
     Set<Pilot> findByEngineInstructorTrueAndActiveTrue();
+
+    Set<Pilot> findByTowTrue();
+
+    Set<Pilot> findByGliderInstructorTrue();
+
+    Set<Pilot> findByGliderPilotTrue();
 }
