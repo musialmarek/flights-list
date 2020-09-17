@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.jgora.aeroklub.airflightslist.AbstractFlight.AbstractFlightControllerUtil;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 
 import java.time.LocalDate;
@@ -21,13 +22,9 @@ public class GliderFlightController {
 
     @GetMapping
     public String gliderFlightsDates(Model model, @RequestParam(name = "year", required = false) Integer year) {
-        Set<LocalDate> allFlyingDays;
-        if (year == null) {
-            year = LocalDate.now().getYear();
-        }
-        allFlyingDays = gliderFlightService.getAllFlyingDays(year);
-        model.addAttribute("dates", allFlyingDays);
+        AbstractFlightControllerUtil.showDates(model, year, log, gliderFlightService.getDatesAndActives(year));
         return "flights/glider-dates";
+
     }
 
     @GetMapping("/list")
