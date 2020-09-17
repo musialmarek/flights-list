@@ -99,4 +99,16 @@ public class PilotService {
     public Set<Pilot> getEngineInstructors(){
         return pilotRepository.findByEngineInstructorTrueAndActiveTrue();
     }
+
+    public Set<Pilot> getTowPilots() {
+        return pilotRepository.findByTowTrue();
+    }
+
+    public Set<Pilot> getGliderInstructors() {
+        return pilotRepository.findByGliderInstructorTrue();
+    }
+
+    public Set<Pilot> getGliderPilots() {
+        return pilotRepository.findByGliderPilotTrue();
+    }
 }
