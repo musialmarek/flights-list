@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
-import pl.jgora.aeroklub.airflightslist.model.Aircraft;
-import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
-import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.model.*;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotService;
 
 import java.time.LocalDate;
@@ -26,17 +24,32 @@ public class GliderFlightAddEditController {
 
     @ModelAttribute("pilots")
     Set<Pilot> getPilots() {
-        return pilotService.getEnginePilots();
+        return pilotService.getGliderPilots();
     }
 
     @ModelAttribute("instructors")
     Set<Pilot> getInstructors() {
-        return pilotService.getEngineInstructors();
+        return pilotService.getGliderInstructors();
     }
 
     @ModelAttribute("aircrafts")
     Set<Aircraft> getAircrafts() {
+        return aircraftService.getGliders();
+    }
+
+    @ModelAttribute("towaircrafts")
+    Set<Aircraft> getTowAircrafts() {
         return aircraftService.getEngineAircrafts();
+    }
+
+    @ModelAttribute("towpilots")
+    Set<Pilot> getTowPilots() {
+        return pilotService.getTowPilots();
+    }
+
+    @ModelAttribute("engineinstructors")
+    Set<Pilot> getEngineInstructors() {
+        return pilotService.getEngineInstructors();
     }
 
     @GetMapping("/add")
@@ -55,8 +68,15 @@ public class GliderFlightAddEditController {
     @PostMapping("/add")
     public String addFlightAction(@ModelAttribute("flight") GliderFlight gliderFlight) {
         String date = gliderFlight.getDate().toString();
-        gliderFlight.getEngineFlight().setTow(false);
+        EngineFlight towFlight = gliderFlight.getEngineFlight();
+        towFlight.setTow(true);
+        towFlight.setTask("HOL");
+        towFlight.setStart(gliderFlight.getStart());
+        towFlight.setActive(false);
         gliderFlight.setActive(false);
+        if (!gliderFlight.getStartMethod().equals(StartMethod.ATTO)) {
+            gliderFlight.setEngineFlight(null);
+        }
         log.debug("\n GLIDER-FLIGHT BEFORE SAVE: {}", gliderFlight);
         gliderFlightService.save(gliderFlight);
         log.debug("\n GLIDER-FLIGHT AFTER SAVE: {}", gliderFlight);
@@ -74,6 +94,7 @@ public class GliderFlightAddEditController {
     @PostMapping("/edit")
     public String gliderFlightEditAction(@ModelAttribute("flight") GliderFlight toEdit) {
         log.debug("\nEDITING FLIGHT WITH ID {}", toEdit.getId());
+        toEdit.getEngineFlight().setStart(toEdit.getStart());
         gliderFlightService.update(toEdit);
         String date = toEdit.getDate().toString();
         return "redirect:/admin/glider-flights/list?date=" + date;
