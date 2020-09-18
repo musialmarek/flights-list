@@ -74,10 +74,10 @@ public class AircraftService {
     }
 
     public Set<Aircraft> getEngineAircrafts() {
-        return aircraftRepository.findByEngineTrue();
+        return aircraftRepository.findByEngineTrueOrderByType();
     }
 
     public Set<Aircraft> getGliders() {
-        return aircraftRepository.findByEngineFalse();
+        return aircraftRepository.findByEngineFalseOrderByType();
     }
 }
