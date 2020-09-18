@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:text="|Loty ${pilot.name} |"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
+
+</header>
+<section class="dashboard-section">
+    <div class="row dashboard-nowrap">
+        <ul class="nav flex-column long-bg" th:include="flights/fragments/engine-filter-by-pilot :: filter"></ul>
+        <div class="m-4 p-3 width-medium">
+            <div class="m-4 p-3 border-dashed view-height">
+
+                <div class="row border-bottom border-3 p-1 m-1">
+                    <div class="col noPadding">
+                        <h3 class="text-color-darker text-uppercase" th:text="|lista lotów ${pilot.name}|"></h3>
+                    </div>
+
+                    <div class="col d-flex justify-content-end mb-2 noPadding">
+                        <button><a class="btn btn-danger nav-link"
+                                   th:href="@{/admin/pilot/engine-flights(id=${pilot.id})}">Resetuj
+                            filtry</a></button>
+                    </div>
+                </div>
+                <div class="schedules-content table-header">
+                    <table class="table">
+                        <thead>
+                        <tr class="d-flex">
+                            <th class="col-1">Lp.</th>
+                            <th class="col-1">Data</th>
+                            <th class="col-1">PIC / DUAL</th>
+                            <th class="col-1">Zadanie</th>
+                            <th class="col-1">Typ</th>
+                            <th class="col-1">Znaki</th>
+                            <th class="col-1">Godzina Startu</th>
+                            <th class="col-1">Godzina Lądowania</th>
+                            <th class="col-1">Czas Lotu</th>
+                            <th class="col-3 center">AKCJE</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="schedules-content list">
+                    <table class="table">
+                        <tbody class="text-color-lighter list">
+                        <tr class="d-flex" th:each="flight,count: ${flights}">
+                            <td class="col-1" th:text="${count.count}"></td>
+                            <td class="col-1" th:text="${flight.date}"></td>
+                            <pic th:if="${flight.picName==pilot.name || flight.pic==pilot}">
+                                <td class="col-1">PIC</td>
+                                <td class="col-1" th:if="${flight.instructor==true}">INSTR</td>
+                                <td class="col-1" th:if="${flight.instructor==false}" th:text="${flight.task}"></td>
+                            </pic>
+                            <dual th:if="${flight.copilot==pilot || flight.copilotName==pilot.name}">
+                                <td class="col-1">DUAL</td>
+                                <td class="col-1" th:text="${flight.task}"></td>
+                            </dual>
+                            <td class="col-1" th:text="${flight.aircraftType}"></td>
+                            <td class="col-1" th:text="${flight.aircraftRegistrationNumber}"></td>
+                            <td class="col-1" th:text="${flight.start}"></td>
+                            <td class="col-1" th:text="${flight.touchdown}"></td>
+                            <td class="col-1" th:if="${flight.flightTime%60>9}"
+                                th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
+                            <td class="col-1" th:if="${flight.flightTime%60<10}"
+                                th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
+                            <td class="col-3 center">
+                                <a class="btn btn-info"
+                                   th:href="@{/admin/engine-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
+                                <a class="btn btn-warning"
+                                   th:href="@{/admin/engine-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
+
+                                <a class="btn btn-success"
+                                   th:href="@{/admin/engine-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
