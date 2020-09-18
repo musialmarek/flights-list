@@ -18,5 +18,5 @@ public interface EngineFlightRepository extends JpaRepository<EngineFlight, Long
 
     EngineFlight findFirstById(Long id);
 
-    List<EngineFlight> findByPicOrCopilotOrPicNameLikeOrCopilotNameLike(Pilot pic,Pilot copilot,String picName, String copilotName);
+    List<EngineFlight> findByPicOrCopilotOrPicNameOrCopilotName(Pilot pic, Pilot copilot, String picName, String copilotName);
 }

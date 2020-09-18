@@ -18,6 +18,6 @@ public interface GliderFlightRepository extends JpaRepository<GliderFlight, Long
 
     GliderFlight findFirstById(Long id);
 
-    List<GliderFlight> findByPicOrCopilotOrPicNameLikeOrCopilotNameLike(Pilot pic, Pilot copilot, String picName, String copilotName);
+    List<GliderFlight> findByPicOrCopilotOrPicNameOrCopilotName(Pilot pic, Pilot copilot, String picName, String copilotName);
 
 }
