@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface FilterPilotRepository {
-    List<Pilot> filteringPilots(String whereSection, Map<String,String> filters);
+    List<Pilot> getFilteredPilots(String whereSection, Map<String,String> filters);
 }
