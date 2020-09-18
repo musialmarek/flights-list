@@ -34,8 +34,10 @@ public class GliderFlightService {
     public GliderFlight save(GliderFlight flight) {
         AbstractFlightService.replacePilots(flight);
         EngineFlight engineFlight = flight.getEngineFlight();
-        log.debug("\n SAVING TOW FLIGHT {}", engineFlight);
-        engineFlightService.save(engineFlight);
+        if (engineFlight != null) {
+            log.debug("\n SAVING TOW FLIGHT {}", engineFlight);
+            engineFlightService.save(engineFlight);
+        }
         log.debug("\n SAVING GLIDER FLIGHT {}", flight);
         return gliderFlightRepository.save(flight);
     }
@@ -60,6 +62,7 @@ public class GliderFlightService {
             gliderFlightRepository.save(toEdit);
         }
     }
+
     private boolean isEveryFlightActive(LocalDate date) {
         boolean anyInactive = true;
         Set<GliderFlight> flights = getByDate(date);
