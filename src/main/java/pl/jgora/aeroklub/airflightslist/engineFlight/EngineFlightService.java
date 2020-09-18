@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.AbstractFlight.AbstractFlightService;
+import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class EngineFlightService {
     private Set<LocalDate> getAllFlyingDays(int year) {
         LocalDate start = LocalDate.of(year, 1, 1);
         LocalDate finish = LocalDate.of(year, 12, 31);
-        log.debug("\n START: {} FINISH: {}",start,finish);
+        log.debug("\n START: {} FINISH: {}", start, finish);
         return engineFlightRepository.getFlyingEngineDays(start, finish);
     }
 
@@ -29,6 +29,7 @@ public class EngineFlightService {
     }
 
     public EngineFlight save(EngineFlight flight) {
+        AbstractFlightService.replacePilots(flight);
         log.debug("\n SAVING ENGINE FLIGHT {}", flight);
         return engineFlightRepository.save(flight);
     }
@@ -43,7 +44,7 @@ public class EngineFlightService {
             log.debug("\nGETTING ENGINE-FLIGHT FROM DATABASE");
             EngineFlight toEdit = engineFlightRepository.findFirstById(flight.getId());
             log.debug("\n SETTING ALL FIELDS IN ENGINE-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA{}", toEdit, flight);
-            AbstractFlightService.updateFlight(flight,toEdit);
+            AbstractFlightService.updateFlight(flight, toEdit);
             toEdit.setCrew(flight.getCrew());
             toEdit.setTow(flight.getTow());
             log.debug("SAVING ENGINE-FLIGHT WITH NEW DATA");
@@ -70,4 +71,30 @@ public class EngineFlightService {
         allFlyingDays.forEach(date -> datesAndActives.put(date, isEveryFlightActive(date)));
         return datesAndActives;
     }
+
+    List<EngineFlight> getByPilot(Pilot pilot) {
+        String name = pilot.getName();
+        return engineFlightRepository.findByPicOrCopilotOrPicNameOrCopilotName(pilot, pilot, name, name);
+    }
+
+
+    public List<EngineFlight> getFilteredEngineFlightsByPilot(
+            Pilot pilot,
+            Boolean active,
+            String from,
+            String to,
+            String task,
+            Boolean pic,
+            Boolean instructor,
+            Aircraft aircraft,
+            String type,
+            String registration) {
+        StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String, Object> filters = new HashMap<>();
+        AbstractFlightService.getWhereSectionFilteringFlightsByPilot(pilot, active, from, to, task, pic, instructor, aircraft, type, registration, whereSectionBuilder, filters);
+        String whereSection = whereSectionBuilder.toString();
+        log.debug("\nWHERE SECTION \"{}\"", whereSection);
+        return engineFlightRepository.getFilteredEngineFlights(whereSection,filters);
+    }
+
 }

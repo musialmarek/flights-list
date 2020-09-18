@@ -5,14 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.AbstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
-import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
-import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
-import pl.jgora.aeroklub.airflightslist.model.StartMethod;
+import pl.jgora.aeroklub.airflightslist.model.*;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -80,5 +76,36 @@ public class GliderFlightService {
         Set<LocalDate> allFlyingDays = getAllFlyingDays(year);
         allFlyingDays.forEach(date -> datesAndActives.put(date, isEveryFlightActive(date)));
         return datesAndActives;
+    }
+
+    List<GliderFlight> getByPilot(Pilot pilot) {
+        String name = pilot.getName();
+        return gliderFlightRepository.findByPicOrCopilotOrPicNameOrCopilotName(pilot, pilot, name, name);
+    }
+
+
+    public List<GliderFlight> getFilteredGliderFlightsByPilot(
+            Pilot pilot,
+            Boolean active,
+            String from,
+            String to,
+            String task,
+            Boolean pic,
+            Boolean instructor,
+            Aircraft aircraft,
+            String type,
+            String registration,
+            String start
+    ) {
+        StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String, Object> filters = new HashMap<>();
+        AbstractFlightService.getWhereSectionFilteringFlightsByPilot(pilot, active, from, to, task, pic, instructor, aircraft, type, registration, whereSectionBuilder, filters);
+        if (start != null && !start.isEmpty()) {
+            whereSectionBuilder.append("f.startMethod = :start");
+            filters.put("start",start);
+        }
+        String whereSection = whereSectionBuilder.toString();
+        log.debug("\nWHERE SECTION \"{}\"", whereSection);
+        return gliderFlightRepository.getFilteredGliderFlights(whereSection, filters);
     }
 }
