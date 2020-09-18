@@ -20,7 +20,7 @@ public class AircraftService {
         return aircraftRepository.findAircraftsByOrderByType();
     }
 
-    Aircraft findById(Long id) {
+    public Aircraft findById(Long id) {
         return aircraftRepository.findFirstById(id);
     }
 
