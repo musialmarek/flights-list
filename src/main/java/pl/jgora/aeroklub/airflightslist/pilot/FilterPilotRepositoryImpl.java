@@ -17,7 +17,7 @@ public class FilterPilotRepositoryImpl implements FilterPilotRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Pilot> filteringPilots(String whereSection, Map<String,String> filters) {
+    public List<Pilot> getFilteredPilots(String whereSection, Map<String,String> filters) {
         TypedQuery<Pilot> query = entityManager.createQuery("SELECT p FROM Pilot p WHERE " + whereSection + "  ORDER BY p.name", Pilot.class);
         filters.forEach(query::setParameter);
         log.debug("\nQUERY {}", query.toString());
