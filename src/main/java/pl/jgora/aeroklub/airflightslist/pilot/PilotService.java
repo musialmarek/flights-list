@@ -20,7 +20,7 @@ public class PilotService {
         return pilotRepository.findPilotsByOrderByName();
     }
 
-    Pilot findById(Long id) {
+   public Pilot findById(Long id) {
         return pilotRepository.findFirstById(id);
     }
 
@@ -89,7 +89,7 @@ public class PilotService {
         whereSectionBuilder.append(" p.id IS NOT NULL ");
         String whereSection = whereSectionBuilder.toString();
         log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return pilotRepository.filteringPilots(whereSection,filters);
+        return pilotRepository.getFilteredPilots(whereSection,filters);
     }
 
     public Set<Pilot> getEnginePilots() {
