@@ -69,6 +69,7 @@ public class GliderFlightAddEditController {
     public String addFlightAction(@ModelAttribute("flight") GliderFlight gliderFlight) {
         String date = gliderFlight.getDate().toString();
         EngineFlight towFlight = gliderFlight.getEngineFlight();
+        towFlight.setDate(gliderFlight.getDate());
         towFlight.setTow(true);
         towFlight.setTask("HOL");
         towFlight.setStart(gliderFlight.getStart());
@@ -94,6 +95,7 @@ public class GliderFlightAddEditController {
     @PostMapping("/edit")
     public String gliderFlightEditAction(@ModelAttribute("flight") GliderFlight toEdit) {
         log.debug("\nEDITING FLIGHT WITH ID {}", toEdit.getId());
+        toEdit.getEngineFlight().setDate(toEdit.getDate());
         toEdit.getEngineFlight().setStart(toEdit.getStart());
         gliderFlightService.update(toEdit);
         String date = toEdit.getDate().toString();
