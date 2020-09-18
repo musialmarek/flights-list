@@ -1,0 +1,82 @@
+<ul class="nav flex-column long-bg" th:fragment="filter">
+    <h4 class="text-light">FILTRY</h4>
+    <form action="/admin/pilot/engine-flights" method="get">
+        <input type="hidden" name="filter" value="true">
+        <input type="hidden" name="id" th:value="${pilot.id}">
+        <li class="nav-item">
+            <label>
+                <button><input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
+                </button>
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Aktywne loty:<br>
+                <input type="radio" name="active" value=true>
+                Tak
+                <br>
+                <input type="radio" name="active" value=false>
+                Nie
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Data początkowa
+                <input type="date" name="from">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Data końcowa:
+                <input type="date" name="to">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Zadanie:
+                <input type="text" name="task">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Dowódca:<br>
+                <input type="radio" name="pic" value=true>
+                Tak
+                <br>
+                <input type="radio" name="pic" value=false>
+                Nie
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Instruktor:<br>
+                <input type="radio" name="instructor" value=true>
+                Tak
+                <br>
+                <input type="radio" name="instructor" value=false>
+                Nie
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                <select name="aircraft">
+                    <option value="">brak</option>
+                    <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
+                            th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
+                </select>
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                TYP:
+                <input type="text" name="type">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                ZNAKI:
+                <input type="text" name="registration">
+            </label>
+        </li>
+    </form>
+</ul>
