@@ -1,34 +1,17 @@
-#Zadanie 1 
-1. Stwórz projekt Spring-Boot
-2. Stwórz repozytorium na GitHub
-3. Uzupełnij pliki .gitignore pom.xml i application.properties 
-4. Stwórz plik README.md
-5. Stwórz bazę danych
-#Zadanie 2
-1. Stwórz Encję Pilot 
-posiadającą właściwości :
-Pilot
-	- id
-	- nazwa (String)
-	- aeroklub (String)
-	- nrLicencji (String)
-	- aktywny (boolean)
-	- szybowcowy (boolean)
-	- instrSzybowcowy (boolean)
-	- samolotowy (boolean)
-	- instrSamolotowy (boolean)
-	- holownik (boolen)
-	- nalot? (Long)
-	- badania (LocalDate)
-	- saldo? (BigDecimal)
-	- KWT (LocalDate)
-	- KTP_szyb (LocalDate)
-	- KTP_SAM (LocalDate)
-	- SEPL (LocalDate)
-	- FI(S) (LocalDate)
-	- FI(A) (LocalDate)
-2. Dodaj plik sql ładujący przykładowych pilotów 
-3. Stwórz PilotRepository do połączenia z bazą danych
-4. Stwórz PilotService zawierający metody dodawania edytowania i dezaktywowania Pilota 
-5. Stwórz PilotController z akcjami do wyświetlania widoków listy pilotów, dodawania/edycji pilota, aktywacji/dezaktywacji pilota 
-6. Stwórz widoki wyświetlające wszystkich pilotów, dodawania pilota, edycji pilota, na liście pilotów dodaj przycisk aktywujący/dezaktywujący pilota
+#Aplikacja Webowa E-chronometraż
+
+Aplikacja służąca do zapisywania, odczytywania i edytowania lotów szybowcowych i samolotowych w aeroklubie.
+
+Aplikacja przechowuje takie informacje jak:
+
+
+- Piloci wraz z danymi o ich uprawnieniach
+- Statki powietrzne wraz z informacją o ich typie, klasie znachach przeglądach itp.
+- Loty szybowcowe i samolotowe wraz z ich cechami (start lądowanie, długośc lotu zdanie załoga itp.)
+
+###Role
+
+Z panelu Administratora mamy możliwość
+wprowadzania i edytowania i deaktywaowania: użytkowników, pilotów, statków powietrznych, oraz lotów.
+
+Z panelu użytkownika możemy przeglądać loty pilota przypisane do użytkownika.  
