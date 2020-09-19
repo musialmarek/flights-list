@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping
 @Slf4j
 @RequiredArgsConstructor
 public class EngineFlightByPilotController {
@@ -62,7 +60,7 @@ public class EngineFlightByPilotController {
         log.debug("\n ADDING FLIGHTS LIST SIZE {} TO MODEL AS \"flights\"", flights.size());
         model.addAttribute("flights", flights);
         model.addAttribute("pilot", pilot);
-        model.addAttribute("aircrafts",aircraftService.getEngineAircrafts());
+        model.addAttribute("aircrafts", aircraftService.getEngineAircrafts());
         return "flights/engine-by-pilot";
     }
 
