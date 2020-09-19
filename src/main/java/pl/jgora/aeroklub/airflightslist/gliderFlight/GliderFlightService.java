@@ -102,10 +102,25 @@ public class GliderFlightService {
         AbstractFlightService.getWhereSectionFilteringFlightsByPilot(pilot, active, from, to, task, pic, instructor, aircraft, type, registration, whereSectionBuilder, filters);
         if (start != null && !start.isEmpty()) {
             whereSectionBuilder.append("f.startMethod = :start");
-            filters.put("start",start);
+            filters.put("start", start);
         }
         String whereSection = whereSectionBuilder.toString();
         log.debug("\nWHERE SECTION \"{}\"", whereSection);
         return gliderFlightRepository.getFilteredGliderFlights(whereSection, filters);
+    }
+
+    public List<GliderFlight> getFilteredFlightsByAircraft(Aircraft aircraft, Boolean active, String from, String to, String task, String start, Boolean instructor) {
+        StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String, Object> filters = new HashMap<>();
+        AbstractFlightService.getWhereSectionFilteringFlightsByAircraft(aircraft, active, from, to, task, instructor, null, start, whereSectionBuilder, filters);
+        String whereSection = whereSectionBuilder.toString();
+        log.debug("\nWHERE SECTION \"{}\"", whereSection);
+        return gliderFlightRepository.getFilteredGliderFlights(whereSection, filters);
+    }
+
+    public List<GliderFlight> getAllByAircraft(Aircraft aircraft) {
+        String type = aircraft.getType();
+        String registrationNumber = aircraft.getRegistrationNumber();
+        return gliderFlightRepository.findByAircraftOrAircraftTypeAndAircraftRegistrationNumber(aircraft, type, registrationNumber);
     }
 }

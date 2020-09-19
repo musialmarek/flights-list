@@ -74,7 +74,8 @@ public class EngineFlightService {
 
     List<EngineFlight> getByPilot(Pilot pilot) {
         String name = pilot.getName();
-        return engineFlightRepository.findByPicOrCopilotOrPicNameOrCopilotName(pilot, pilot, name, name);
+        log.debug("SEARCHING ALL ENGINE FLIGHTS BY PILOT {}", name);
+        return engineFlightRepository.findByPicOrCopilotOrPicNameOrCopilotNameOrderByDate(pilot, pilot, name, name);
     }
 
 
@@ -94,7 +95,23 @@ public class EngineFlightService {
         AbstractFlightService.getWhereSectionFilteringFlightsByPilot(pilot, active, from, to, task, pic, instructor, aircraft, type, registration, whereSectionBuilder, filters);
         String whereSection = whereSectionBuilder.toString();
         log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return engineFlightRepository.getFilteredEngineFlights(whereSection,filters);
+        return engineFlightRepository.getFilteredEngineFlights(whereSection, filters);
     }
 
+    public List<EngineFlight> getFilteredFlightsByAircraft(Aircraft aircraft, Boolean active, String from, String to, String task, Boolean tow, Boolean instructor) {
+        StringBuilder whereSectionBuilder = new StringBuilder();
+        Map<String, Object> filters = new HashMap<>();
+        AbstractFlightService.getWhereSectionFilteringFlightsByAircraft(aircraft, active, from, to, task, instructor, tow, null, whereSectionBuilder, filters);
+        String whereSection = whereSectionBuilder.toString();
+        log.debug("\nWHERE SECTION \"{}\"", whereSection);
+        return engineFlightRepository.getFilteredEngineFlights(whereSection, filters);
+    }
+
+
+    public List<EngineFlight> getAllByAircraft(Aircraft aircraft) {
+        String type = aircraft.getType();
+        String registrationNumber = aircraft.getRegistrationNumber();
+        log.debug("SEARCHING ALL ENGINE FLIGHTS BY AIRCRAFT: {} {}", type, registrationNumber);
+        return engineFlightRepository.findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStartAsc(aircraft, type, registrationNumber);
+    }
 }
