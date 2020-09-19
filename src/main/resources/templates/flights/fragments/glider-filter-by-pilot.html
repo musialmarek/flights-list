@@ -78,11 +78,16 @@
                 <input type="text" name="registration">
             </label>
         </li>
-        <select name="start">
-            <option value="">brak</option>
-            <option th:each="method: ${T(pl.jgora.aeroklub.airflightslist.model.StartMethod).values()}"
-                    th:text="${method}"
-                    th:value="${method}"></option>
-        </select>
+        <li class="nav-item">
+            <label>
+                Metoda startu:
+                <select name="start">
+                    <option value="">brak</option>
+                    <option th:each="method: ${T(pl.jgora.aeroklub.airflightslist.model.StartMethod).values()}"
+                            th:text="${method}"
+                            th:value="${method}"></option>
+                </select>
+            </label>
+        </li>
     </form>
 </ul>
