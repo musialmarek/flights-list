@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.model.StartMethod;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -41,7 +42,27 @@ public class AbstractFlightService {
         }
     }
 
-    public static void getWhereSectionFilteringFlightsByPilot(Pilot pilot, Boolean active, String from, String to, String task, Boolean pic, Boolean instructor, Aircraft aircraft, String type, String registration, StringBuilder whereSectionBuilder, Map<String, Object> filters) {
+    public static void getWhereSectionFilteringFlightsByAircraft(Aircraft aircraft, Boolean active, String from, String to, String task, Boolean instructor, Boolean tow, String start, StringBuilder whereSectionBuilder, Map<String, Object> filters) {
+        whereSectionBuilder.append(" (f.aircraft = :aircraft OR (f.aircraft.type = :type AND f.aircraft.registrationNumber = :registration)) AND");
+        filters.put("aircraft", aircraft);
+        filters.put("type", aircraft.getType());
+        filters.put("registration", aircraft.getRegistrationNumber());
+        getWhereSectionFilteringFlights(active, from, to, task, instructor, whereSectionBuilder, filters);
+        if (tow != null) {
+            log.debug("TOW: {}", tow);
+            whereSectionBuilder.append(" f.tow=").append(tow).append(" AND");
+        }
+        if (start != null && !start.isEmpty()) {
+            log.debug("START METHOD: {}", start);
+            StartMethod startMethod = StartMethod.valueOf(start);
+            whereSectionBuilder.append(" f.startMethod = :start AND");
+            filters.put("start", startMethod);
+        }
+        whereSectionBuilder.append(" f.id IS NOT NULL ");
+
+    }
+
+    public static void getWhereSectionFilteringFlights(Boolean active, String from, String to, String task, Boolean instructor, StringBuilder whereSectionBuilder, Map<String, Object> filters) {
         if (active != null) {
             log.debug("\nACTIVE: {}", active);
             whereSectionBuilder.append(" f.active=").append(active).append(" AND");
@@ -75,6 +96,14 @@ public class AbstractFlightService {
             whereSectionBuilder.append(" f.task like concat('%',:task,'%') AND");
             filters.put("task", task);
         }
+        if (instructor != null) {
+            log.debug("INSTRUCTOR: {}", instructor);
+            whereSectionBuilder.append(" f.instructor=").append(instructor).append(" AND");
+        }
+    }
+
+    public static void getWhereSectionFilteringFlightsByPilot(Pilot pilot, Boolean active, String from, String to, String task, Boolean pic, Boolean instructor, Aircraft aircraft, String type, String registration, StringBuilder whereSectionBuilder, Map<String, Object> filters) {
+        getWhereSectionFilteringFlights(active, from, to, task, instructor, whereSectionBuilder, filters);
         if (pic != null) {
             log.debug("\nPIC: {}", pic);
             if (pic == true) {
@@ -89,10 +118,6 @@ public class AbstractFlightService {
         }
         filters.put("pilot", pilot);
         filters.put("name", pilot.getName());
-        if (instructor != null) {
-            log.debug("INSTRUCTOR: {}", instructor);
-            whereSectionBuilder.append(" f.instructor=").append(instructor).append(" AND");
-        }
         if (aircraft != null) {
             log.debug("\nAIRCRAFT : {}", aircraft);
             whereSectionBuilder.append(" (f.aircraft = :aircraft OR (f.aircraft.type = :type AND f.aircraft.registrationNumber = :registration)) AND");
