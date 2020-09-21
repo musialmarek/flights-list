@@ -2,7 +2,7 @@ package pl.jgora.aeroklub.airflightslist.engineFlight;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import pl.jgora.aeroklub.airflightslist.AbstractFlight.FilterFlightsRepository;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.FilterFlightsRepository;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;

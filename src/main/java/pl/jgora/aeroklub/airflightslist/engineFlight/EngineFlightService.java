@@ -3,7 +3,7 @@ package pl.jgora.aeroklub.airflightslist.engineFlight;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.jgora.aeroklub.airflightslist.AbstractFlight.AbstractFlightService;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;

@@ -1,4 +1,4 @@
-package pl.jgora.aeroklub.airflightslist.AbstractFlight;
+package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;

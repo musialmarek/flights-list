@@ -1,4 +1,4 @@
-package pl.jgora.aeroklub.airflightslist.AbstractFlight;
+package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
