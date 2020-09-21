@@ -2,6 +2,7 @@ package pl.jgora.aeroklub.airflightslist.engineFlight;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotService;
+import pl.jgora.aeroklub.airflightslist.user.CurrentUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,23 @@ public class EngineFlightByPilotController {
     private final EngineFlightService engineFlightService;
     private final PilotService pilotService;
     private final AircraftService aircraftService;
+
+    @GetMapping("user/engine-flights")
+    public String showUsersEngineFlights(@AuthenticationPrincipal CurrentUser user,
+                                         Model model,
+                                         @RequestParam(name = "filter", required = false) Boolean filter,
+                                         @RequestParam(name = "from", required = false) String from,
+                                         @RequestParam(name = "to", required = false) String to,
+                                         @RequestParam(name = "task", required = false) String task,
+                                         @RequestParam(name = "pic", required = false) Boolean pic,
+                                         @RequestParam(name = "instructor", required = false) Boolean instructor,
+                                         @RequestParam(name = "aircraft", required = false) Long aircraft,
+                                         @RequestParam(name = "type", required = false) String type,
+                                         @RequestParam(name = "registration", required = false) String registration) {
+        Long id = user.getUser().getPilot().getId();
+        showEngineFlights(model, id, filter, true, from, to, task, pic, instructor, aircraft, type, registration);
+        return "flights/engine-by-user";
+    }
 
     @GetMapping("admin/pilot/engine-flights")
     public String showPilotsEngineFlights(
@@ -38,6 +57,11 @@ public class EngineFlightByPilotController {
             @RequestParam(name = "type", required = false) String type,
             @RequestParam(name = "registration", required = false) String registration
     ) {
+        showEngineFlights(model, id, filter, active, from, to, task, pic, instructor, aircraft, type, registration);
+        return "flights/engine-by-pilot";
+    }
+
+    void showEngineFlights(Model model, @RequestParam("id") Long id, @RequestParam(name = "filter", required = false) Boolean filter, @RequestParam(name = "active", required = false) Boolean active, @RequestParam(name = "from", required = false) String from, @RequestParam(name = "to", required = false) String to, @RequestParam(name = "task", required = false) String task, @RequestParam(name = "pic", required = false) Boolean pic, @RequestParam(name = "instructor", required = false) Boolean instructor, @RequestParam(name = "aircraft", required = false) Long aircraft, @RequestParam(name = "type", required = false) String type, @RequestParam(name = "registration", required = false) String registration) {
         log.debug("\nGETTING PILOT WITH ID {} ", id);
         Pilot pilot = pilotService.findById(id);
         StringBuilder sb = new StringBuilder();
@@ -61,7 +85,6 @@ public class EngineFlightByPilotController {
         model.addAttribute("flights", flights);
         model.addAttribute("pilot", pilot);
         model.addAttribute("aircrafts", aircraftService.getEngineAircrafts());
-        return "flights/engine-by-pilot";
     }
 
 }
