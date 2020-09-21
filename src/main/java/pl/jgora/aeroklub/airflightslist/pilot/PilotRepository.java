@@ -11,13 +11,13 @@ public interface PilotRepository extends JpaRepository<Pilot, Long>, FilterPilot
 
     Pilot findFirstById(Long id);
 
-    Set<Pilot> findByEnginePilotTrueAndActiveTrue();
+    Set<Pilot> findByEnginePilotTrueAndActiveTrueOrderByName();
 
-    Set<Pilot> findByEngineInstructorTrueAndActiveTrue();
+    Set<Pilot> findByEngineInstructorTrueAndActiveTrueOrderByName();
 
-    Set<Pilot> findByTowTrue();
+    Set<Pilot> findByTowTrueAndActiveTrueOrderByName();
 
-    Set<Pilot> findByGliderInstructorTrue();
+    Set<Pilot> findByGliderInstructorTrueAndActiveTrueOrderByName();
 
-    Set<Pilot> findByGliderPilotTrue();
+    Set<Pilot> findByGliderPilotTrueAndActiveTrueOrderByName();
 }
