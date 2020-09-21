@@ -168,6 +168,15 @@ hr {
     font-weight: 600;
 }
 
+p.main-logo {
+    font-family: "Droid Sans Fallback", cursive;
+    display: inline-block;
+    color: var(--light-link-color) !important;
+    margin-top: 10px;
+    font-size: 2.7rem;
+    font-weight: 600;
+}
+
 .main-logo-smaller {
     font-size: 2rem;
 }
@@ -184,9 +193,10 @@ hr {
     height: 65vh;
     overflow: auto;
 }
+
 .table-header {
     overflow: auto;
-    }
+}
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -575,13 +585,14 @@ hr {
     width: 80px;
     text-align: right;
 }
-.table .dashed{
+
+.table .dashed {
     border-color: grey;
     border-style: dashed;
     border-width: 1px;
 }
 
-.btn-slim{
+.btn-slim {
     height: 10px;
 
 }
