@@ -35,20 +35,20 @@ public class AddEditUserController {
     @PostMapping("/deactivate")
     public String deactivate(User user) {
         User toDeactivate = userService.findById(user.getId());
-        log.debug("\nUSER TO DEACTIVATE : {}", toDeactivate.getLogin());
+        log.debug("\nUSER TO DEACTIVATE : {}", toDeactivate.getUserName());
         toDeactivate.setActive(false);
         userService.activationUpdate(toDeactivate);
-        log.debug("\nUSER: {} IS NOT ACTIVE NOW", toDeactivate.getLogin());
+        log.debug("\nUSER: {} IS NOT ACTIVE NOW", toDeactivate.getUserName());
         return "redirect:/admin/users";
     }
 
     @PostMapping("/activate")
     public String activate(User user) {
         User toActivate = userService.findById(user.getId());
-        log.debug("\nUSER TO ACTIVATE : {}", toActivate.getLogin());
+        log.debug("\nUSER TO ACTIVATE : {}", toActivate.getUserName());
         toActivate.setActive(true);
         userService.activationUpdate(toActivate);
-        log.debug("\nUSER: {} IS ACTIVE NOW", toActivate.getLogin());
+        log.debug("\nUSER: {} IS ACTIVE NOW", toActivate.getUserName());
         return "redirect:/admin/users";
     }
 }

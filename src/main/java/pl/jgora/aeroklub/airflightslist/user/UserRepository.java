@@ -6,9 +6,9 @@ import pl.jgora.aeroklub.airflightslist.model.User;
 import java.util.Set;
 
 public interface UserRepository extends JpaRepository<User,Long> {
-    User findByLogin(String name);
+    User findByUserName(String name);
 
-    Set<User> findByOrderByLogin();
+    Set<User> findByOrderByUserName();
 
     User findFirstById(Long id);
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 @RequiredArgsConstructor
 @Slf4j
-public class LoginController {
+public class LoginLogoutController {
     @GetMapping("/login")
     public String login(Model model, String error, String logout){
         if (error != null)
@@ -19,5 +19,10 @@ public class LoginController {
             model.addAttribute("message", "Nastąpiło poprawne wylogwanie");
 
         return "homepage/login";
+    }
+
+    @GetMapping("/logout")
+        public String logout(){
+        return "redirect:/login?logout";
     }
 }

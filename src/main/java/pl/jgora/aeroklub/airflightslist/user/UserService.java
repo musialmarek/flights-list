@@ -5,7 +5,7 @@ import pl.jgora.aeroklub.airflightslist.model.User;
 import java.util.Set;
 
 public interface UserService {
-    User findByLogin(String login);
+    User findByUserName(String userName);
     void saveUser(User user);
 
     Set<User> findAll();
