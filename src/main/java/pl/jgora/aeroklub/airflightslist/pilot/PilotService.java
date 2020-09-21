@@ -16,7 +16,7 @@ import java.util.Set;
 public class PilotService {
     private final PilotRepository pilotRepository;
 
-    List<Pilot> findAll() {
+    public List<Pilot> findAll() {
         return pilotRepository.findPilotsByOrderByName();
     }
 
@@ -93,22 +93,22 @@ public class PilotService {
     }
 
     public Set<Pilot> getEnginePilots() {
-        return pilotRepository.findByEnginePilotTrueAndActiveTrue();
+        return pilotRepository.findByEnginePilotTrueAndActiveTrueOrderByName();
     }
 
     public Set<Pilot> getEngineInstructors(){
-        return pilotRepository.findByEngineInstructorTrueAndActiveTrue();
+        return pilotRepository.findByEngineInstructorTrueAndActiveTrueOrderByName();
     }
 
     public Set<Pilot> getTowPilots() {
-        return pilotRepository.findByTowTrue();
+        return pilotRepository.findByTowTrueAndActiveTrueOrderByName();
     }
 
     public Set<Pilot> getGliderInstructors() {
-        return pilotRepository.findByGliderInstructorTrue();
+        return pilotRepository.findByGliderInstructorTrueAndActiveTrueOrderByName();
     }
 
     public Set<Pilot> getGliderPilots() {
-        return pilotRepository.findByGliderPilotTrue();
+        return pilotRepository.findByGliderPilotTrueAndActiveTrueOrderByName();
     }
 }
