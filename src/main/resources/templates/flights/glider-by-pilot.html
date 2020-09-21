@@ -39,12 +39,12 @@
                     <table class="table">
                         <thead>
                         <tr class="d-flex">
-                            <th class="col-1">Lp.</th>
+                            <th>Lp.</th>
                             <th class="col-1">Data</th>
                             <th class="col-1">PIC / DUAL</th>
                             <th class="col-1">Zadanie</th>
-                            <th class="col-1">Typ</th>
-                            <th class="col-1">Znaki</th>
+                            <th class="col-1">Typ / Znaki</th>
+                            <th class="col-1">Rodzaj Startu</th>
                             <th class="col-1">Godzina Startu</th>
                             <th class="col-1">Godzina Lądowania</th>
                             <th class="col-1">Czas Lotu</th>
@@ -58,7 +58,7 @@
                     <table class="table">
                         <tbody class="text-color-lighter list">
                         <tr class="d-flex" th:each="flight,count: ${flights}">
-                            <td class="col-1" th:text="${count.count}"></td>
+                            <td th:text="${count.count}"></td>
                             <td class="col-1" th:text="${flight.date}"></td>
                             <pic th:if="${flight.picName==pilot.name || flight.pic==pilot}">
                                 <td class="col-1">PIC</td>
@@ -69,8 +69,8 @@
                                 <td class="col-1">DUAL</td>
                                 <td class="col-1" th:text="${flight.task}"></td>
                             </dual>
-                            <td class="col-1" th:text="${flight.aircraftType}"></td>
-                            <td class="col-1" th:text="${flight.aircraftRegistrationNumber}"></td>
+                            <td class="col-1" th:utext="|${flight.aircraftType} <br> ${flight.aircraftRegistrationNumber}|"></td>
+                            <td class="col-1" th:text="${flight.startMethod.toString()}"></td>
                             <td class="col-1" th:text="${flight.start}"></td>
                             <td class="col-1" th:text="${flight.touchdown}"></td>
                             <td class="col-1" th:if="${flight.flightTime%60>9}"
