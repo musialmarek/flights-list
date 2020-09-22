@@ -15,15 +15,16 @@
             </li>
             <li class="nav-item ml-4">
                 <a class="nav-link disabled" th:href="@{/admin/glider-flights}">loty szybowcowe</a>
-            </li><li class="nav-item ml-4">
+            </li>
+            <li class="nav-item ml-4">
                 <a class="nav-link disabled" th:href="@{/admin/users}">użytkownicy</a>
             </li>
             <li class="nav-item ml-4">
-                <p class="nav-link">rozliczenia</p>
+                <a class="nav-link disabled" th:href="@{/user}">panel użytkownika</a>
             </li>
         </ul>
-        <div class="d-flex justify-content-around">
-            <h4 class="text-light mr-3"><a class="nav-link" th:href="@{/logout}">Wyloguj</a></h4>
+        <div class="d-flex justify-content-around nav nounderline">
+            <h4 class="text-light mr-3 nav-item"><a class="nav-link disabled" th:href="@{/logout}">Wyloguj</a></h4>
             <div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>
         </div>
     </nav>
