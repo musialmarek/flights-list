@@ -28,7 +28,7 @@
                     <h1 class="text-color-darker">Logowanie</h1>
                     <div class="form-group">
                         <p class="ui-state-error-text" th:if="${error}" th:text="${error}"></p>
-                        <p class="ui-state-error-text" th:if="${error}" th:text="${error}"></p>
+                        <p class="message" th:if="${message}" th:text="${message}"></p>
                         <label for="username"><input type="text" class="form-control" id="username" name="username"
                                                   placeholder="username"
                                                   autofocus="autofocus">
