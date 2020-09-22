@@ -67,6 +67,11 @@ p {
     opacity: .8;
 }
 
+.btn-dashboard{
+    padding: 60px 0;
+    text-align: center ;
+}
+
 .label-size {
     font-size: 1.4rem;
     color: var(--background-color);
