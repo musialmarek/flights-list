@@ -10,9 +10,15 @@
             <li th:if="${pilot.gliderPilot}" class="nav-item ml-4">
                 <a class="nav-link disabled" th:href="@{/user/glider-flights}">Loty Szybowcowe</a>
             </li>
+            <li class="nav-item ml-4">
+                <a class="nav-link disabled" th:href="@{/user/details}">Moje Konto</a>
+            </li>
+            <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item ml-4">
+                <a class="nav-link disabled" th:href="@{/admin}">Panel Administratora</a>
+            </li>
         </ul>
-        <div class="d-flex justify-content-around">
-            <h4 class="text-light mr-3"><a class="nav-link" th:href="@{/logout}" th:text="|Wyloguj ${pilot.name}|"></a></h4>
+        <div class="d-flex justify-content-around nav nounderline">
+            <h4 class="text-light mr-3 nav-item"><a class="nav-link disabled" th:href="@{/logout}">Wyloguj</a></h4>
             <div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>
         </div>
     </nav>
