@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.StartMethod;
 
 import java.time.LocalDate;
 import java.util.Map;
@@ -63,7 +64,8 @@ public class GliderFlightController {
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
         for (GliderFlight flight : flights) {
             flight.setActive(true);
-            flight.getEngineFlight().setActive(true);
+            if(flight.getStartMethod().equals(StartMethod.ATTO)){
+            flight.getEngineFlight().setActive(true);}
             gliderFlightService.update(flight);
         }
         return "redirect:/admin/glider-flights";
@@ -75,7 +77,8 @@ public class GliderFlightController {
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
         for (GliderFlight flight : flights) {
             flight.setActive(false);
-            flight.getEngineFlight().setActive(true);
+            if(flight.getStartMethod().equals(StartMethod.ATTO)){
+                flight.getEngineFlight().setActive(false);}
             gliderFlightService.update(flight);
         }
         return "redirect:/admin/glider-flights";
