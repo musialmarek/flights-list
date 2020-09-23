@@ -75,7 +75,7 @@ public class EngineFlightService {
     List<EngineFlight> getByPilot(Pilot pilot) {
         String name = pilot.getName();
         log.debug("SEARCHING ALL ENGINE FLIGHTS BY PILOT {}", name);
-        return engineFlightRepository.findByPicOrCopilotOrPicNameOrCopilotNameOrderByDate(pilot, pilot, name, name);
+        return engineFlightRepository.findByPicOrCopilotOrPicNameOrCopilotNameOrderByDateAscStart(pilot, pilot, name, name);
     }
 
 

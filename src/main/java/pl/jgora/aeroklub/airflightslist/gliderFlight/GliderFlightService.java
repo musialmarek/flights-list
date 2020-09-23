@@ -80,7 +80,7 @@ public class GliderFlightService {
 
     List<GliderFlight> getByPilot(Pilot pilot) {
         String name = pilot.getName();
-        return gliderFlightRepository.findByPicOrCopilotOrPicNameOrCopilotName(pilot, pilot, name, name);
+        return gliderFlightRepository.findByPicOrCopilotOrPicNameOrCopilotNameOrderByDateAscStart(pilot, pilot, name, name);
     }
 
 
@@ -121,6 +121,6 @@ public class GliderFlightService {
     public List<GliderFlight> getAllByAircraft(Aircraft aircraft) {
         String type = aircraft.getType();
         String registrationNumber = aircraft.getRegistrationNumber();
-        return gliderFlightRepository.findByAircraftOrAircraftTypeAndAircraftRegistrationNumber(aircraft, type, registrationNumber);
+        return gliderFlightRepository.findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStart(aircraft, type, registrationNumber);
     }
 }

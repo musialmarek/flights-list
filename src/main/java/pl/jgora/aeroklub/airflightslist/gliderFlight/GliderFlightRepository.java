@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Set;
 
 public interface GliderFlightRepository extends JpaRepository<GliderFlight, Long>, FilterFlightsRepository {
-    @Query("SELECT e.date FROM GliderFlight e WHERE :start < e.date and e.date < :finish order by e.date")
+    @Query("SELECT e.date FROM GliderFlight e WHERE :start < e.date and e.date < :finish order by e.date DESC ")
     Set<LocalDate> getFlyingGliderDays(LocalDate start, LocalDate finish);
 
     Set<GliderFlight> getDistinctByDateOrderByStart(LocalDate date);
 
     GliderFlight findFirstById(Long id);
 
-    List<GliderFlight> findByPicOrCopilotOrPicNameOrCopilotName(Pilot pic, Pilot copilot, String picName, String copilotName);
+    List<GliderFlight> findByPicOrCopilotOrPicNameOrCopilotNameOrderByDateAscStart(Pilot pic, Pilot copilot, String picName, String copilotName);
 
-    List<GliderFlight> findByAircraftOrAircraftTypeAndAircraftRegistrationNumber(Aircraft aircraft, String type, String registrationNumber);
+    List<GliderFlight> findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStart(Aircraft aircraft, String type, String registrationNumber);
 }

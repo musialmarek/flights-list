@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Set;
 
 public interface EngineFlightRepository extends JpaRepository<EngineFlight, Long>, FilterFlightsRepository {
-    @Query("SELECT e.date FROM EngineFlight e WHERE :start < e.date and e.date < :finish and e.tow = false or e.tow is null order by e.date")
+    @Query("SELECT e.date FROM EngineFlight e WHERE :start < e.date and e.date < :finish and e.tow = false or e.tow is null order by e.date DESC ")
     Set<LocalDate> getFlyingEngineDays(LocalDate start, LocalDate finish);
 
     Set<EngineFlight> getDistinctByDateOrderByStart(LocalDate date);
 
     EngineFlight findFirstById(Long id);
 
-    List<EngineFlight> findByPicOrCopilotOrPicNameOrCopilotNameOrderByDate(Pilot pic, Pilot copilot, String picName, String copilotName);
+    List<EngineFlight> findByPicOrCopilotOrPicNameOrCopilotNameOrderByDateAscStart(Pilot pic, Pilot copilot, String picName, String copilotName);
 
     List<EngineFlight> findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStartAsc(Aircraft aircraft, String type, String registrationNumber);
 
