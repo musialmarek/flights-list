@@ -47,7 +47,7 @@
                         </thead>
                         <tbody class="text-color-lighter">
                         <tr class="d-flex" th:each="date,count: ${dates}">
-                            <td class="col-2" th:text="${count.count}"></td>
+                            <td class="col-2" th:text="${dates.size()-count.index}"></td>
                             <td class="col-6 text-size-big" th:text="${date.key}"></td>
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
                                 <form th:if="${date.value==true}"
