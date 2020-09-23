@@ -25,6 +25,7 @@ public class User {
     @ManyToOne
     private Role role;
     @OneToOne
+    @JoinColumn(unique = true)
     private Pilot pilot;
     private Boolean active;
 }

@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 public class GliderFlight extends AbstractFlight {
     @OneToOne
+    @JoinColumn(unique = true)
     private EngineFlight engineFlight;
     @Column(name = "start_method")
     @Enumerated(value = EnumType.STRING)
