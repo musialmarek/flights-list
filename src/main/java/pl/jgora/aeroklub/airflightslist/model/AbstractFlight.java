@@ -51,6 +51,9 @@ public class AbstractFlight {
     @PrePersist
     @PreUpdate
     private void prePersistPreUpdate() {
+        if(active==null){
+            active=false;
+        }
         if (pic != null) {
             picName = pic.getName();
         }
