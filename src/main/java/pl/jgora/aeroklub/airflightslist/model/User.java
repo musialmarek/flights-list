@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Setter
 @Getter
 @EqualsAndHashCode(of = {"id"})
@@ -25,6 +25,7 @@ public class User {
     @ManyToOne
     private Role role;
     @OneToOne
+    @JoinColumn(unique = true)
     private Pilot pilot;
     private Boolean active;
 }
