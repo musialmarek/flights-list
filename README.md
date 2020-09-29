@@ -1,9 +1,6 @@
 # FlightsList  - web app
 > Application for aeroclubs or flight-schools to keep documentation of flights pilots and aircrafts
 
-# Project Name
-> Here goes your awesome project description!
-
 ## Table of contents
 * [General info](#general-info)
 * [Technologies](#technologies)
