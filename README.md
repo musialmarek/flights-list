@@ -15,7 +15,7 @@ With this app you can as Admin adding pilots and aircrafts into your database, c
 
 
 ## Technologies
-* Spring boot 2.3.3
+* Spring Boot 2.3.3
 * MySQL
 * Thymeleaf
 
