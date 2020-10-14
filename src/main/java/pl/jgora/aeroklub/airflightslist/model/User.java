@@ -28,4 +28,6 @@ public class User {
     @JoinColumn(unique = true)
     private Pilot pilot;
     private Boolean active;
+    @Transient
+    private String confirmingPassword;
 }

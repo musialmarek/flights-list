@@ -52,10 +52,12 @@ public class SingleChangesUserController {
 
     @PostMapping("/user/password")
     public String changePasswordAction(User user, @AuthenticationPrincipal CurrentUser currentUser) {
+        if(user.getPassword().equals(user.getConfirmingPassword())){
         User toEdit = userService.findById(currentUser.getUser().getId());
         toEdit.setPassword(user.getPassword());
         userService.updateUser(toEdit);
-        return "redirect:/user/details";
+        return "redirect:/user/details?password=changed";}
+        return "redirect:/user/password?confirming=false";
     }
 
     @GetMapping("/user/email")
