@@ -21,4 +21,6 @@ public interface UserService {
     Set<Pilot> getAvailablePilots();
 
     boolean isEmailAvailable(String email);
+
+    User findByUserNameOrEmail(String userNameOrEmail);
 }

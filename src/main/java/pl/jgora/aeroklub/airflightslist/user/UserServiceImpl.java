@@ -86,4 +86,9 @@ public class UserServiceImpl implements UserService {
     public boolean isEmailAvailable(String email) {
         return !userRepository.findAllUnavailableEmails().contains(email);
     }
+
+    @Override
+    public User findByUserNameOrEmail(String userNameOrEmail) {
+        return userRepository.findFirstByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
+    }
 }

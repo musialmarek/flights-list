@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("SELECT u.email FROM User u")
     Set<String> findAllUnavailableEmails();
+
+    User findFirstByUserNameOrEmail(String userName, String userEmail);
 }
