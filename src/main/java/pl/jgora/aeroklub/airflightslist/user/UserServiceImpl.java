@@ -81,4 +81,9 @@ public class UserServiceImpl implements UserService {
                 .sorted(Comparator.comparing(Pilot::getName))
                 .collect(Collectors.toCollection(LinkedHashSet::new));
     }
+
+    @Override
+    public boolean isEmailAvailable(String email) {
+        return !userRepository.findAllUnavailableEmails().contains(email);
+    }
 }

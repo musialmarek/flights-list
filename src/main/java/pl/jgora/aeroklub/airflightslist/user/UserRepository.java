@@ -5,10 +5,9 @@ import org.springframework.data.jpa.repository.Query;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.model.User;
 
-
 import java.util.Set;
 
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     User findByUserName(String name);
 
     Set<User> findByOrderByUserName();
@@ -17,4 +16,7 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     @Query("SELECT u.pilot FROM User u WHERE u.pilot IS NOT NULL ")
     Set<Pilot> findAllUnavailablePilots();
+
+    @Query("SELECT u.email FROM User u")
+    Set<String> findAllUnavailableEmails();
 }

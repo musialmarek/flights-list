@@ -19,4 +19,6 @@ public interface UserService {
     void updateUser(User user);
 
     Set<Pilot> getAvailablePilots();
+
+    boolean isEmailAvailable(String email);
 }

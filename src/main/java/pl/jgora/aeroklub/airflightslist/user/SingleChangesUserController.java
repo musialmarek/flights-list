@@ -70,8 +70,11 @@ public class SingleChangesUserController {
     @PostMapping("/user/email")
     public String changeEmailAction(User user, @AuthenticationPrincipal CurrentUser currentUser) {
         User toEdit = userService.findById(currentUser.getUser().getId());
+        if(userService.isEmailAvailable(user.getEmail())){
         toEdit.setEmail(user.getEmail());
         userService.updateUser(toEdit);
-        return "redirect:/user/details";
+        return "redirect:/user/details?email=changed";
+        }
+        return "redirect:/user/email?email-available=false";
     }
 }
