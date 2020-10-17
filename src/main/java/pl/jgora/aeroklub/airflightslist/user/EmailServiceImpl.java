@@ -14,28 +14,14 @@ public class EmailServiceImpl implements EmailService {
     @Autowired
     private JavaMailSender emailSender;
 
-    public void sendSimpleMessage(
-            String to, String subject, String text) {
-
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("noreply@baeldung.com");
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(text);
-        emailSender.send(message);
-
-    }
-
     @Override
     public void sendEmail(String to, String subject, String content) {
         MimeMessage mail = emailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mail, true);
             helper.setTo(to);
-//            helper.setReplyTo("aeroklubjeleniogorski@gmail.com");
-//            helper.setFrom("aeroklubjeleniogorski@gmail.com");
             helper.setSubject(subject);
-            helper.setText(content);
+            helper.setText(content,true);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
