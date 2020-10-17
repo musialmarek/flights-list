@@ -42,8 +42,11 @@ public class AddEditUserController {
 
     @PostMapping("admin/user/add")
     public String addUserAction(User user) {
-        userService.saveUser(user);
-        return "redirect:/admin/users";
+        if (userService.isEmailAvailable(user.getUserName())) {
+            userService.saveUser(user);
+            return "redirect:/admin/users";
+        }
+        return "redirect:/admin/user/add?email=false";
     }
 
     @GetMapping("/admin/user/edit")
