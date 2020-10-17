@@ -63,10 +63,10 @@ public class UserServiceImpl implements UserService {
     public void updateUser(User user) {
         User toEdit = userRepository.findFirstById(user.getId());
         log.debug("\n CHANGING USER'S DATA");
+        toEdit.setUserName(user.getUserName());
         toEdit.setPassword(user.getPassword());
         toEdit.setActive(user.getActive());
         toEdit.setPilot(user.getPilot());
-        toEdit.setEmail(user.getEmail());
         toEdit.setRole(user.getRole());
         log.debug("\n SAVING EDITED USER");
         saveUser(toEdit);
@@ -85,10 +85,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isEmailAvailable(String email) {
         return !userRepository.findAllUnavailableEmails().contains(email);
-    }
-
-    @Override
-    public User findByUserNameOrEmail(String userNameOrEmail) {
-        return userRepository.findFirstByUserNameOrEmail(userNameOrEmail, userNameOrEmail);
     }
 }

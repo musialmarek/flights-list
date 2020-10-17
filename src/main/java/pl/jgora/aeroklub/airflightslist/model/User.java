@@ -20,8 +20,6 @@ public class User {
     @Column(unique = true, name = "user_name")
     private String userName;
     private String password;
-    @Column(unique = true)
-    private String email;
     @ManyToOne
     private Role role;
     @OneToOne

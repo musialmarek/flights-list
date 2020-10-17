@@ -29,7 +29,7 @@
                     <div class="form-group">
                         <label for="email">
                             <p class="text-danger" th:unless="${#httpServletRequest.getParameter('email-available')==null}">Wybrany adres email jest niedostępny</p>
-                            <input type="email" class="form-control" id="email" th:field="*{email}"
+                            <input type="email" class="form-control" id="email" th:field="*{userName}"
                                    placeholder="podaj nowy adres email">
                         </label>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>

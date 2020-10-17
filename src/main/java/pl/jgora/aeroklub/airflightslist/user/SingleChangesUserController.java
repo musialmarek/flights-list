@@ -52,11 +52,12 @@ public class SingleChangesUserController {
 
     @PostMapping("/user/password")
     public String changePasswordAction(User user, @AuthenticationPrincipal CurrentUser currentUser) {
-        if(user.getPassword().equals(user.getConfirmingPassword())){
-        User toEdit = userService.findById(currentUser.getUser().getId());
-        toEdit.setPassword(user.getPassword());
-        userService.updateUser(toEdit);
-        return "redirect:/user/details?password=changed";}
+        if (user.getPassword().equals(user.getConfirmingPassword())) {
+            User toEdit = userService.findById(currentUser.getUser().getId());
+            toEdit.setPassword(user.getPassword());
+            userService.updateUser(toEdit);
+            return "redirect:/user/details?password=changed";
+        }
         return "redirect:/user/password?confirming=false";
     }
 
@@ -69,11 +70,13 @@ public class SingleChangesUserController {
 
     @PostMapping("/user/email")
     public String changeEmailAction(User user, @AuthenticationPrincipal CurrentUser currentUser) {
-        User toEdit = userService.findById(currentUser.getUser().getId());
-        if(userService.isEmailAvailable(user.getEmail())){
-        toEdit.setEmail(user.getEmail());
-        userService.updateUser(toEdit);
-        return "redirect:/user/details?email=changed";
+        if (userService.isEmailAvailable(user.getUserName())) {
+            log.debug("GETTING USER FROM DATABASE ");
+            User toEdit = userService.findById(currentUser.getUser().getId());
+            log.debug("changing userName from {} to {}",toEdit.getUserName(),user.getUserName());
+            toEdit.setUserName(user.getUserName());
+            userService.updateUser(toEdit);
+            return "redirect:/user/details?email=changed";
         }
         return "redirect:/user/email?email-available=false";
     }
