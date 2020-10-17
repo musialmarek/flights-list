@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Controller
 @RequiredArgsConstructor
@@ -15,7 +16,11 @@ public class EmailController {
     @GetMapping("/send-email")
     @ResponseBody
     public String send() {
-        emailService.sendEmail("musialmarek.it@gmail.com", "Test Email Title", "Test Email");
+        Context context = new Context();
+        context.setVariable("password","abcde1234!@#$");
+        context.setVariable("userName","user@user.pl");
+        String body = templateEngine.process("email/first-login-details", context);
+        emailService.sendEmail("musialmarek.it@gmail.com", "Test Email Title", body);
         return "sent Email";
     }
 }
