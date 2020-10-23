@@ -30,16 +30,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);}
+        auth.userDetailsService(userDetailsService);
+    }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+    protected void configure(final HttpSecurity http) throws Exception {
+        http
+                .authorizeRequests()
                 .antMatchers("/").authenticated()
                 .antMatchers("/admin", "/admin/**").hasAnyRole("ADMIN")
                 .antMatchers("/user", "/user/**").hasAnyRole("ADMIN", "USER")
                 .and().formLogin().permitAll().loginPage("/login")
                 .and()
-                .logout().permitAll();
+                .logout().logoutSuccessUrl("/login");
     }
 }
