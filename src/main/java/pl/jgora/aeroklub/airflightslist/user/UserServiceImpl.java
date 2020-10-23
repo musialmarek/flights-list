@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
@@ -53,9 +54,11 @@ public class UserServiceImpl implements UserService {
         Context context = new Context();
         context.setVariable("userName", user.getUserName());
         context.setVariable("password", password);
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/user/password";
+        log.debug("url to set new password {}", url);
+        context.setVariable("url", url);
         user.setPassword(password);
         return templateEngine.process("email/first-login-details", context);
-
     }
 
     private String randomPassword() {
@@ -105,5 +108,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isEmailAvailable(String email) {
         return !userRepository.findAllUnavailableEmails().contains(email);
+    }
+
+    @Override
+    public String setUserToken(User user) {
+        log.debug("creating token");
+        String token = randomPassword();
+        log.debug("encoding and setting token to user");
+        user.setToken(passwordEncoder.encode(token));
+        log.debug("returning token");
+        return token;
     }
 }
