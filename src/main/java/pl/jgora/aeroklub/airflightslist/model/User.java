@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @EqualsAndHashCode(of = {"id"})
-@ToString(exclude = {"pilot"})
+@ToString(exclude = {"pilot","password","token"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,7 @@ public class User {
     @JoinColumn(unique = true)
     private Pilot pilot;
     private Boolean active;
+    private String token;
     @Transient
     private String confirmingPassword;
 }
