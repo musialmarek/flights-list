@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Pierwsze logowanie</title>
@@ -10,7 +11,7 @@
     <p>Oto Twoje dane do logowania:</p>
     <p class="">Login: <span th:text="${userName}">a@b.pl</span></p>
     <p class="">Pierwsze hasło: <span th:text="${password}">haslo</span></p>
-    <p>Zaloguj się na stronie <a class="text-uppercase" th:href="@{http://localhost:8080/user/password}">aplikacji</a>
+    <p>Zaloguj się na stronie <a class="text-uppercase" th:href="${url}">aplikacji</a>
         aby ustawić swoje
         hasło</p>
 </div>
