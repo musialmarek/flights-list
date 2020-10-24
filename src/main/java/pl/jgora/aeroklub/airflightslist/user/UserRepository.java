@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Set<String> findAllUnavailableEmails();
 
     User findFirstByUserName(String userName);
+
+    User findFirstByToken(String token);
 }
