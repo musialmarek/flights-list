@@ -15,6 +15,7 @@ import pl.jgora.aeroklub.airflightslist.user.UserService;
 @RequiredArgsConstructor
 public class HomepageController {
     private final UserService userService;
+
     @GetMapping("/")
     public String home(@AuthenticationPrincipal CurrentUser currentUser, Model model) {
         if (currentUser != null) {
