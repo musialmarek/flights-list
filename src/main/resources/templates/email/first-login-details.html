@@ -11,9 +11,11 @@
     <p>Oto Twoje dane do logowania:</p>
     <p class="">Login: <span th:text="${userName}">a@b.pl</span></p>
     <p class="">Pierwsze hasło: <span th:text="${password}">haslo</span></p>
-    <p>Zaloguj się na stronie <a class="text-uppercase" th:href="${url}">aplikacji</a>
+    <p>Zaloguj się na stronie
+        <button><a class="text-uppercase" th:href="${url}">aplikacji</a></button>
         aby ustawić swoje
-        hasło</p>
+        hasło
+    </p>
 </div>
 <p class="text-white text-center">w przypadku pytań pisz na aeroklubjeleniogorski@gmail.com</p>
 </body>
