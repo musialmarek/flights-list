@@ -5,9 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.Context;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.model.Role;
 import pl.jgora.aeroklub.airflightslist.model.User;
@@ -28,7 +25,6 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final PilotService pilotService;
     private final EmailService emailService;
-    private final TemplateEngine templateEngine;
 
 
     @Override
@@ -37,32 +33,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user) {
-        emailService.sendEmail(user.getUserName(), "PIERWSZE LOGOWANIE W E-CHRONOMETRAŻU AJ", registrationMailContent(user));
-        log.debug("ENCODING PASSWORD");
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setActive(true);
-        if (user.getRole() == null) {
-            Role userRole = roleRepository.findByName("ROLE_USER");
-            user.setRole(userRole);
-        }
-        userRepository.save(user);
-    }
-
-    private String registrationMailContent(User user) {
-        String password = randomPassword();
-        Context context = new Context();
-        context.setVariable("userName", user.getUserName());
-        context.setVariable("password", password);
-        String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/user/password";
-        log.debug("url to set new password {}", url);
-        context.setVariable("url", url);
+    public void registerUser(User user) {
+        String password = RandomString.make(10);
         user.setPassword(password);
-        return templateEngine.process("email/first-login-details", context);
-    }
-
-    private String randomPassword() {
-        return RandomString.make(10);
+        emailService.sendEmail(user.getUserName(),
+                "PIERWSZE LOGOWANIE W E-CHRONOMETRAŻU",
+                emailService.getRegistrationMailContent(user),
+                true);
+        saveUser(user);
     }
 
     @Override
@@ -91,6 +69,7 @@ public class UserServiceImpl implements UserService {
         toEdit.setActive(user.getActive());
         toEdit.setPilot(user.getPilot());
         toEdit.setRole(user.getRole());
+        toEdit.setToken(user.getToken());
         log.debug("\n SAVING EDITED USER");
         saveUser(toEdit);
     }
@@ -111,12 +90,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String setUserToken(User user) {
-        log.debug("creating token");
-        String token = randomPassword();
-        log.debug("encoding and setting token to user");
-        user.setToken(passwordEncoder.encode(token));
-        log.debug("returning token");
-        return token;
+    public User findByToken(String token) {
+        return userRepository.findFirstByToken(token);
+    }
+
+    @Override
+    public void recoverPasswordConfirming(User user) {
+        String token = RandomString.make(10);
+        user.setToken(token);
+        emailService.sendEmail(user.getUserName(),
+                "Odzyskiwanie hasła - potwierdzenie",
+                emailService.getPasswordRecoveryConfirmingMailContent(user),
+                true);
+        log.debug("updating user with token");
+        updateUser(user);
+    }
+
+    @Override
+    public void recoverPassword(User user) {
+        String password = RandomString.make(10);
+        user.setPassword(password);
+        emailService.sendEmail(user.getUserName(),
+                "Odzyskiwanie hasła - nowe hasło",
+                emailService.getPasswordRecoveryMailContent(user),
+                true);
+        user.setToken(null);
+        log.debug("updating user with new password and reset token");
+        updateUser(user);
+    }
+
+    private void saveUser(User user) {
+        log.debug("ENCODING PASSWORD");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActive(true);
+        if (user.getRole() == null) {
+            Role userRole = roleRepository.findByName("ROLE_USER");
+            user.setRole(userRole);
+        }
+        userRepository.save(user);
     }
 }

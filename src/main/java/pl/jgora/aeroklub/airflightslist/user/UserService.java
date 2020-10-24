@@ -8,7 +8,7 @@ import java.util.Set;
 public interface UserService {
     User findByUserName(String userName);
 
-    void saveUser(User user);
+    void registerUser(User user);
 
     Set<User> findAll();
 
@@ -22,5 +22,9 @@ public interface UserService {
 
     boolean isEmailAvailable(String email);
 
-    String setUserToken(User user);
+    User findByToken(String token);
+
+    void recoverPasswordConfirming(User user);
+
+    void recoverPassword(User user);
 }
