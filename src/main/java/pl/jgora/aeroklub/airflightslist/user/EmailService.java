@@ -11,4 +11,6 @@ public interface EmailService {
     String getPasswordRecoveryConfirmingMailContent(User user);
 
     String getPasswordRecoveryMailContent(User user);
+
+    String getConfirmingNewEmailContent(Long id, String username, String token);
 }

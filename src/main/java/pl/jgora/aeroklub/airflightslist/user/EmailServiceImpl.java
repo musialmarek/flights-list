@@ -2,7 +2,6 @@ package pl.jgora.aeroklub.airflightslist.user;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -55,12 +54,23 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public String getPasswordRecoveryMailContent(User user) {
-        String password = RandomString.make(10);
         Context context = new Context();
         String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/user/password";
-        context.setVariable("password", password);
+        context.setVariable("password", user.getPassword());
         context.setVariable("url", url);
-        user.setPassword(password);
         return templateEngine.process("email/password-recovery", context);
+    }
+
+    @Override
+    public String getConfirmingNewEmailContent(Long id, String username, String token) {
+        Context context = new Context();
+        log.debug("getting url to create post form");
+        String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toString() + "/user/email/change";
+        log.debug("adding variables to context");
+        context.setVariable("id", id);
+        context.setVariable("username", username);
+        context.setVariable("token", token);
+        context.setVariable("url", url);
+        return templateEngine.process("email/changing-email-confirming", context);
     }
 }
