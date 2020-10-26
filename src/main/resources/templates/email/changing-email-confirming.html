@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<h1>Zmiana adresu email</h1>
+<div>
+    <p>Klikając poniższy przycisk potwierdzisz zmianę adresu email</p>
+    <br>
+    <form method="get" th:action="${url}">
+        <input type="hidden" name="userName" th:value="${username}">
+        <input type="hidden" name="id" th:value="${id}">
+        <input type="hidden" name="token" th:value="${token}">\
+        <button type="submit">Zatwierdź</button>
+    </form>
+</div>
+<p class="text-white text-center">w przypadku pytań pisz na aeroklubjeleniogorski@gmail.com</p>
+</body>
+</html>
