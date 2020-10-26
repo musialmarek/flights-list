@@ -27,4 +27,6 @@ public interface UserService {
     void recoverPasswordConfirming(User user);
 
     void recoverPassword(User user);
+
+    void confirmChangingEmail(User user);
 }

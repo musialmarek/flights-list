@@ -119,6 +119,21 @@ public class UserServiceImpl implements UserService {
         updateUser(user);
     }
 
+    @Override
+    public void confirmChangingEmail(User user) {
+        log.debug("creating confirming token");
+        String token = RandomString.make(10);
+        log.debug("setting token to user");
+        User toEdit = userRepository.findFirstById(user.getId());
+        toEdit.setToken(token);
+        updateUser(toEdit);
+        log.debug("sending email with confirming new email content");
+        emailService.sendEmail(user.getUserName(),
+                "Zmiana adresu email do logowania",
+                emailService.getConfirmingNewEmailContent(user.getId(), user.getUserName(), token),
+                true);
+    }
+
     private void saveUser(User user) {
         log.debug("ENCODING PASSWORD");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
