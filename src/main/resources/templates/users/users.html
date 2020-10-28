@@ -38,9 +38,8 @@
                         <thead>
                         <tr class="d-flex">
                             <th class="col-1">Lp.</th>
-                            <th class="col-1">Login</th>
+                            <th class="col-3">Login</th>
                             <th class="col-1">Rola</th>
-                            <th class="col-2">Email</th>
                             <th class="col-3">Pilot</th>
                             <th class="col-2 center">AKCJE</th>
                             <th class="col-1 leftTop">AKTYWACJA /DEAKTYWACJA</th>
@@ -49,9 +48,8 @@
                         <tbody class="text-color-lighter">
                         <tr class="d-flex" th:each="user,count: ${users}">
                             <td class="col-1" th:text="${count.count}"></td>
-                            <td class="col-1" th:text="${user.userName}"></td>
+                            <td class="col-3" th:text="${user.userName}"></td>
                             <td class="col-1" th:text="${user.role.name.substring(5)}"></td>
-                            <td class="col-2" th:text="${user.email}"></td>
                             <td class="col-3 text-size-big" th:if="${user.pilot!=null}" th:text="${user.pilot.name}"></td>
                             <td class="col-2 align-items-center justify-content-center flex-wrap">
                                 <a th:href="@{/admin/user/details(id=${user.id})}"

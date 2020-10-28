@@ -17,6 +17,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u.pilot FROM User u WHERE u.pilot IS NOT NULL ")
     Set<Pilot> findAllUnavailablePilots();
 
-    @Query("SELECT u.email FROM User u")
+    @Query("SELECT u.userName FROM User u")
     Set<String> findAllUnavailableEmails();
+
+    User findFirstByUserName(String userName);
+
+    User findFirstByToken(String token);
 }

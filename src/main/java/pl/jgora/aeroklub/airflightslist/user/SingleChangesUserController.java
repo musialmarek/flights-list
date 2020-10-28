@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.model.User;
 
@@ -17,6 +18,7 @@ import pl.jgora.aeroklub.airflightslist.model.User;
 
 public class SingleChangesUserController {
     private final UserService userService;
+    private final EmailService emailService;
 
     @ModelAttribute("pilot")
     Pilot getPilot(@AuthenticationPrincipal CurrentUser currentUser) {
@@ -52,11 +54,12 @@ public class SingleChangesUserController {
 
     @PostMapping("/user/password")
     public String changePasswordAction(User user, @AuthenticationPrincipal CurrentUser currentUser) {
-        if(user.getPassword().equals(user.getConfirmingPassword())){
-        User toEdit = userService.findById(currentUser.getUser().getId());
-        toEdit.setPassword(user.getPassword());
-        userService.updateUser(toEdit);
-        return "redirect:/user/details?password=changed";}
+        if (user.getPassword().equals(user.getConfirmingPassword())) {
+            User toEdit = userService.findById(currentUser.getUser().getId());
+            toEdit.setPassword(user.getPassword());
+            userService.updateUser(toEdit);
+            return "redirect:/user/details?password=changed";
+        }
         return "redirect:/user/password?confirming=false";
     }
 
@@ -67,13 +70,28 @@ public class SingleChangesUserController {
         return "users/new-email";
     }
 
-    @PostMapping("/user/email")
-    public String changeEmailAction(User user, @AuthenticationPrincipal CurrentUser currentUser) {
-        User toEdit = userService.findById(currentUser.getUser().getId());
-        if(userService.isEmailAvailable(user.getEmail())){
-        toEdit.setEmail(user.getEmail());
-        userService.updateUser(toEdit);
-        return "redirect:/user/details?email=changed";
+    @PostMapping("user/email/confirm")
+    public String changeEmailConfirming(User user, @AuthenticationPrincipal CurrentUser currentUser) {
+        log.debug("checking available of new email");
+        if (userService.isEmailAvailable(user.getUserName())) {
+            User toEdit = currentUser.getUser();
+            toEdit.setUserName(user.getUserName());
+            log.debug("sending email to confirm new address");
+            userService.confirmChangingEmail(toEdit);
+            return "redirect:/user/details?email=confirm";
+        }
+        return "redirect:/user/email?email-available=false";
+    }
+
+    @GetMapping("/user/email/change")
+    public String changeEmailAction(@RequestParam Long id, @RequestParam String userName, @RequestParam String token) {
+        log.debug("GETTING USER FROM DATABASE ");
+        User user = userService.findById(id);
+        if (user != null && token.equals(user.getToken()) && userService.isEmailAvailable(userName)) {
+            log.debug("changing userName from {} to {}", user.getUserName(), userName);
+            user.setUserName(userName);
+            userService.updateUser(user);
+            return "redirect:/user/details?email=changed";
         }
         return "redirect:/user/email?email-available=false";
     }

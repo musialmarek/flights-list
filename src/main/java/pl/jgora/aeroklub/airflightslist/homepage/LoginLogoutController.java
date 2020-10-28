@@ -20,9 +20,4 @@ public class LoginLogoutController {
 
         return "homepage/login";
     }
-
-    @GetMapping("/logout")
-        public String logout(){
-        return "redirect:/login?logout";
-    }
 }
