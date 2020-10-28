@@ -601,3 +601,6 @@ p.main-logo {
     height: 10px;
 
 }
+.option-false {
+    display: none;
+}

@@ -46,19 +46,17 @@
                         </tr>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">PILOT / UCZEŃ PILOT</th>
-                            <td class="col-7">
+                            <td th:class="|col-7 first-option option-*{pic!=null}|">
                                 <select th:field="*{pic}">
                                     <option value="">brak</option>
                                     <option th:each="pilot: ${pilots}" th:value="${pilot.id}"
                                             th:text="${pilot.name}"></option>
                                 </select>
+                                <div class="btn btn-success first-option-button">Spoza bazy</div>
                             </td>
-                            </td>
-                        </tr>
-                        <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">Nazwisko i Imię Pilota / Ucznia-Pilota</th>
-                            <td class="col-7">
+                            <td th:class="|col-7 second-option option-*{pic==null}|">
                                 <input type="text" th:field="*{picName}" th:value="*{picName}">
+                                <div class="btn btn-success second-option-button">Z bazy</div>
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
@@ -69,7 +67,7 @@
                         </tr>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">INSTRUKTOR / II PILOT</th>
-                            <td class="col-7">
+                            <td th:class="|col-7 first-option option-*{copilot!=null}|">
                                 <select th:field="*{copilot}">
                                     <option value="">brak</option>
                                     <option class="pilots" th:each="pilot: ${pilots}" th:value="${pilot.id}"
@@ -78,13 +76,12 @@
                                             th:value="${instructor.id}"
                                             th:text="${instructor.name}"></option>
                                 </select>
+                                <div class="btn btn-success first-option-button">Spoza bazy</div>
                             </td>
-                        <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">Nazwisko i Imię Instruktora / II Pilota</th>
-                            <td class="col-7">
+                            <td th:class="|col-7 second-option option-*{copilot==null} |">
                                 <input type="text" th:field="*{copilotName}" th:value="*{copilotName}">
+                                <div class="btn btn-success second-option-button">Z bazy</div>
                             </td>
-                        </tr>
                         </tr>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">ZADANIE</th>
@@ -93,21 +90,21 @@
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO</th>
-                            <td class="col-7">
+                            <th scope="row" class="col-2">STATEK POWIETRZNY</th>
+                            <td th:class="|col-7 first-option option-*{aircraft!=null}|">
                                 <select th:field="*{aircraft}">
                                     <option value="">brak</option>
                                     <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
                                             th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
                                 </select>
+                                <div class="btn btn-success first-option-button">Spoza bazy</div>
                             </td>
-                        </tr>
-                        <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO<br>ZNAKI STATKU POWIETRZNEGO</th>
-                            <td class="col-7">
-                                <input type="text" th:field="*{aircraftType}" th:value="*{aircraftType}"><br><br>
+                            <td th:class="|col-7 second-option option-*{aircraft==null}|">
+                                <input type="text" th:field="*{aircraftType}" th:value="*{aircraftType}"
+                                       placeholder="Typ statku powietrznego"><br><br>
                                 <input type="text" th:field="*{aircraftRegistrationNumber}"
-                                       th:value="*{aircraftRegistrationNumber}">
+                                       th:value="*{aircraftRegistrationNumber}" placeholder="Znaki rejestracyjne">
+                                <div class="btn btn-success second-option-button">Z bazy</div>
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
@@ -140,5 +137,7 @@
         </div>
     </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
 </body>
 </html>

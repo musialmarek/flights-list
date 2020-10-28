@@ -23,13 +23,16 @@
     <div class="container pt-4 pb-4">
         <div class="border-dashed view-height">
             <div class="container w-25">
-                <form method="post" th:action="@{/user/email}" th:object="${user}"
+                <form method="post" th:action="@{/user/email/confirm}" th:object="${user}"
                       class="padding-small text-center">
                     <h1 class="text-color-darker">Zmiana emaila</h1>
                     <div class="form-group">
                         <label for="email">
-                            <input type="email" class="form-control" id="email" th:field="*{email}"
-                                   placeholder="podaj nowe hasło">
+                            <p class="text-danger"
+                               th:unless="${#httpServletRequest.getParameter('email-available')==null}">Wybrany adres
+                                email jest niedostępny</p>
+                            <input type="email" class="form-control" id="email" th:field="*{userName}"
+                                   placeholder="podaj nowy adres email">
                         </label>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                     </div>
