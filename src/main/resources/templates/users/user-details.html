@@ -33,22 +33,31 @@
 
                 <table class="table borderless">
                     <tbody>
+                    <div th:unless="${#httpServletRequest.getParameter('email')==null}">
+                        <p class="text-success" th:if="${#httpServletRequest.getParameter('email').equals('confirm')}">
+                            Na
+                            podany adres email została wysłana wiadomość potwierdzająca zmianę</p>
+                        <p class="text-success" th:if="${#httpServletRequest.getParameter('email').equals('changed')}">
+                            Adres
+                            email został zmieniony</p>
+                    </div>
+                    <p class="text-success" th:unless="${#httpServletRequest.getParameter('password')==null}">Hasło
+                        zostało zmienione poprawnie</p>
                     <user-details th:object="${user}">
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Nazwa użytkownika:</th>
+                            <th scope="row" class="col-2">Email/Login</th>
                             <td class="col-7" th:text="*{userName}"/>
                             </td>
-                        </tr>
-                        <tr class="d-flex">
-                            <th scope="row" class="col-2">Email</th>
-                            <td class="col-7" th:text="*{email}"/>
-                            </td>
-                            <td class="col-3"><a class="btn btn-warning" th:href="@{/user/email}">Zmień email</a> </td>
+                            <td class="col-3"><a class="btn btn-warning" th:href="@{/user/email}">Zmień email</a></td>
                         </tr>
                         <tr class="d-flex">
                             <th scope="row" class="col-2">Hasło</th>
-                            <td class="col-7" />* * * * *</td>
-                            <td class="col-3"><a class="btn btn-warning" th:href="@{/user/password}">Zmień hasło</a> </td>
+
+                            <td class="col-7"/>
+
+                            <p>* * * * *</p></td>
+                            <td class="col-3"><a class="btn btn-warning" th:href="@{/user/password}">Zmień hasło</a>
+                            </td>
                         </tr>
                     </user-details>
                     <pilot-details th:object="${pilot}">
@@ -93,7 +102,8 @@
                                 <td class="col-7" th:text="*{fia}"></td>
                             </tr>
                         </engine-pilot>
-                    </pilot-details></tbody>
+                    </pilot-details>
+                    </tbody>
                 </table>
             </div>
         </div>

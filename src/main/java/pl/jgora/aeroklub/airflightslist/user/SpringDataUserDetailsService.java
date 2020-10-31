@@ -14,19 +14,23 @@ import java.util.Set;
 
 public class SpringDataUserDetailsService implements UserDetailsService {
     private UserService userService;
+
     @Autowired
-    public void setUserRepository(UserService userService){
+    public void setUserRepository(UserService userService) {
         this.userService = userService;
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userService.findByUserName(userName);
-        if (user == null) {throw new UsernameNotFoundException(userName); }
+        if (user == null) {
+            throw new UsernameNotFoundException(userName);
+        }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         Role role = user.getRole();
         grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
-        return new CurrentUser(user.getUserName(),user.getPassword(),
+        return new CurrentUser(user.getUserName(), user.getPassword(),
                 grantedAuthorities, user);
 
     }

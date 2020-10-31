@@ -44,10 +44,6 @@
                             <td class="col-7" th:if="*{!active}">NIE</td>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Email</th>
-                            <td class="col-7" th:text="*{email}"/>
-                        </tr>
-                        <tr class="d-flex">
                             <th scope="row" class="col-2">Uprawnienia na stronie</th>
                             <td class="col-7" th:text="*{role.name.substring(5)}"/>
                         </tr>
