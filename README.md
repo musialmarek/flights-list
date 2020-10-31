@@ -26,23 +26,23 @@ With this app you can as Admin adding pilots and aircrafts into your database, c
 * For user acount userName: marek password: marek
 
 
-## Features
+## Features:
 
 ### Ready
 
-#### Admin
-* Adding and editing users and manage their roles.
-* Adding and editing pilots
-* Adding and editing aircrafts
-* Adding and editing flights
-* Searching and checking flights by date, aircraft, pilots with multiple filters
-* Using user functions
-
-#### User
-* Checking every flights by user's pilot
-* Checking data about qualifications and date-limits 
-* Changing password and email
- 
+    Admin
+    * Adding and editing users and manage their roles.
+    * Adding and editing pilots
+    * Adding and editing aircrafts
+    * Adding and editing flights
+    * Searching and checking flights by date, aircraft, pilots with multiple filters
+    * Using user functions
+    
+    User
+    * Checking every flights by user's pilot
+    * Checking data about qualifications and date-limits 
+    * Changing password and email
+     
 
 **To-do list:**
 * Managing charges and payoffs by new role "Superadmin"
@@ -51,7 +51,7 @@ With this app you can as Admin adding pilots and aircrafts into your database, c
 * Auto-sending alerts about close date-limits of aircrafts to organisation's email
 
 ## Status
-Project is: _in progress_
+Project is: __in progress__
 
 ## Source
 Views in app are base on views used in ScrumLab exercise on my course in CodersLab
@@ -59,6 +59,6 @@ Views in app are base on views used in ScrumLab exercise on my course in CodersL
 ## Contact
 Created by [@musialmarek](https://github.com/musialmarek)
  
- [LinkedIn account](https://www.linkedin.com/in/marek-musia%C5%82)
+ [LinkedIn account](https://www.linkedin.com/in/marek-musial)
  
  [musialmarek.it@gmail.com](mmusialmarek.it@gmail.com) _feel free to contact me!_
