@@ -7,7 +7,7 @@
 * [Demo version](#demo-version)
 * [Features](#features)
 * [Status](#status)
-* [Inspiration](#inspiration)
+* [Source](#source)
 * [Contact](#contact)
 
 ## General info
