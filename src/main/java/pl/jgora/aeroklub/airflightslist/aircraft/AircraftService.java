@@ -24,7 +24,9 @@ public class AircraftService {
         return aircraftRepository.findFirstById(id);
     }
 
-    void activationUpdate(Aircraft aircraft) {
+    void activationUpdate(Aircraft aircraft, boolean active) {
+        aircraft.setActive(active);
+
         aircraftRepository.save(aircraft);
     }
 

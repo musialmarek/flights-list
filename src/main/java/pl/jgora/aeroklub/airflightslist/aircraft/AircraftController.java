@@ -46,8 +46,7 @@ public class AircraftController {
     public String deactivate(Aircraft aircraft) {
         Aircraft toDeactivate = aircraftService.findById(aircraft.getId());
         log.debug("\nAIRCRAFT TO DEACTIVATE : {}", toDeactivate.getRegistrationNumber());
-        toDeactivate.setActive(false);
-        aircraftService.activationUpdate(toDeactivate);
+        aircraftService.activationUpdate(toDeactivate, false);
         log.debug("\nAIRCRAFT: {} IS NOT ACTIVE NOW", toDeactivate.getRegistrationNumber());
         return "redirect:/admin/aircrafts";
     }
@@ -56,8 +55,7 @@ public class AircraftController {
     public String activate(Aircraft aircraft) {
         Aircraft toActivate = aircraftService.findById(aircraft.getId());
         log.debug("\nAIRCRAFT TO ACTIVATE : {}", toActivate.getRegistrationNumber());
-        toActivate.setActive(true);
-        aircraftService.activationUpdate(toActivate);
+        aircraftService.activationUpdate(toActivate, true);
         log.debug("\nAIRCRAFT: {} IS ACTIVE NOW", toActivate.getRegistrationNumber());
         return "redirect:/admin/aircrafts";
     }
