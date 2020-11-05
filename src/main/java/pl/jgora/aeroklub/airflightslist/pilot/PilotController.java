@@ -50,8 +50,7 @@ public class PilotController {
     public String deactivate(Pilot pilot) {
         Pilot toDeactivate = pilotService.findById(pilot.getId());
         log.debug("\nPILOT TO DEACTIVATE : {}", toDeactivate.getName());
-        toDeactivate.setActive(false);
-        pilotService.activationUpdate(toDeactivate);
+        pilotService.activationUpdate(toDeactivate, false);
         log.debug("\nPILOT: {} IS NOT ACTIVE NOW", toDeactivate.getName());
         return "redirect:/admin/pilots";
     }
@@ -60,8 +59,7 @@ public class PilotController {
     public String activate(Pilot pilot) {
         Pilot toActivate = pilotService.findById(pilot.getId());
         log.debug("\nPILOT TO ACTIVATE : {}", toActivate.getName());
-        toActivate.setActive(true);
-        pilotService.activationUpdate(toActivate);
+        pilotService.activationUpdate(toActivate, true);
         log.debug("\nPILOT: {} IS ACTIVE NOW", toActivate.getName());
         return "redirect:/admin/pilots";
     }
