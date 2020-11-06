@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.util.List;
@@ -22,18 +19,12 @@ public class PilotController {
     @GetMapping
     public String showAllPilots(Model model,
                                 @RequestParam(value = "filter", required = false) Boolean filter,
-                                @RequestParam(required = false) String name,
-                                @RequestParam(required = false) String licence,
-                                @RequestParam(required = false) Boolean active,
-                                @RequestParam(required = false) Boolean glider,
-                                @RequestParam(required = false) Boolean fis,
-                                @RequestParam(required = false) Boolean engine,
-                                @RequestParam(required = false) Boolean fia,
-                                @RequestParam(required = false) Boolean tow) {
+                                @ModelAttribute(name = "pilotFilter") PilotFilter pilotFilter) {
         List<Pilot> pilots;
+        model.addAttribute("pilotFilter",new PilotFilter());
         if (filter != null) {
             log.debug("\n FILTER IS TRUE");
-            pilots = pilotService.filteredPilots(name, licence, active, glider, fis, engine, fia, tow);
+            pilots = pilotService.filteredPilots(pilotFilter);
         } else {
             pilots = pilotService.findAll();
         }
