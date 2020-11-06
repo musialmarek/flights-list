@@ -123,26 +123,37 @@ class PilotServiceTest {
     }
 
     @Test
-    void filteredPilots() {
+    void shouldGetListOfEnginePilotsUsingPilotRepository() {
+        testingObject.getEnginePilots();
+
+        verify(pilotRepository, times(1)).findByEnginePilotTrueAndActiveTrueOrderByName();
     }
 
     @Test
-    void getEnginePilots() {
+    void shouldGetListOfEngineInstructorsUsingPilotRepository() {
+        testingObject.getEngineInstructors();
+
+        verify(pilotRepository, times(1)).findByEngineInstructorTrueAndActiveTrueOrderByName();
     }
 
     @Test
-    void getEngineInstructors() {
+    void shouldGetListOfTowPilotsUsingPilotRepository() {
+        testingObject.getTowPilots();
+
+        verify(pilotRepository, times(1)).findByTowTrueAndActiveTrueOrderByName();
     }
 
     @Test
-    void getTowPilots() {
+    void shouldGetListOfGliderPilotsUsingPilotRepository() {
+        testingObject.getGliderPilots();
+
+        verify(pilotRepository, times(1)).findByGliderPilotTrueAndActiveTrueOrderByName();
     }
 
     @Test
-    void getGliderInstructors() {
-    }
+    void shouldGetListOfGliderInstructorsUsingPilotRepository() {
+        testingObject.getGliderInstructors();
 
-    @Test
-    void getGliderPilots() {
+        verify(pilotRepository, times(1)).findByGliderInstructorTrueAndActiveTrueOrderByName();
     }
 }
