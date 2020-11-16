@@ -96,7 +96,7 @@ class PilotServiceTest {
 
 
     @Test
-    void shouldChangeDataInPilotToEditWhenUpdateAndIdNotEquals() {
+    void shouldChangeDataInPilotToEditWhenUpdateAndIdEquals() {
         //Given
         Pilot editedPilot = PilotTestBase.builder()
                 .withActive(false)
