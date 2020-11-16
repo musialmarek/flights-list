@@ -33,22 +33,24 @@ public class AircraftService {
     void update(Aircraft aircraft) {
         if (aircraft != null && aircraft.getId() != null) {
             Aircraft toEdit = findById(aircraft.getId());
-            toEdit.setActive(aircraft.getActive());
-            toEdit.setEngine(aircraft.getEngine());
-            toEdit.setType(aircraft.getType());
-            toEdit.setRegistrationNumber(aircraft.getRegistrationNumber());
-            toEdit.setFlyingTime(aircraft.getFlyingTime());
-            toEdit.setArc(aircraft.getArc());
-            toEdit.setInsurance(aircraft.getInsurance());
-            toEdit.setNextWorkDate(aircraft.getNextWorkDate());
-            toEdit.setNextWorkDateDescription(aircraft.getNextWorkDateDescription());
-            toEdit.setNextWorkTime(aircraft.getNextWorkTime());
-            toEdit.setNextWorkTimeDescription(aircraft.getNextWorkTimeDescription());
-            toEdit.setFlyingTimeHours(aircraft.getFlyingTimeHours());
-            toEdit.setFlyingTimeMinutes(aircraft.getFlyingTimeMinutes());
-            toEdit.setWorkTimeHours(aircraft.getWorkTimeHours());
-            toEdit.setWorkTimeMinutes(aircraft.getWorkTimeMinutes());
-            aircraftRepository.save(toEdit);
+            if (toEdit != null) {
+                toEdit.setActive(aircraft.getActive());
+                toEdit.setEngine(aircraft.getEngine());
+                toEdit.setType(aircraft.getType());
+                toEdit.setRegistrationNumber(aircraft.getRegistrationNumber());
+                toEdit.setFlyingTime(aircraft.getFlyingTime());
+                toEdit.setArc(aircraft.getArc());
+                toEdit.setInsurance(aircraft.getInsurance());
+                toEdit.setNextWorkDate(aircraft.getNextWorkDate());
+                toEdit.setNextWorkDateDescription(aircraft.getNextWorkDateDescription());
+                toEdit.setNextWorkTime(aircraft.getNextWorkTime());
+                toEdit.setNextWorkTimeDescription(aircraft.getNextWorkTimeDescription());
+                toEdit.setFlyingTimeHours(aircraft.getFlyingTimeHours());
+                toEdit.setFlyingTimeMinutes(aircraft.getFlyingTimeMinutes());
+                toEdit.setWorkTimeHours(aircraft.getWorkTimeHours());
+                toEdit.setWorkTimeMinutes(aircraft.getWorkTimeMinutes());
+                aircraftRepository.save(toEdit);
+            }
         }
     }
 

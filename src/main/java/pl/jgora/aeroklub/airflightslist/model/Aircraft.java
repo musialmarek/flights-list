@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Slf4j
 @ToString
 @EqualsAndHashCode(of = {"id"})
