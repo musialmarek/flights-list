@@ -10,23 +10,23 @@ public class AircraftTestBase {
     }
 
     static class AircraftBuilder {
-        private Long id;
-        private Boolean active;
-        private Boolean engine;
-        private String type;
-        private String registrationNumber;
-        private Integer flyingTime;
-        private LocalDate arc;
-        private LocalDate insurance;
-        private LocalDate nextWorkDate;
-        private String nextWorkDateDescription;
-        private Integer nextWorkTime;
-        private String nextWorkTimeDescription;
+        private Long id = 0L;
+        private Boolean active = true;
+        private Boolean engine = true;
+        private String type = "PZL-1";
+        private String registrationNumber = "SP-AAA";
+        private Integer flyingTime = 0;
+        private LocalDate arc = LocalDate.now().plusDays(100);
+        private LocalDate insurance = LocalDate.now().plusDays(100);
+        private LocalDate nextWorkDate = LocalDate.now().plusDays(100);
+        private String nextWorkDateDescription = "";
+        private Integer nextWorkTime = 6000;
+        private String nextWorkTimeDescription = "";
 
-        private Integer flyingTimeHours;
-        private Integer flyingTimeMinutes;
-        private Integer workTimeHours;
-        private Integer workTimeMinutes;
+        private Integer flyingTimeHours = flyingTime / 60;
+        private Integer flyingTimeMinutes = flyingTime % 60;
+        private Integer workTimeHours = nextWorkTime / 60;
+        private Integer workTimeMinutes = nextWorkTime % 60;
 
         AircraftBuilder withId(Long id) {
             this.id = id;
@@ -55,6 +55,8 @@ public class AircraftTestBase {
 
         AircraftBuilder withFlyingTime(Integer flyingTime) {
             this.flyingTime = flyingTime;
+            this.flyingTimeHours = flyingTime / 60;
+            this.flyingTimeMinutes = flyingTime % 60;
             return this;
         }
 
@@ -80,31 +82,13 @@ public class AircraftTestBase {
 
         AircraftBuilder withNextWorkTime(Integer nextWorkTime) {
             this.nextWorkTime = nextWorkTime;
+            this.workTimeHours = nextWorkTime / 60;
+            this.workTimeMinutes = nextWorkTime % 60;
             return this;
         }
 
         AircraftBuilder withNextWorkTimeDescription(String nextWorkTimeDescription) {
             this.nextWorkTimeDescription = nextWorkTimeDescription;
-            return this;
-        }
-
-        AircraftBuilder withFlyingTimeHours(Integer flyingTimeHours) {
-            this.flyingTimeHours = flyingTimeHours;
-            return this;
-        }
-
-        AircraftBuilder withFlyingTimeMinutes(Integer flyingTimeMinutes) {
-            this.flyingTimeMinutes = flyingTimeMinutes;
-            return this;
-        }
-
-        AircraftBuilder withWorkTimeHours(Integer workTimeHours) {
-            this.workTimeHours = workTimeHours;
-            return this;
-        }
-
-        AircraftBuilder withWorkTimeMinutes(Integer workTimeMinutes) {
-            this.workTimeMinutes = workTimeMinutes;
             return this;
         }
 
