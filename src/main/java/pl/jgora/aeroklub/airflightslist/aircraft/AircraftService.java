@@ -54,27 +54,8 @@ public class AircraftService {
         }
     }
 
-    List<Aircraft> filteredAircrafts(String type, String registration, Boolean active, Boolean engine) {
-        StringBuilder whereSectionBuilder = new StringBuilder();
-        Map<String, String> filters = new HashMap<>();
-        if (type != null && !type.isEmpty()) {
-            whereSectionBuilder.append(" a.type like concat('%',:type,'%') AND");
-            filters.put("type", type);
-        }
-        if (registration != null && !registration.isEmpty()) {
-            whereSectionBuilder.append(" a.registrationNumber like concat('%',:registration,'%') AND");
-            filters.put("registration", registration);
-        }
-        if (active != null) {
-            whereSectionBuilder.append(" a.active=").append(active).append(" AND");
-        }
-        if (engine != null) {
-            whereSectionBuilder.append(" a.engine=").append(engine).append(" AND");
-        }
-        whereSectionBuilder.append(" a.id IS NOT NULL ");
-        String whereSection = whereSectionBuilder.toString();
-        log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return aircraftRepository.filteringAircrafts(whereSection, filters);
+    List<Aircraft> filteredAircrafts(AircraftFilter aircraftFilter) {
+        return aircraftRepository.filteringAircrafts(aircraftFilter);
     }
 
     public Set<Aircraft> getEngineAircrafts() {
