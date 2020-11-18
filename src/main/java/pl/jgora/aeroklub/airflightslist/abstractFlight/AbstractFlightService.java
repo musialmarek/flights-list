@@ -106,7 +106,7 @@ public class AbstractFlightService {
         getWhereSectionFilteringFlights(active, from, to, task, instructor, whereSectionBuilder, filters);
         if (pic != null) {
             log.debug("\nPIC: {}", pic);
-            if (pic == true) {
+            if (pic) {
                 whereSectionBuilder.append(" (f.pic = :pilot OR f.picName like concat('%',:name,'%')) AND");
             } else {
                 whereSectionBuilder.append(" (f.copilot = :pilot OR f.copilotName like concat('%',:name,'%')) AND");
