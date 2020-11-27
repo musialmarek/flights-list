@@ -4,11 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
 import pl.jgora.aeroklub.airflightslist.model.*;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -84,38 +88,12 @@ public class GliderFlightService {
     }
 
 
-    public List<GliderFlight> getFilteredGliderFlightsByPilot(
-            Pilot pilot,
-            Boolean active,
-            String from,
-            String to,
-            String task,
-            Boolean pic,
-            Boolean instructor,
-            Aircraft aircraft,
-            String type,
-            String registration,
-            String start
-    ) {
-        StringBuilder whereSectionBuilder = new StringBuilder();
-        Map<String, Object> filters = new HashMap<>();
-        AbstractFlightService.getWhereSectionFilteringFlightsByPilot(pilot, active, from, to, task, pic, instructor, aircraft, type, registration, whereSectionBuilder, filters);
-        if (start != null && !start.isEmpty()) {
-            whereSectionBuilder.append("f.startMethod = :start");
-            filters.put("start", start);
-        }
-        String whereSection = whereSectionBuilder.toString();
-        log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return gliderFlightRepository.getFilteredGliderFlights(whereSection, filters);
+    public List<GliderFlight> getFilteredGliderFlightsByPilot(FlightsFilter flightsFilter) {
+        return gliderFlightRepository.getFilteredGliderFlights(flightsFilter);
     }
 
-    public List<GliderFlight> getFilteredFlightsByAircraft(Aircraft aircraft, Boolean active, String from, String to, String task, String start, Boolean instructor) {
-        StringBuilder whereSectionBuilder = new StringBuilder();
-        Map<String, Object> filters = new HashMap<>();
-        AbstractFlightService.getWhereSectionFilteringFlightsByAircraft(aircraft, active, from, to, task, instructor, null, start, whereSectionBuilder, filters);
-        String whereSection = whereSectionBuilder.toString();
-        log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return gliderFlightRepository.getFilteredGliderFlights(whereSection, filters);
+    public List<GliderFlight> getFilteredFlightsByAircraft(FlightsFilter flightsFilter) {
+        return gliderFlightRepository.getFilteredGliderFlights(flightsFilter);
     }
 
     public List<GliderFlight> getAllByAircraft(Aircraft aircraft) {
