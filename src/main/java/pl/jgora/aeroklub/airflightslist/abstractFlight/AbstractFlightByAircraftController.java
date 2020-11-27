@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
@@ -13,7 +14,6 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -23,7 +23,6 @@ public class AbstractFlightByAircraftController {
     private final EngineFlightService engineFlightService;
     private final GliderFlightService gliderFlightService;
     private final AircraftService aircraftService;
-    private final AbstractFlightService abstractFlightService;
 
     @GetMapping("admin/aircraft/flights")
 
@@ -31,24 +30,20 @@ public class AbstractFlightByAircraftController {
             Model model,
             @RequestParam("id") Long id,
             @RequestParam(name = "filter", required = false) Boolean filter,
-            @RequestParam(name = "active", required = false) Boolean active,
-            @RequestParam(name = "from", required = false) String from,
-            @RequestParam(name = "to", required = false) String to,
-            @RequestParam(name = "task", required = false) String task,
-            @RequestParam(name = "tow", required = false) Boolean tow,
-            @RequestParam(name = "start", required = false) String startMethod,
-            @RequestParam(name = "instructor", required = false) Boolean instructor
+            @ModelAttribute(name = "flightsFilter") FlightsFilter flightsFilter
     ) {
+        model.addAttribute("flightsFilter", new FlightsFilter());
         log.debug("\nGETTING AIRCRAFT WITH ID {} ", id);
         Aircraft aircraft = aircraftService.findById(id);
         StringBuilder sb = new StringBuilder();
         if (aircraft != null) {
             model.addAttribute("aircraft", aircraft);
+            flightsFilter.setAircraft(aircraft);
             if (aircraft.getEngine()) {
-                List<EngineFlight> flights = new ArrayList<>();
+                List<EngineFlight> flights;
                 if (filter != null && filter == true) {
                     log.debug("\n FILTER IS TRUE");
-                    flights = engineFlightService.getFilteredFlightsByAircraft(aircraft, active, from, to, task, tow, instructor);
+                    flights = engineFlightService.getFilteredFlightsByAircraft(flightsFilter);
 
                 } else {
                     flights = engineFlightService.getAllByAircraft(aircraft);
@@ -61,16 +56,16 @@ public class AbstractFlightByAircraftController {
                 model.addAttribute("flights", flights);
                 return "flights/engine-by-aircraft";
             } else {
-                List<GliderFlight> flights = new ArrayList<>();
+                List<GliderFlight> flights;
                 if (filter != null && filter == true) {
                     log.debug("\n FILTER IS TRUE");
-                    flights = gliderFlightService.getFilteredFlightsByAircraft(aircraft, active, from, to, task, startMethod, instructor);
+                    flights = gliderFlightService.getFilteredFlightsByAircraft(flightsFilter);
 
                 } else {
                     flights = gliderFlightService.getAllByAircraft(aircraft);
                 }
                 for (GliderFlight flight : flights) {
-                    sb.append("\nPilot: ").append(aircraft.getType()).append(aircraft.getRegistrationNumber()).append(" FLIGHT: ").append(flight);
+                    sb.append("\nAIRCRAFT: ").append(aircraft.getType()).append(aircraft.getRegistrationNumber()).append(" FLIGHT: ").append(flight);
                 }
                 log.debug("\n{}", sb.toString());
                 log.debug("\n ADDING FLIGHTS LIST SIZE {} TO MODEL AS \"flights\"", flights.size());

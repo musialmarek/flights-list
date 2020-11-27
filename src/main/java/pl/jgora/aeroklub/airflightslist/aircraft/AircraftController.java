@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 
 import java.util.List;
@@ -22,14 +19,12 @@ public class AircraftController {
     @GetMapping
     public String showAllAircrafts(Model model,
                                    @RequestParam(value = "filter", required = false) Boolean filter,
-                                   @RequestParam(required = false) String type,
-                                   @RequestParam(required = false) String registration,
-                                   @RequestParam(required = false) Boolean active,
-                                   @RequestParam(required = false) Boolean engine) {
+                                   @ModelAttribute(name = "aircraftFilter") AircraftFilter aircraftFilter) {
         List<Aircraft> aircrafts;
+        model.addAttribute("aircraftFilter", new AircraftFilter());
         if (filter != null) {
             log.debug("\n FILTER IS TRUE");
-            aircrafts = aircraftService.filteredAircrafts(type, registration, active, engine);
+            aircrafts = aircraftService.filteredAircrafts(aircraftFilter);
         } else {
             aircrafts = aircraftService.findAll();
         }

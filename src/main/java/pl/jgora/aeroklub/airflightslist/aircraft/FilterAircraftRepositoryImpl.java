@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
-import java.util.Map;
 
 @Transactional
 @Slf4j
@@ -17,9 +16,11 @@ public class FilterAircraftRepositoryImpl implements FilterAircraftRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Aircraft> filteringAircrafts(String whereSection, Map<String,String> filters) {
-        TypedQuery<Aircraft> query = entityManager.createQuery("SELECT a FROM Aircraft a WHERE " + whereSection + "  ORDER BY a.type", Aircraft.class);
-        filters.forEach(query::setParameter);
+    public List<Aircraft> filteringAircrafts(AircraftFilter aircraftFilter) {
+        TypedQuery<Aircraft> query = entityManager.createQuery("SELECT a FROM Aircraft a WHERE " + aircraftFilter.getWhereSection() + "  ORDER BY a.type", Aircraft.class);
+        aircraftFilter
+                .getFilters()
+                .forEach(query::setParameter);
         log.debug("\nQUERY {}", query.toString());
         return query.getResultList();
     }

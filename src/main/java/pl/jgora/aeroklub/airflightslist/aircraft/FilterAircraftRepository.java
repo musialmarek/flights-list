@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.Map;
 
 public interface FilterAircraftRepository {
-    List<Aircraft> filteringAircrafts(String whereSection, Map<String, String> filters);
+    List<Aircraft> filteringAircrafts(AircraftFilter aircraftFilter);
 }

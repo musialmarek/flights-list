@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
@@ -79,32 +80,12 @@ public class EngineFlightService {
     }
 
 
-    public List<EngineFlight> getFilteredEngineFlightsByPilot(
-            Pilot pilot,
-            Boolean active,
-            String from,
-            String to,
-            String task,
-            Boolean pic,
-            Boolean instructor,
-            Aircraft aircraft,
-            String type,
-            String registration) {
-        StringBuilder whereSectionBuilder = new StringBuilder();
-        Map<String, Object> filters = new HashMap<>();
-        AbstractFlightService.getWhereSectionFilteringFlightsByPilot(pilot, active, from, to, task, pic, instructor, aircraft, type, registration, whereSectionBuilder, filters);
-        String whereSection = whereSectionBuilder.toString();
-        log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return engineFlightRepository.getFilteredEngineFlights(whereSection, filters);
+    public List<EngineFlight> getFilteredEngineFlightsByPilot(FlightsFilter flightsFilter) {
+        return engineFlightRepository.getFilteredEngineFlights(flightsFilter);
     }
 
-    public List<EngineFlight> getFilteredFlightsByAircraft(Aircraft aircraft, Boolean active, String from, String to, String task, Boolean tow, Boolean instructor) {
-        StringBuilder whereSectionBuilder = new StringBuilder();
-        Map<String, Object> filters = new HashMap<>();
-        AbstractFlightService.getWhereSectionFilteringFlightsByAircraft(aircraft, active, from, to, task, instructor, tow, null, whereSectionBuilder, filters);
-        String whereSection = whereSectionBuilder.toString();
-        log.debug("\nWHERE SECTION \"{}\"", whereSection);
-        return engineFlightRepository.getFilteredEngineFlights(whereSection, filters);
+    public List<EngineFlight> getFilteredFlightsByAircraft(FlightsFilter flightsFilter) {
+        return engineFlightRepository.getFilteredEngineFlights(flightsFilter);
     }
 
 

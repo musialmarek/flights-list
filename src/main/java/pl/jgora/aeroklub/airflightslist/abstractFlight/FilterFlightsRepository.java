@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface FilterFlightsRepository {
-    List<EngineFlight> getFilteredEngineFlights(String whereSection, Map<String, Object> filters);
+    List<EngineFlight> getFilteredEngineFlights(FlightsFilter flightsFilter);
 
-    List<GliderFlight> getFilteredGliderFlights(String whereSection, Map<String, Object> filters);
+    List<GliderFlight> getFilteredGliderFlights(FlightsFilter flightsFilter);
 }
 
