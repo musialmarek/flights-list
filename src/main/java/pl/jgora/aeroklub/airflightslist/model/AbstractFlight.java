@@ -1,10 +1,8 @@
 package pl.jgora.aeroklub.airflightslist.model;
 
 import jdk.jfr.Unsigned;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import org.hibernate.internal.build.AllowPrintStacktrace;
 import org.hibernate.mapping.ToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -16,6 +14,8 @@ import java.time.LocalTime;
 @MappedSuperclass
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 @ToString(exclude = {"pic", "copilot", "aircraft"})
 public class AbstractFlight {
