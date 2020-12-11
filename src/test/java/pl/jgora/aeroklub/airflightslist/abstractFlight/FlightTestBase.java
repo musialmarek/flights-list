@@ -85,6 +85,11 @@ public class FlightTestBase {
             return this;
         }
 
+        FlightBuilder withAircraftType(String aircraftType) {
+            flight.setAircraftType(aircraftType);
+            return this;
+        }
+
         AbstractFlight build() {
             return this.flight;
         }
