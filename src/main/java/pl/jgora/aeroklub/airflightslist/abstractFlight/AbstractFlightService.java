@@ -28,6 +28,7 @@ public class AbstractFlightService {
         toEdit.setAircraft(flight.getAircraft());
         toEdit.setCopilot(flight.getCopilot());
         toEdit.setPic(flight.getPic());
+        toEdit.setAircraftType(flight.getAircraftType());
     }
 
     public static void replacePilots(AbstractFlight flight) {
