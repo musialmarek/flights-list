@@ -19,7 +19,6 @@ public class AbstractFlightService {
         toEdit.setAircraftRegistrationNumber(flight.getAircraftRegistrationNumber());
         toEdit.setCopilotName(flight.getCopilotName());
         toEdit.setDate(flight.getDate());
-        toEdit.setFlightTime(flight.getFlightTime());
         toEdit.setInstructor(flight.getInstructor());
         toEdit.setPicName(flight.getPicName());
         toEdit.setStart(flight.getStart());
