@@ -3,11 +3,7 @@ package pl.jgora.aeroklub.airflightslist.abstractFlight;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
-import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
-import pl.jgora.aeroklub.airflightslist.model.StartMethod;
-
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -33,10 +29,34 @@ public class AbstractFlightService {
     public static void replacePilots(AbstractFlight flight) {
         if (flight.getInstructor()) {
             log.debug("\n REPLACING PILOTS - FLIGHT IS INSTRUCTOR FLIGHT ");
-            Pilot pic = flight.getCopilot();
-            Pilot copilot = flight.getPic();
-            flight.setPic(pic);
-            flight.setCopilot(copilot);
+            Pilot enteredCopilot = flight.getCopilot();
+            String enteredCopilotName = flight.getCopilotName();
+            String enteredPicName = flight.getPicName();
+            Pilot enteredPic = flight.getPic();
+            Pilot replacedPic = null;
+            Pilot replacedCopilot = null;
+            String replacedPicName = null;
+            String replacedCopilotName = null;
+            if (enteredCopilot != null) {
+                replacedPic = enteredCopilot;
+            } else if (enteredCopilotName != null && !enteredCopilotName.isEmpty()) {
+                replacedPicName = enteredCopilotName;
+            } else {
+                throw new IllegalArgumentException("There is no instructor");
+
+            }
+
+            if (enteredPic != null) {
+                replacedCopilot = enteredPic;
+            } else if (enteredPicName != null && !enteredPicName.isEmpty()) {
+                replacedCopilotName = enteredPicName;
+            } else {
+                throw new IllegalArgumentException("There is no student");
+            }
+            flight.setPic(replacedPic);
+            flight.setCopilot(replacedCopilot);
+            flight.setPicName(replacedPicName);
+            flight.setCopilotName(replacedCopilotName);
         }
     }
 }
