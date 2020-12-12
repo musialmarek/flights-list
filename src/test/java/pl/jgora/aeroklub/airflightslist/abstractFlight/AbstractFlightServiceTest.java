@@ -71,7 +71,23 @@ class AbstractFlightServiceTest {
         assertThat(gliderFlight.getCopilot()).isEqualTo(student);
     }
 
-    //TODO shouldNotReplacePilotsIfGivenNotInstructorFlight
+    //TODO
+    @Test
+    void shouldNotReplacePilotsIfGivenNotInstructorFlight() {
+        //given
+        Pilot pic = PilotTestBase.builder().withId(1L).build();
+        Pilot copilot = PilotTestBase.builder().withId(2L).build();
+        EngineFlight engineFlight = (EngineFlight) FlightTestBase.builder("engine")
+                .withInstructor(false)
+                .withPic(pic)
+                .withCopilot(copilot)
+                .build();
+        //when
+        AbstractFlightService.replacePilots(engineFlight);
+        //then
+        assertThat(engineFlight.getPic()).isEqualTo(pic);
+        assertThat(engineFlight.getCopilot()).isEqualTo(copilot);
+    }
     //TODO shouldThrowIllegalArgumentExceptionIfGivenInstructorFlightsAndThereIsNoOneOFPilots
 
 }
