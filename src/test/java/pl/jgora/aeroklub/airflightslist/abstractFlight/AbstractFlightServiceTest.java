@@ -11,7 +11,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class AbstractFlightServiceTest {
 
     @Test
-    void updateFlight() {
+    void shouldUpdateFlightDataToDataFromNewFlight() {
 //TODO create parametrized test with more data
         //given
         EngineFlight engineFlight = (EngineFlight) FlightTestBase.builder("engine")
