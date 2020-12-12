@@ -2,6 +2,9 @@ package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
 import org.junit.jupiter.api.Test;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.pilot.PilotTestBase;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,8 +55,23 @@ class AbstractFlightServiceTest {
     }
 
     @Test
-    void replacePilots() {
-        //TODO
+    void shouldReplacePilotsWhenGivenAnInstructorFlight() {
+        //given
+        Pilot instructor = PilotTestBase.builder().withId(1L).build();
+        Pilot student = PilotTestBase.builder().withId(2L).build();
+        GliderFlight gliderFlight = (GliderFlight) FlightTestBase.builder("glider")
+                .withPic(student)
+                .withCopilot(instructor)
+                .withInstructor(true)
+                .build();
+        //when
+        AbstractFlightService.replacePilots(gliderFlight);
+        //then
+        assertThat(gliderFlight.getPic()).isEqualTo(instructor);
+        assertThat(gliderFlight.getCopilot()).isEqualTo(student);
     }
+
+    //TODO shouldNotReplacePilotsIfGivenNotInstructorFlight
+    //TODO shouldThrowIllegalArgumentExceptionIfGivenInstructorFlightsAndThereIsNoOneOFPilots
 
 }
