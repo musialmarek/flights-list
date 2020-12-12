@@ -13,7 +13,7 @@ public class FlightTestBase {
     static class FlightBuilder {
 
 
-        AbstractFlight flight;
+        private AbstractFlight flight;
 
         public FlightBuilder(String type) {
             if (type.equals("glider")) {
