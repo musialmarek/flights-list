@@ -60,8 +60,14 @@ class EngineFlightServiceTest {
 
     }
 
-    @Test
-    void getById() {
+    //TODO parametrized test
+    void shouldFindById() {
+        //given
+        Long id = 1L;
+        //when
+        testingObject.getById(id);
+        //then
+        verify(engineFlightRepository, times(1)).findFirstById(id);
         //TODO
     }
 
