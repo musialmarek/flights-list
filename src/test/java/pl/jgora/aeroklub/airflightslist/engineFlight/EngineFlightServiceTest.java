@@ -68,7 +68,6 @@ class EngineFlightServiceTest {
         testingObject.getById(id);
         //then
         verify(engineFlightRepository, times(1)).findFirstById(id);
-        //TODO
     }
 
     @Test
