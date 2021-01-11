@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 
 class AbstractFlightServiceTest {
 
@@ -71,7 +72,6 @@ class AbstractFlightServiceTest {
         assertThat(gliderFlight.getCopilot()).isEqualTo(student);
     }
 
-    //TODO
     @Test
     void shouldNotReplacePilotsIfGivenNotInstructorFlight() {
         //given
@@ -88,6 +88,17 @@ class AbstractFlightServiceTest {
         assertThat(engineFlight.getPic()).isEqualTo(pic);
         assertThat(engineFlight.getCopilot()).isEqualTo(copilot);
     }
-    //TODO shouldThrowIllegalArgumentExceptionIfGivenInstructorFlightsAndThereIsNoOneOFPilots
 
+    @Test
+    void shouldThrowIllegalArgumentExceptionIfGivenInstructorFlightsAndThereIsNoOneOFPilots() {
+        //given
+        Pilot instructor = PilotTestBase.builder().withId(1L).build();
+        EngineFlight engineFlight = (EngineFlight) FlightTestBase.builder("engine")
+                .withInstructor(true)
+                .withCopilot(instructor)
+                .build();
+        //then
+        assertThatExceptionOfType(IllegalArgumentException.class)
+                .isThrownBy(() -> AbstractFlightService.replacePilots(engineFlight));
+    }
 }
