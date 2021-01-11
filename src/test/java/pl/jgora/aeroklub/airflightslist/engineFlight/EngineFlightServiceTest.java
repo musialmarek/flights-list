@@ -5,6 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightTestBase;
+import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.pilot.PilotTestBase;
 
 import java.time.LocalDate;
 import java.util.stream.Stream;
@@ -37,12 +41,23 @@ class EngineFlightServiceTest {
     void shouldSearchingFlightsByDate(LocalDate date) {
         testingObject.getByDate(date);
 
-        verify(engineFlightRepository,times(1)).getDistinctByDateOrderByStart(date);
+        verify(engineFlightRepository, times(1)).getDistinctByDateOrderByStart(date);
     }
 
     @Test
-    void save() {
-        //TODO
+    void shouldSaveFlight() {
+        //given
+        Pilot pilot = PilotTestBase.builder().withId(1L).build();
+        EngineFlight flight = (EngineFlight) FlightTestBase
+                .builder("engine")
+                .withPic(pilot)
+                .withInstructor(false)
+                .build();
+        //when
+        testingObject.save(flight);
+        //then
+        verify(engineFlightRepository, times(1)).save(flight);
+
     }
 
     @Test
