@@ -6,11 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class FlightTestBase {
-    static FlightBuilder builder(String type) {
+    public static FlightBuilder builder(String type) {
         return new FlightBuilder(type);
     }
 
-    static class FlightBuilder {
+   public static class FlightBuilder {
 
 
         private AbstractFlight flight;
@@ -25,72 +25,72 @@ public class FlightTestBase {
             }
         }
 
-        FlightBuilder withActive(Boolean active) {
+        public FlightBuilder withActive(Boolean active) {
             flight.setActive(active);
             return this;
         }
 
-        FlightBuilder withRegistrationNumber(String registrationNumber) {
+        public FlightBuilder withRegistrationNumber(String registrationNumber) {
             flight.setAircraftRegistrationNumber(registrationNumber);
             return this;
         }
 
-        FlightBuilder withPic(Pilot pic) {
+        public FlightBuilder withPic(Pilot pic) {
             flight.setPic(pic);
             return this;
         }
 
-        FlightBuilder withCopilot(Pilot copilot) {
+        public FlightBuilder withCopilot(Pilot copilot) {
             flight.setCopilot(copilot);
             return this;
         }
 
-        FlightBuilder withPicName(String picName) {
+        public  FlightBuilder withPicName(String picName) {
             flight.setPicName(picName);
             return this;
         }
 
-        FlightBuilder withCopilotName(String copilotName) {
+        public FlightBuilder withCopilotName(String copilotName) {
             flight.setCopilotName(copilotName);
             return this;
         }
 
-        FlightBuilder withDate(LocalDate date) {
+        public FlightBuilder withDate(LocalDate date) {
             flight.setDate(date);
             return this;
         }
 
-        FlightBuilder withStart(LocalTime startTime) {
+        public FlightBuilder withStart(LocalTime startTime) {
             flight.setStart(startTime);
             return this;
         }
 
-        FlightBuilder withTouchdown(LocalTime touchdownTime) {
+        public FlightBuilder withTouchdown(LocalTime touchdownTime) {
             flight.setTouchdown(touchdownTime);
             return this;
         }
 
-        FlightBuilder withTask(String task) {
+        public FlightBuilder withTask(String task) {
             flight.setTask(task);
             return this;
         }
 
-        FlightBuilder withInstructor(Boolean instructor) {
+        public FlightBuilder withInstructor(Boolean instructor) {
             flight.setInstructor(instructor);
             return this;
         }
 
-        FlightBuilder withAircraft(Aircraft aircraft) {
+        public FlightBuilder withAircraft(Aircraft aircraft) {
             flight.setAircraft(aircraft);
             return this;
         }
 
-        FlightBuilder withAircraftType(String aircraftType) {
+        public FlightBuilder withAircraftType(String aircraftType) {
             flight.setAircraftType(aircraftType);
             return this;
         }
 
-        AbstractFlight build() {
+        public AbstractFlight build() {
             return this.flight;
         }
     }
