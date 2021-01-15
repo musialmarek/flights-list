@@ -11,6 +11,7 @@ import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotTestBase;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -71,8 +72,33 @@ class EngineFlightServiceTest {
     }
 
     @Test
-    void update() {
-        //TODO
+    void shouldUpdateDataInFlight() {
+        //given
+        Pilot pilot = PilotTestBase.builder().withId(1L).build();
+        Pilot otherPilot = PilotTestBase.builder().withId(1L).build();
+        EngineFlight oldDataFlight = (EngineFlight) FlightTestBase
+                .builder("engine")
+                .withActive(false)
+                .withId(1L)
+                .withPic(pilot)
+                .withStart(LocalTime.of(12, 15))
+                .withTouchdown(LocalTime.of(15, 15))
+                .build();
+        EngineFlight newDataFlight = (EngineFlight) FlightTestBase
+                .builder("engine")
+                .withActive(true)
+                .withId(1L)
+                .withPic(otherPilot)
+                .withStart(LocalTime.of(13, 15))
+                .withTouchdown(LocalTime.of(17, 15))
+                .build();
+        when(engineFlightRepository.findFirstById(1L)).thenReturn(oldDataFlight);
+        //when
+        testingObject.update(newDataFlight);
+        //then
+        verify(engineFlightRepository, times(1)).save(oldDataFlight);
+        //TODO add checking changes in pilot
+
     }
 
     @Test
