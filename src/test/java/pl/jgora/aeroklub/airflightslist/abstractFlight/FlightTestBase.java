@@ -24,6 +24,10 @@ public class FlightTestBase {
                 throw new IllegalArgumentException("unknown flight type " + type);
             }
         }
+        public FlightBuilder withId(Long id){
+            flight.setId(id);
+            return this;
+        }
 
         public FlightBuilder withActive(Boolean active) {
             flight.setActive(active);
