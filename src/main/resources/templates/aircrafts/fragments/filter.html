@@ -4,8 +4,12 @@
         <input type="hidden" name="filter" value="true">
         <li class="nav-item">
             <label>
-                <button><input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
-                </button>
+                <a class="btn btn-success">
+                    <input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
+                </a>
+            </label>
+            <label>
+                <a class="btn btn-danger" th:href="@{/admin/aircrafts}">Resetuj filtry</a>
             </label>
         </li>
         <li class="nav-item">
