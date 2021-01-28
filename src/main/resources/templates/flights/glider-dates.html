@@ -26,6 +26,14 @@
                     <div class="col noPadding">
                         <h3 class="text-color-darker text-uppercase">dni lotne szybowców</h3>
                     </div>
+                    <div class="col-2 nav-link">
+                        <a th:href="@{/admin/glider-flights(year=${previousYear})}" th:text="|<<${previousYear}|"></a>
+                    </div>
+                    <div class="col-2" th:text="${previousYear}+1">
+                    </div>
+                    <div class="col-2 nav-link">
+                        <a th:href="@{/admin/glider-flights(year=${nextYear})}" th:text="|${nextYear}>>|"></a>
+                    </div>
                     <div>
                         <form method="get" action="/admin/glider-flights/list">
                             <input type="date" name="date" th:value="${today}">
@@ -40,7 +48,8 @@
                         <thead>
                         <tr class="d-flex">
                             <th class="col-2">Lp.</th>
-                            <th class="col-8">DATA</th>
+                            <th class="col-6">DATA</th>
+                            <th class="col-2">ZATWIERDZONA</th>
                             <th class="col-2 center"></th>
                         </tr>
                         </thead>
