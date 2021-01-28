@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.ListSummary;
 
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -27,12 +30,14 @@ public class EngineFlightController {
             log.debug("\n NOT YEAR PARAMETER - GETTING THIS YEAR ");
             year = LocalDate.now().getYear();
         }
-        log.debug("\n YEAR: {}",year);
+        model.addAttribute("previousYear", year - 1);
+        model.addAttribute("nextYear", year + 1);
+        log.debug("\n YEAR: {}", year);
         Map<LocalDate, Boolean> datesAndActives = engineFlightService.getDatesAndActives(year);
         for (Map.Entry<LocalDate, Boolean> entry : datesAndActives.entrySet()) {
             log.debug("\ndate {} active {}", entry.getKey().toString(), entry.getValue());
         }
-        model.addAttribute("today",LocalDate.now());
+        model.addAttribute("today", LocalDate.now());
         model.addAttribute("dates", datesAndActives);
         return "flights/engine-dates";
     }
@@ -41,9 +46,12 @@ public class EngineFlightController {
     public String engineDailyFlights(Model model, @RequestParam("date") String date) {
         log.debug("\ndate {}", date);
         Set<EngineFlight> flightsInDay = engineFlightService.getByDate(LocalDate.parse(date));
+        Set<AbstractFlight> flights = flightsInDay.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet());
         log.debug("\n flying-list size {}", flightsInDay.size());
         model.addAttribute("date", date);
         model.addAttribute("flights", flightsInDay);
+        ListSummary summary = new ListSummary(flights);
+        model.addAttribute("summary", summary);
         return "flights/engine-daily";
     }
 
@@ -65,7 +73,8 @@ public class EngineFlightController {
             flight.setActive(true);
             engineFlightService.update(flight);
         }
-        return "redirect:/admin/engine-flights";
+        String year = date.substring(0, 4);
+        return "redirect:/admin/engine-flights?year=" + year;
     }
 
     @PostMapping("/deactivate")
@@ -76,6 +85,7 @@ public class EngineFlightController {
             flight.setActive(false);
             engineFlightService.update(flight);
         }
-        return "redirect:/admin/engine-flights";
+        String year = date.substring(0, 4);
+        return "redirect:/admin/engine-flights?year=" + year;
     }
 }
