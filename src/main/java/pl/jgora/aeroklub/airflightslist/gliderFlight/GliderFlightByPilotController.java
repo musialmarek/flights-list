@@ -11,13 +11,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
 import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
+import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.ListSummary;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotService;
 import pl.jgora.aeroklub.airflightslist.user.CurrentUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping
@@ -74,5 +77,9 @@ public class GliderFlightByPilotController {
         model.addAttribute("flights", flights);
         model.addAttribute("pilot", pilot);
         model.addAttribute("aircrafts", aircraftService.getGliders());
+        model.addAttribute("summary", new ListSummary(flights
+                .stream()
+                .map(flight -> (AbstractFlight) flight)
+                .collect(Collectors.toSet())));
     }
 }
