@@ -8,12 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.ListSummary;
 import pl.jgora.aeroklub.airflightslist.model.StartMethod;
 
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -32,7 +35,9 @@ public class GliderFlightController {
         for (Map.Entry<LocalDate, Boolean> entry : datesAndActives.entrySet()) {
             log.debug("\ndate {} active {}", entry.getKey().toString(), entry.getValue());
         }
-        model.addAttribute("today",LocalDate.now());
+        model.addAttribute("previousYear", year - 1);
+        model.addAttribute("nextYear", year + 1);
+        model.addAttribute("today", LocalDate.now());
         model.addAttribute("dates", datesAndActives);
         return "flights/glider-dates";
 
@@ -42,9 +47,17 @@ public class GliderFlightController {
     public String gliderDailyFlights(Model model, @RequestParam("date") String date) {
         log.debug("\ndate {}", date);
         Set<GliderFlight> flightsInDay = gliderFlightService.getByDate(LocalDate.parse(date));
+        Set<AbstractFlight> flights = flightsInDay.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toSet());
+        Set<AbstractFlight> towFlights = flightsInDay
+                .stream()
+                .filter(flight -> StartMethod.ATTO.equals(flight.getStartMethod()))
+                .map(flight -> (AbstractFlight) flight.getEngineFlight())
+                .collect(Collectors.toSet());
         log.debug("\n flying-list size {}", flightsInDay.size());
         model.addAttribute("date", date);
         model.addAttribute("flights", flightsInDay);
+        model.addAttribute("summary", new ListSummary(flights));
+        model.addAttribute("towSummary", new ListSummary(towFlights));
         return "flights/glider-daily";
     }
 
@@ -64,11 +77,13 @@ public class GliderFlightController {
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
         for (GliderFlight flight : flights) {
             flight.setActive(true);
-            if(flight.getStartMethod().equals(StartMethod.ATTO)){
-            flight.getEngineFlight().setActive(true);}
+            if (flight.getStartMethod().equals(StartMethod.ATTO)) {
+                flight.getEngineFlight().setActive(true);
+            }
             gliderFlightService.update(flight);
         }
-        return "redirect:/admin/glider-flights";
+        String year = date.substring(0, 4);
+        return "redirect:/admin/glider-flights?year=" + year;
     }
 
     @PostMapping("/deactivate")
@@ -77,10 +92,12 @@ public class GliderFlightController {
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
         for (GliderFlight flight : flights) {
             flight.setActive(false);
-            if(flight.getStartMethod().equals(StartMethod.ATTO)){
-                flight.getEngineFlight().setActive(false);}
+            if (flight.getStartMethod().equals(StartMethod.ATTO)) {
+                flight.getEngineFlight().setActive(false);
+            }
             gliderFlightService.update(flight);
         }
-        return "redirect:/admin/glider-flights";
+        String year = date.substring(0, 4);
+        return "redirect:/admin/glider-flights?year=" + year;
     }
 }
