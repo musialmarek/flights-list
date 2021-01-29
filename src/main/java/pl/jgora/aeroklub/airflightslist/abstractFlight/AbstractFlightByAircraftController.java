@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
 import pl.jgora.aeroklub.airflightslist.gliderFlight.GliderFlightService;
-import pl.jgora.aeroklub.airflightslist.model.Aircraft;
-import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
-import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -25,7 +24,6 @@ public class AbstractFlightByAircraftController {
     private final AircraftService aircraftService;
 
     @GetMapping("admin/aircraft/flights")
-
     public String showFlightsByEngine(
             Model model,
             @RequestParam("id") Long id,
@@ -54,6 +52,7 @@ public class AbstractFlightByAircraftController {
                 log.debug("\n{}", sb.toString());
                 log.debug("\n ADDING FLIGHTS LIST SIZE {} TO MODEL AS \"flights\"", flights.size());
                 model.addAttribute("flights", flights);
+                model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
                 return "flights/engine-by-aircraft";
             } else {
                 List<GliderFlight> flights;
@@ -70,6 +69,7 @@ public class AbstractFlightByAircraftController {
                 log.debug("\n{}", sb.toString());
                 log.debug("\n ADDING FLIGHTS LIST SIZE {} TO MODEL AS \"flights\"", flights.size());
                 model.addAttribute("flights", flights);
+                model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
                 return "flights/glider-by-aircraft";
             }
         }
