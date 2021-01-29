@@ -102,8 +102,12 @@
                                    th:href="@{/admin/glider-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
                             </td>
                         </tr>
+
                         </tbody>
                     </table>
+                    <div th:object="${summary}" th:include="flights/fragments/summary"></div>
+                    <div><p>Holowanie</p></div>
+                    <div th:object="${towSummary}" th:include="flights/fragments/summary"></div>
                 </div>
             </div>
         </div>
