@@ -90,10 +90,13 @@
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
                 <div th:object="${summary}" th:include="flights/fragments/summary"></div>
             </div>
+            <form method="post" th:object="${pdf}" th:action="@{/create-pdf}">
+                <input type="hidden" th:field="*{flights}" th:value="*{flights}">
+                <input th:type="submit">
+            </form>
         </div>
     </div>
 </section>
