@@ -95,7 +95,6 @@
             </div>
             <form method="post" th:object="${pdf}" th:action="@{/create-pdf}">
                 <input type="hidden" th:field="*{engineFlights}" th:value="*{engineFlights}">
-                <input type="hidden" th:field="*{gliderFlights}" th:value="*{gliderFlights}">
                 <input type="hidden" th:field="*{type}" th:value="*{type}">
                 <input th:type="submit">
             </form>
