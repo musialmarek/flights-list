@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.ListSummary;
-import pl.jgora.aeroklub.airflightslist.model.PdfFlightList;
+import pl.jgora.aeroklub.airflightslist.pdfExporter.PdfExporter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -53,7 +55,9 @@ public class EngineFlightController {
         model.addAttribute("flights", flightsInDay);
         ListSummary summary = new ListSummary(flights);
         model.addAttribute("summary", summary);
-        PdfFlightList pdf = new PdfFlightList(flights.stream().map(flight -> (EngineFlight) flight).collect(Collectors.toList()));
+        List<EngineFlight> engineFlights = new ArrayList<>(flightsInDay);
+        PdfExporter pdf = new PdfExporter(engineFlights, PdfExporter.ListType.DAILY);
+        log.debug("pdf.engineFlights is null {}", pdf.getEngineFlights() == null);
         model.addAttribute("pdf", pdf);
         return "flights/engine-daily";
     }
