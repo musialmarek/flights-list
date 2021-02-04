@@ -1,18 +1,17 @@
 package pl.jgora.aeroklub.airflightslist.pdfExporter;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.StartMethod;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,6 +22,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
+@Slf4j
 public class PdfExporter {
 
     private List<EngineFlight> engineFlights;
@@ -42,7 +42,20 @@ public class PdfExporter {
         this.glider = true;
     }
 
-    private void writeTableHeader(PdfPTable table) {
+    public void export(HttpServletResponse response) throws IOException {
+        Document document = new Document(PageSize.A4.rotate());
+        PdfWriter.getInstance(document, response.getOutputStream());
+        document.open();
+        document.add(new Paragraph(getTableHeader()));
+        document.add(new Paragraph("\n"));
+        PdfPTable table = writeTableHeader();
+        table.setWidthPercentage(100);
+        writeTableData(table);
+        document.add(table);
+        document.close();
+    }
+
+    private PdfPTable writeTableHeader() {
         List<String> headers = new ArrayList<>();
         List<Float> widths = new ArrayList<>();
         headers.add("Lp.");
@@ -89,58 +102,70 @@ public class PdfExporter {
         for (int i = 0; i < widthsArray.length; i++) {
             widthsArray[i] = widths.get(i);
         }
+        PdfPTable table = new PdfPTable(headers.size());
         table.setWidths(widthsArray);
+        log.debug("headers = widths {}", headers.size() == widthsArray.length);
         PdfPCell cell = new PdfPCell();
         for (String header : headers) {
-            cell.setPhrase(new Phrase(header));
+            cell.setPhrase(new Phrase(header, new Font(1, 8.0f)));
             table.addCell(cell);
         }
+        return table;
     }
 
     private void writeTableData(PdfPTable table) {
         List<AbstractFlight> flights = getAbstractFlights();
         for (int i = 0; i < flights.size(); i++) {
             //Lp.
-            table.addCell(String.valueOf(i + 1));
+            int fontFamily = 1;
+            float fontSize = 8.0f;
+            Font font = new Font(fontFamily, fontSize);
+            table.addCell(new Phrase(String.valueOf(i + fontFamily), font));
             if (!ListType.DAILY.equals(type)) {
-                table.addCell(flights.get(i).getDate().toString());
+                table.addCell(new Phrase(flights.get(i).getDate().toString(), font));
             }
             if (!ListType.USER.equals(type)) {
-                table.addCell(flights.get(i).getPicName());
-                table.addCell(flights.get(i).getCopilotName());
+                table.addCell(new Phrase(flights.get(i).getPicName(), font));
+                table.addCell(new Phrase(flights.get(i).getCopilotName(), font));
             }
             if (glider) {
-                table.addCell(gliderFlights.get(i).getStartMethod().toString());
+                table.addCell(new Phrase(gliderFlights.get(i).getStartMethod().toString(), font));
             }
-            table.addCell(flights.get(i).getTask());
-            table.addCell(flights.get(i).getAircraftType());
-            table.addCell(flights.get(i).getAircraftRegistrationNumber());
-            table.addCell(flights.get(i).getStart().toString());
-            table.addCell(flights.get(i).getTouchdown().toString());
-            table.addCell(getString(flights.get(i).getFlightTime()));
+            table.addCell(new Phrase(flights.get(i).getTask(), font));
+            table.addCell(new Phrase(flights.get(i).getAircraftType(), font));
+            table.addCell(new Phrase(flights.get(i).getAircraftRegistrationNumber(), font));
+            table.addCell(new Phrase(flights.get(i).getStart().toString(), font));
+            table.addCell(new Phrase(flights.get(i).getTouchdown().toString(), font));
+            table.addCell(new Phrase(getString(flights.get(i).getFlightTime()), font));
             if (glider) {
-                EngineFlight tow = gliderFlights.get(i).getEngineFlight();
-                StringBuilder sb = new StringBuilder();
-                sb.append(tow.getPicName());
-                if (tow.getCopilot() != null) {
-                    sb.append(" ").append(tow.getCopilotName());
+                if (StartMethod.ATTO.equals(gliderFlights.get(i).getStartMethod())) {
+                    EngineFlight tow = gliderFlights.get(i).getEngineFlight();
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(tow.getPicName());
+                    if (tow.getCopilot() != null) {
+                        sb.append(" ").append(tow.getCopilotName());
+                    }
+                    table.addCell(new Phrase(sb.toString(), font));
+                    sb.delete(0, sb.length());
+                    table.addCell(new Phrase(sb.
+                            append(tow.getAircraftType())
+                            .append(" ")
+                            .append(tow.getAircraftRegistrationNumber())
+                            .toString(), font));
+                    table.addCell(new Phrase(tow.getTouchdown().toString(), font));
+                    table.addCell(new Phrase(getString(tow.getFlightTime()), font));
+                } else {
+                    for (int j = 0; j < 4; j++) {
+                        table.addCell(new Phrase("-", font));
+                    }
                 }
-                table.addCell(sb.toString());
-                sb.delete(0, sb.length());
-                table.addCell(sb.
-                        append(tow.getAircraftType())
-                        .append(" ")
-                        .append(tow.getAircraftRegistrationNumber())
-                        .toString());
-                table.addCell(tow.getTouchdown().toString());
-                table.addCell(getString(tow.getFlightTime()));
             }
         }
     }
 
     private List<AbstractFlight> getAbstractFlights() {
         List<AbstractFlight> flights = new ArrayList<>();
-        if (glider) {
+        if (this.glider) {
             flights = gliderFlights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
         } else {
             flights = engineFlights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
@@ -152,20 +177,6 @@ public class PdfExporter {
         Integer hours = flightTime / 60;
         Integer minutes = flightTime % 60;
         return String.format("%01d", hours) + ":" + String.format("%02d", minutes);
-    }
-
-    public void export(HttpServletResponse response) throws IOException {
-        Document document = new Document(PageSize.A4.rotate());
-        PdfWriter.getInstance(document, response.getOutputStream());
-        document.open();
-        document.add(new Paragraph(getTableHeader()));
-        document.add(new Paragraph(""));
-        PdfPTable table = new PdfPTable(9);
-        table.setWidthPercentage(100);
-        writeTableHeader(table);
-        writeTableData(table);
-        document.add(table);
-        document.close();
     }
 
     private String getTableHeader() {
@@ -185,7 +196,5 @@ public class PdfExporter {
         }
         return sb.toString();
     }
-
     public enum ListType {DAILY, AIRCRAFT, PILOT, USER}
 }
-//TODO extend for Glider-List and List by Pilot/User/Aircraft
