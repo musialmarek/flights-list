@@ -12,8 +12,11 @@ import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 import pl.jgora.aeroklub.airflightslist.model.ListSummary;
 import pl.jgora.aeroklub.airflightslist.model.StartMethod;
+import pl.jgora.aeroklub.airflightslist.pdfExporter.PdfExporter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -58,6 +61,10 @@ public class GliderFlightController {
         model.addAttribute("flights", flightsInDay);
         model.addAttribute("summary", new ListSummary(flights));
         model.addAttribute("towSummary", new ListSummary(towFlights));
+        List<GliderFlight> gliderFlights = new ArrayList<>(flightsInDay);
+        PdfExporter pdf = new PdfExporter(PdfExporter.ListType.DAILY, gliderFlights);
+        log.debug("pdf.engineFlights is null {}", pdf.getEngineFlights() == null);
+        model.addAttribute("pdf", pdf);
         return "flights/glider-daily";
     }
 
