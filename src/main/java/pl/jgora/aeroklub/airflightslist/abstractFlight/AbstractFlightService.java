@@ -3,7 +3,12 @@ package pl.jgora.aeroklub.airflightslist.abstractFlight;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
+import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -58,5 +63,13 @@ public class AbstractFlightService {
             flight.setPicName(replacedPicName);
             flight.setCopilotName(replacedCopilotName);
         }
+    }
+
+    public static List<AbstractFlight> engineToAbstractFlightList(List<EngineFlight> flights) {
+        return flights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
+    }
+
+    public static List<AbstractFlight> gliderToAbstractFlightList(List<GliderFlight> flights) {
+        return flights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
     }
 }
