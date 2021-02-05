@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -25,8 +27,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class PdfExporter {
 
-    private List<EngineFlight> engineFlights;
-    private List<GliderFlight> gliderFlights;
+    private List<EngineFlight> engineFlights = new ArrayList<>();
+    private List<GliderFlight> gliderFlights = new ArrayList<>();
+    private List<AbstractFlight> flights = new ArrayList<>();
+    private List<AbstractFlight> towFlights = new ArrayList<>();
     private ListType type;
     private boolean glider;
 
@@ -34,12 +38,20 @@ public class PdfExporter {
         this.engineFlights = engineFlights;
         this.type = type;
         this.glider = false;
+        flights = AbstractFlightService.engineToAbstractFlightList(engineFlights);
     }
 
     public PdfExporter(ListType type, List<GliderFlight> gliderFlights) {
         this.gliderFlights = gliderFlights;
         this.type = type;
         this.glider = true;
+        flights = AbstractFlightService.gliderToAbstractFlightList(gliderFlights);
+        towFlights = gliderFlights
+                .stream()
+                .filter(flight -> StartMethod.ATTO.equals(flight.getStartMethod()))
+                .map(GliderFlight::getEngineFlight)
+                .map(engineFlight -> (AbstractFlight) engineFlight)
+                .collect(Collectors.toList());
     }
 
     public void export(HttpServletResponse response) throws IOException {
@@ -52,7 +64,82 @@ public class PdfExporter {
         table.setWidthPercentage(100);
         writeTableData(table);
         document.add(table);
+        writeSummary(document);
         document.close();
+    }
+
+    private void writeSummary(Document document) {
+        document.add(new Paragraph("Podsumowanie"));
+        document.add(new Paragraph("\n"));
+        PdfPTable table = new PdfPTable(3);
+        PdfPCell cell = new PdfPCell();
+        cell.setPhrase(new Phrase(" "));
+        table.addCell(cell);
+        cell.setPhrase(new Phrase("Liczba lotów"));
+        table.addCell(cell);
+        cell.setPhrase(new Phrase("Czas lotu"));
+        table.addCell(cell);
+        cell.setPhrase(new Phrase("Razem"));
+        table.addCell(cell);
+        int flightTime = getFlightTime(flights);
+        log.debug("main flights time: {}", flightTime);
+        int towingTime = getFlightTime(towFlights);
+        log.debug("towing time {}", towingTime);
+        int flightsQuantity = flights.size();
+        int minutes = flightTime;
+        if (ListType.DAILY.equals(type)) {
+            minutes = flightTime + towingTime;
+            flightsQuantity = flights.size() + towFlights.size();
+        }
+        String numberOfFlights = Integer.toString(flightsQuantity);
+        table.addCell(numberOfFlights);
+        log.debug("summary minutes {}", minutes);
+        String allTime = getTimeFormatFromInteger(minutes);
+        table.addCell(allTime);
+        if (glider && ListType.DAILY.equals(type)) {
+            table.addCell("SZYBOWCE");
+            table.addCell(Integer.toString(gliderFlights.size()));
+            table.addCell(getTimeFormatFromInteger(flightTime));
+            table.addCell("SAMOLOTY");
+            table.addCell(Integer.toString(towFlights.size()));
+            table.addCell(getTimeFormatFromInteger(towingTime));
+        }
+        if (!ListType.AIRCRAFT.equals(type)) {
+            Set<String> aircrafts = getAircrafts(flights);
+            Set<String> towingAircrafts = getAircrafts(towFlights);
+            setSummaryToTableByAircrafts(table, aircrafts, this.flights);
+            setSummaryToTableByAircrafts(table, towingAircrafts, this.towFlights);
+        }
+        document.add(table);
+    }
+
+    private void setSummaryToTableByAircrafts(PdfPTable table, Set<String> aircrafts, List<AbstractFlight> flights) {
+        for (String aircraftRegistrationNumber : aircrafts) {
+            List<AbstractFlight> aircraftsFlights = flights.stream()
+                    .filter(flight -> aircraftRegistrationNumber.equals(flight.getAircraftRegistrationNumber()))
+                    .collect(Collectors.toList());
+            String aircraft = getAircraft(aircraftsFlights.get(0));
+            table.addCell(aircraft);
+            String aircraftsFlightsQuantity = Integer.toString(aircraftsFlights.size());
+            table.addCell(aircraftsFlightsQuantity);
+            String aircraftsFlightTime = getTimeFormatFromInteger(getFlightTime(aircraftsFlights));
+            table.addCell(aircraftsFlightTime);
+        }
+    }
+
+    private String getAircraft(AbstractFlight flight) {
+        return flight.getAircraftType() + " " + flight.getAircraftRegistrationNumber();
+    }
+
+    private Set<String> getAircrafts(List<AbstractFlight> flights) {
+        return flights.stream().map(AbstractFlight::getAircraftRegistrationNumber).collect(Collectors.toSet());
+    }
+
+    private Integer getFlightTime(List<AbstractFlight> flights) {
+        return flights
+                .stream()
+                .map(AbstractFlight::getFlightTime)
+                .reduce(Integer::sum).orElse(0);
     }
 
     private PdfPTable writeTableHeader() {
@@ -114,7 +201,6 @@ public class PdfExporter {
     }
 
     private void writeTableData(PdfPTable table) {
-        List<AbstractFlight> flights = getAbstractFlights();
         for (int i = 0; i < flights.size(); i++) {
             //Lp.
             int fontFamily = 1;
@@ -136,7 +222,7 @@ public class PdfExporter {
             table.addCell(new Phrase(flights.get(i).getAircraftRegistrationNumber(), font));
             table.addCell(new Phrase(flights.get(i).getStart().toString(), font));
             table.addCell(new Phrase(flights.get(i).getTouchdown().toString(), font));
-            table.addCell(new Phrase(getString(flights.get(i).getFlightTime()), font));
+            table.addCell(new Phrase(getTimeFormatFromInteger(flights.get(i).getFlightTime()), font));
             if (glider) {
                 if (StartMethod.ATTO.equals(gliderFlights.get(i).getStartMethod())) {
                     EngineFlight tow = gliderFlights.get(i).getEngineFlight();
@@ -153,7 +239,7 @@ public class PdfExporter {
                             .append(tow.getAircraftRegistrationNumber())
                             .toString(), font));
                     table.addCell(new Phrase(tow.getTouchdown().toString(), font));
-                    table.addCell(new Phrase(getString(tow.getFlightTime()), font));
+                    table.addCell(new Phrase(getTimeFormatFromInteger(tow.getFlightTime()), font));
                 } else {
                     for (int j = 0; j < 4; j++) {
                         table.addCell(new Phrase("-", font));
@@ -163,17 +249,7 @@ public class PdfExporter {
         }
     }
 
-    private List<AbstractFlight> getAbstractFlights() {
-        List<AbstractFlight> flights = new ArrayList<>();
-        if (this.glider) {
-            flights = gliderFlights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
-        } else {
-            flights = engineFlights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
-        }
-        return flights;
-    }
-
-    private String getString(Integer flightTime) {
+    private String getTimeFormatFromInteger(Integer flightTime) {
         Integer hours = flightTime / 60;
         Integer minutes = flightTime % 60;
         return String.format("%01d", hours) + ":" + String.format("%02d", minutes);
@@ -181,7 +257,6 @@ public class PdfExporter {
 
     private String getTableHeader() {
         StringBuilder sb = new StringBuilder();
-        List<AbstractFlight> flights = getAbstractFlights();
         if (ListType.DAILY.equals(type)) {
             if (glider) {
                 sb.append("LISTA SZYBOWCOWA");
@@ -196,5 +271,6 @@ public class PdfExporter {
         }
         return sb.toString();
     }
+
     public enum ListType {DAILY, AIRCRAFT, PILOT, USER}
 }
