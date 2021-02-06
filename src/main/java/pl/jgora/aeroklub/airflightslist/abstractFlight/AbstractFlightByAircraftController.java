@@ -11,6 +11,7 @@ import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
 import pl.jgora.aeroklub.airflightslist.gliderFlight.GliderFlightService;
 import pl.jgora.aeroklub.airflightslist.model.*;
+import pl.jgora.aeroklub.airflightslist.pdfExporter.PdfExporter;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,7 +54,9 @@ public class AbstractFlightByAircraftController {
                 log.debug("\n ADDING FLIGHTS LIST SIZE {} TO MODEL AS \"flights\"", flights.size());
                 model.addAttribute("flights", flights);
                 model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
+                PdfExporter.addPdfExporterToModel("pdf", model, flights, PdfExporter.ListType.AIRCRAFT);
                 return "flights/engine-by-aircraft";
+
             } else {
                 List<GliderFlight> flights;
                 if (filter != null && filter == true) {
@@ -70,6 +73,7 @@ public class AbstractFlightByAircraftController {
                 log.debug("\n ADDING FLIGHTS LIST SIZE {} TO MODEL AS \"flights\"", flights.size());
                 model.addAttribute("flights", flights);
                 model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
+                PdfExporter.addPdfExporterToModel("pdf", model, PdfExporter.ListType.AIRCRAFT, flights);
                 return "flights/glider-by-aircraft";
             }
         }

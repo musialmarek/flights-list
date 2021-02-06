@@ -15,6 +15,7 @@ import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 import pl.jgora.aeroklub.airflightslist.model.ListSummary;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.pdfExporter.PdfExporter;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotService;
 import pl.jgora.aeroklub.airflightslist.user.CurrentUser;
 
@@ -40,7 +41,7 @@ public class GliderFlightByPilotController {
         Pilot pilot = user.getUser().getPilot();
         flightsFilter.setPilot(pilot);
         model.addAttribute("flightsFilter", new FlightsFilter());
-        showGliderFlights(model, filter, flightsFilter);
+        showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
         return "flights/glider-by-user";
 
     }
@@ -52,11 +53,11 @@ public class GliderFlightByPilotController {
                                           @ModelAttribute(name = "flightsFilter") FlightsFilter flightsFilter) {
         Pilot pilot = pilotService.findById(id);
         flightsFilter.setPilot(pilot);
-        showGliderFlights(model, filter, flightsFilter);
+        showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.PILOT);
         return "flights/glider-by-pilot";
     }
 
-    private void showGliderFlights(Model model, Boolean filter, FlightsFilter flightsFilter) {
+    private void showGliderFlights(Model model, Boolean filter, FlightsFilter flightsFilter, PdfExporter.ListType type) {
         log.debug("\nGETTING PILOT {} ", flightsFilter.getPilot());
         Pilot pilot = flightsFilter.getPilot();
         StringBuilder sb = new StringBuilder();
@@ -74,6 +75,7 @@ public class GliderFlightByPilotController {
             }
             log.debug("\n{}", sb.toString());
         }
+        PdfExporter.addPdfExporterToModel("pdf", model, type, flights);
         model.addAttribute("flights", flights);
         model.addAttribute("pilot", pilot);
         model.addAttribute("aircrafts", aircraftService.getGliders());

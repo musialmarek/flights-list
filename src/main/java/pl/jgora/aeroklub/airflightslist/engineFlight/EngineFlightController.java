@@ -56,9 +56,7 @@ public class EngineFlightController {
         ListSummary summary = new ListSummary(flights);
         model.addAttribute("summary", summary);
         List<EngineFlight> engineFlights = new ArrayList<>(flightsInDay);
-        PdfExporter pdf = new PdfExporter(engineFlights, PdfExporter.ListType.DAILY);
-        log.debug("pdf.engineFlights is null {}", pdf.getEngineFlights() == null);
-        model.addAttribute("pdf", pdf);
+        PdfExporter.addPdfExporterToModel("pdf", model, engineFlights, PdfExporter.ListType.DAILY);
         return "flights/engine-daily";
     }
 
