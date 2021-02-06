@@ -93,12 +93,7 @@
                 </div>
                 <div th:object="${summary}" th:include="flights/fragments/summary"></div>
             </div>
-            <form method="post" th:object="${pdf}" th:action="@{/create-pdf}">
-                <input type="hidden" th:field="*{engineFlights}" th:value="*{engineFlights}">
-                <input type="hidden" th:field="*{type}" th:value="*{type}">
-                <input type="hidden" th:field="*{glider}" th:value="*{glider}">
-                <input th:type="submit" value="Pobierz PDF">
-            </form>
+            <div th:include="flights/fragments/pdf :: pdf"></div>
         </div>
     </div>
 </section>
