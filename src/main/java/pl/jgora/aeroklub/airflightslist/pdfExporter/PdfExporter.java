@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.ui.Model;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
@@ -66,6 +67,16 @@ public class PdfExporter {
         document.add(table);
         writeSummary(document);
         document.close();
+    }
+
+    public static void addPdfExporterToModel(String attributeName, Model model, ListType listType, List<GliderFlight> flights) {
+        log.debug("glider list size to create pdfExporter: {}", flights.size());
+        model.addAttribute(attributeName, new PdfExporter(listType, flights));
+    }
+
+    public static void addPdfExporterToModel(String attributeName, Model model, List<EngineFlight> flights, ListType listType) {
+        log.debug("engine list size to create pdfExporter: {}", flights.size());
+        model.addAttribute(attributeName, new PdfExporter(flights, listType));
     }
 
     private void writeSummary(Document document) {
@@ -175,7 +186,7 @@ public class PdfExporter {
         widths.add(1.0f);
         headers.add("CZAS");
         widths.add(1.0f);
-        if (glider) {
+        if (glider && !ListType.USER.equals(type)) {
             headers.add("HOLOWNIK");
             widths.add(3.0f);
             headers.add("HOLÓWKA");
@@ -218,31 +229,35 @@ public class PdfExporter {
                 table.addCell(new Phrase(gliderFlights.get(i).getStartMethod().toString(), font));
             }
             table.addCell(new Phrase(flights.get(i).getTask(), font));
-            table.addCell(new Phrase(flights.get(i).getAircraftType(), font));
-            table.addCell(new Phrase(flights.get(i).getAircraftRegistrationNumber(), font));
+            if (!ListType.AIRCRAFT.equals(type)) {
+                table.addCell(new Phrase(flights.get(i).getAircraftType(), font));
+                table.addCell(new Phrase(flights.get(i).getAircraftRegistrationNumber(), font));
+            }
             table.addCell(new Phrase(flights.get(i).getStart().toString(), font));
             table.addCell(new Phrase(flights.get(i).getTouchdown().toString(), font));
             table.addCell(new Phrase(getTimeFormatFromInteger(flights.get(i).getFlightTime()), font));
-            if (glider) {
-                if (StartMethod.ATTO.equals(gliderFlights.get(i).getStartMethod())) {
-                    EngineFlight tow = gliderFlights.get(i).getEngineFlight();
-                    StringBuilder sb = new StringBuilder();
-                    sb.append(tow.getPicName());
-                    if (tow.getCopilot() != null) {
-                        sb.append(" ").append(tow.getCopilotName());
-                    }
-                    table.addCell(new Phrase(sb.toString(), font));
-                    sb.delete(0, sb.length());
-                    table.addCell(new Phrase(sb.
-                            append(tow.getAircraftType())
-                            .append(" ")
-                            .append(tow.getAircraftRegistrationNumber())
-                            .toString(), font));
-                    table.addCell(new Phrase(tow.getTouchdown().toString(), font));
-                    table.addCell(new Phrase(getTimeFormatFromInteger(tow.getFlightTime()), font));
-                } else {
-                    for (int j = 0; j < 4; j++) {
-                        table.addCell(new Phrase("-", font));
+            if (!ListType.USER.equals(type)) {
+                if (glider) {
+                    if (StartMethod.ATTO.equals(gliderFlights.get(i).getStartMethod())) {
+                        EngineFlight tow = gliderFlights.get(i).getEngineFlight();
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(tow.getPicName());
+                        if (tow.getCopilot() != null) {
+                            sb.append(" ").append(tow.getCopilotName());
+                        }
+                        table.addCell(new Phrase(sb.toString(), font));
+                        sb.delete(0, sb.length());
+                        table.addCell(new Phrase(sb.
+                                append(tow.getAircraftType())
+                                .append(" ")
+                                .append(tow.getAircraftRegistrationNumber())
+                                .toString(), font));
+                        table.addCell(new Phrase(tow.getTouchdown().toString(), font));
+                        table.addCell(new Phrase(getTimeFormatFromInteger(tow.getFlightTime()), font));
+                    } else {
+                        for (int j = 0; j < 4; j++) {
+                            table.addCell(new Phrase("-", font));
+                        }
                     }
                 }
             }
