@@ -49,7 +49,7 @@ public class EngineFlightService {
             toEdit.setCrew(flight.getCrew());
             toEdit.setTow(flight.getTow());
             log.debug("SAVING ENGINE-FLIGHT WITH NEW DATA");
-            return engineFlightRepository.save(toEdit);
+            return save(toEdit);
         }
         return flight;
     }
