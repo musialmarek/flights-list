@@ -18,7 +18,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Slf4j
-@ToString
+@ToString(exclude = {"price"})
 @EqualsAndHashCode(of = {"id"})
 public class Aircraft {
     @Id
@@ -50,6 +50,8 @@ public class Aircraft {
     private Integer nextWorkTime;
     @Column(name = "next_work_time_description")
     private String nextWorkTimeDescription;
+    @ManyToOne
+    private Price price;
     @Transient
     private Integer flyingTimeHours;
     @Transient
