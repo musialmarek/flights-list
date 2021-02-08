@@ -50,5 +50,5 @@ public class Pilot {
     @Column(name = "fi_a")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fia;
-
+    private Boolean nativeMember;
 }
