@@ -1,6 +1,7 @@
 package pl.jgora.aeroklub.airflightslist.aircraft;
 
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
+import pl.jgora.aeroklub.airflightslist.model.Price;
 
 import java.time.LocalDate;
 
@@ -27,6 +28,7 @@ public class AircraftTestBase {
         private Integer flyingTimeMinutes = flyingTime % 60;
         private Integer workTimeHours = nextWorkTime / 60;
         private Integer workTimeMinutes = nextWorkTime % 60;
+        private Price price;
 
         AircraftBuilder withId(Long id) {
             this.id = id;
@@ -92,9 +94,13 @@ public class AircraftTestBase {
             return this;
         }
 
-        Aircraft build() {
-            return new Aircraft(id, active, engine, type, registrationNumber, flyingTime, arc, insurance, nextWorkDate, nextWorkDateDescription, nextWorkTime, nextWorkTimeDescription, flyingTimeHours, flyingTimeMinutes, workTimeHours, workTimeMinutes);
+        AircraftBuilder withPrice(Price price) {
+            this.price = price;
+            return this;
         }
 
+        Aircraft build() {
+            return new Aircraft(id, active, engine, type, registrationNumber, flyingTime, arc, insurance, nextWorkDate, nextWorkDateDescription, nextWorkTime, nextWorkTimeDescription, price, flyingTimeHours, flyingTimeMinutes, workTimeHours, workTimeMinutes);
+        }
     }
 }

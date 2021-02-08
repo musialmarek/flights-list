@@ -27,6 +27,7 @@ public class PilotTestBase {
         private LocalDate sepl = LocalDate.now().plusDays(14);
         private LocalDate fis = LocalDate.now().plusDays(14);
         private LocalDate fia = LocalDate.now().plusDays(14);
+        private Boolean nativeMember;
 
         public PilotBuilder withId(Long id) {
             this.id = id;
@@ -43,75 +44,78 @@ public class PilotTestBase {
             return this;
         }
 
-       public PilotBuilder withActive(Boolean active) {
+        public PilotBuilder withActive(Boolean active) {
             this.active = active;
             return this;
         }
 
-       public PilotBuilder withGliderPilot(Boolean gliderPilot) {
+        public PilotBuilder withGliderPilot(Boolean gliderPilot) {
             this.gliderPilot = gliderPilot;
             return this;
         }
 
-       public PilotBuilder withGliderInstructor(Boolean gliderInstructor) {
+        public PilotBuilder withGliderInstructor(Boolean gliderInstructor) {
             this.gliderInstructor = gliderInstructor;
             return this;
         }
 
-       public PilotBuilder withEnginePilot(Boolean enginePilot) {
+        public PilotBuilder withEnginePilot(Boolean enginePilot) {
             this.enginePilot = enginePilot;
             return this;
         }
 
-       public PilotBuilder withEngineInstructor(Boolean engineInstructor) {
+        public PilotBuilder withEngineInstructor(Boolean engineInstructor) {
             this.engineInstructor = engineInstructor;
             return this;
         }
 
-       public PilotBuilder withTow(Boolean tow) {
+        public PilotBuilder withTow(Boolean tow) {
             this.tow = tow;
             return this;
         }
 
-       public PilotBuilder withMedicine(LocalDate medicine) {
+        public PilotBuilder withMedicine(LocalDate medicine) {
             this.medicine = medicine;
             return this;
         }
 
-       public PilotBuilder withTheory(LocalDate theory) {
+        public PilotBuilder withTheory(LocalDate theory) {
             this.theory = theory;
             return this;
         }
 
-       public PilotBuilder withGliderPractise(LocalDate gliderPractise) {
+        public PilotBuilder withGliderPractise(LocalDate gliderPractise) {
             this.gliderPractise = gliderPractise;
             return this;
         }
 
-       public PilotBuilder withEnginePractise(LocalDate enginePractise) {
+        public PilotBuilder withEnginePractise(LocalDate enginePractise) {
             this.enginePractise = enginePractise;
             return this;
         }
 
-       public PilotBuilder withSepl(LocalDate sepl) {
+        public PilotBuilder withSepl(LocalDate sepl) {
             this.sepl = sepl;
             return this;
         }
 
-       public PilotBuilder withFis(LocalDate fis) {
+        public PilotBuilder withFis(LocalDate fis) {
             this.fis = fis;
             return this;
         }
 
-       public PilotBuilder withFia(LocalDate fia) {
+        public PilotBuilder withFia(LocalDate fia) {
             this.fia = fia;
             return this;
         }
 
-        public Pilot build() {
-            return new Pilot(id, name, licence, active, gliderPilot, gliderInstructor, enginePilot, engineInstructor, tow, medicine, theory, gliderPractise, enginePractise, sepl, fis, fia);
+        public PilotBuilder withNativeMember(Boolean nativeMember) {
+            this.nativeMember = nativeMember;
+            return this;
         }
 
-
+        public Pilot build() {
+            return new Pilot(id, name, licence, active, gliderPilot, gliderInstructor, enginePilot, engineInstructor, tow, medicine, theory, gliderPractise, enginePractise, sepl, fis, fia, nativeMember);
+        }
     }
 }
