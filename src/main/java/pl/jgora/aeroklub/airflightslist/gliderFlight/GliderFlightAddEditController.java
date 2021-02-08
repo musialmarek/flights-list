@@ -68,14 +68,15 @@ public class GliderFlightAddEditController {
     @PostMapping("/add")
     public String addFlightAction(@ModelAttribute("flight") GliderFlight gliderFlight) {
         String date = gliderFlight.getDate().toString();
-        EngineFlight towFlight = gliderFlight.getEngineFlight();
-        towFlight.setDate(gliderFlight.getDate());
-        towFlight.setTow(true);
-        towFlight.setTask("HOL");
-        towFlight.setStart(gliderFlight.getStart());
-        towFlight.setActive(false);
-        gliderFlight.setActive(false);
-        if (!gliderFlight.getStartMethod().equals(StartMethod.ATTO)) {
+        if (gliderFlight.getStartMethod().equals(StartMethod.ATTO)) {
+            EngineFlight towFlight = gliderFlight.getEngineFlight();
+            towFlight.setDate(gliderFlight.getDate());
+            towFlight.setTow(true);
+            towFlight.setTask("HOL");
+            towFlight.setStart(gliderFlight.getStart());
+            towFlight.setActive(false);
+            gliderFlight.setActive(false);
+        } else {
             gliderFlight.setEngineFlight(null);
         }
         log.debug("\n GLIDER-FLIGHT BEFORE SAVE: {}", gliderFlight);
