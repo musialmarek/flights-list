@@ -2,11 +2,9 @@ package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
-import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
-import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
-import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.model.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -71,5 +69,14 @@ public class AbstractFlightService {
 
     public static List<AbstractFlight> gliderToAbstractFlightList(List<GliderFlight> flights) {
         return flights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
+    }
+
+    public static BigDecimal calculateCost(AbstractFlight flight) {
+        Price aircraftsPrice = flight.getAircraft().getPrice();
+        BigDecimal price = aircraftsPrice.getForeignMember();
+        if (flight.getPayer().getNativeMember()) {
+            price = aircraftsPrice.getNativeMember();
+        }
+        return price.multiply(new BigDecimal(flight.getFlightTime()));
     }
 }
