@@ -115,7 +115,7 @@ public class PdfExporter {
             table.addCell(Integer.toString(towFlights.size()));
             table.addCell(getTimeFormatFromInteger(towingTime));
         }
-        if (!ListType.AIRCRAFT.equals(type)) {
+        if (!ListType.AIRCRAFT.equals(type) && !ListType.USER.equals(type)) {
             Set<String> aircrafts = getAircrafts(flights);
             Set<String> towingAircrafts = getAircrafts(towFlights);
             setSummaryToTableByAircrafts(table, aircrafts, this.flights);
