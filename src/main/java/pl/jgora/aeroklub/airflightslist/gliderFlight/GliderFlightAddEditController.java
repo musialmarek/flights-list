@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.aircraft.AircraftService;
 import pl.jgora.aeroklub.airflightslist.model.*;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotService;
@@ -76,8 +77,14 @@ public class GliderFlightAddEditController {
             towFlight.setStart(gliderFlight.getStart());
             towFlight.setActive(false);
             gliderFlight.setActive(false);
+            if (towFlight.getCharge() && towFlight.getCost() == null) {
+                towFlight.setCost(AbstractFlightService.calculateCost(towFlight));
+            }
         } else {
             gliderFlight.setEngineFlight(null);
+        }
+        if (gliderFlight.getCharge() && gliderFlight.getCost() == null) {
+            gliderFlight.setCost(AbstractFlightService.calculateCost(gliderFlight));
         }
         log.debug("\n GLIDER-FLIGHT BEFORE SAVE: {}", gliderFlight);
         gliderFlightService.save(gliderFlight);
