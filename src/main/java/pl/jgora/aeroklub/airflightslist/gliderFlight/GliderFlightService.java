@@ -59,7 +59,7 @@ public class GliderFlightService {
             }
             AbstractFlightService.updateFlight(flight, toEdit);
             log.debug("SAVING GLIDER-FLIGHT WITH NEW DATA");
-            gliderFlightRepository.save(toEdit);
+            save(toEdit);
         }
     }
 
