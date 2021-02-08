@@ -2,11 +2,10 @@ package pl.jgora.aeroklub.airflightslist.model;
 
 import jdk.jfr.Unsigned;
 import lombok.*;
-import org.hibernate.internal.build.AllowPrintStacktrace;
-import org.hibernate.mapping.ToOne;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -47,12 +46,18 @@ public class AbstractFlight {
     private String aircraftType;
     @Column(name = "aircraft_registration_number")
     private String aircraftRegistrationNumber;
+    private Boolean charge;
+    private BigDecimal cost;
+    @ManyToOne
+    private Pilot payer;
+    @ManyToOne
+    private Note note;
 
     @PrePersist
     @PreUpdate
     private void prePersistPreUpdate() {
-        if(active==null){
-            active=false;
+        if (active == null) {
+            active = false;
         }
         if (pic != null) {
             picName = pic.getName();
