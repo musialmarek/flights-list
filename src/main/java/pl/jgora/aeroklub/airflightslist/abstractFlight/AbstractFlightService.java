@@ -27,6 +27,12 @@ public class AbstractFlightService {
         toEdit.setCopilot(flight.getCopilot());
         toEdit.setPic(flight.getPic());
         toEdit.setAircraftType(flight.getAircraftType());
+        toEdit.setCharge(flight.getCharge());
+        toEdit.setPayer(flight.getPayer());
+        toEdit.setNote(flight.getNote());
+        if (flight.getCharge() && (flight.getCost() == null || flight.getCost().equals(toEdit.getCost()))) {
+            toEdit.setCost(calculateCost(flight));
+        }
     }
 
     public static void replacePilots(AbstractFlight flight) {
@@ -73,7 +79,7 @@ public class AbstractFlightService {
 
     public static BigDecimal calculateCost(AbstractFlight flight) {
         Price aircraftsPrice = flight.getAircraft().getPrice();
-        BigDecimal price = aircraftsPrice.getForeignMember();
+        BigDecimal price = aircraftsPrice.getOthers();
         if (flight.getPayer().getNativeMember()) {
             price = aircraftsPrice.getNativeMember();
         }
