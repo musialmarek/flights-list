@@ -37,30 +37,38 @@
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">PILOT / UCZEŃ PILOT</th>
                             <td class="col-4">
-                                <select th:field="*{pic}">
-                                    <option value="">brak</option>
-                                    <option th:each="pilot: ${pilots}" th:value="${pilot.id}"
-                                            th:text="${pilot.name}"></option>
-                                </select>
+                                <label class="first-option">
+                                    <select th:field="*{pic}">
+                                        <option value="">brak</option>
+                                        <option class="first-option-value" th:each="pilot: ${pilots}"
+                                                th:value="${pilot.id}"
+                                                th:text="${pilot.name}"></option>
+                                    </select>
+                                    <div class="btn btn-success first-option-button">Spoza bazy</div>
+                                </label>
+                                <label class="second-option" style="display: none">
+                                    <input type="text" th:field="*{picName}" th:value="*{picName}"
+                                           placeholder="NAZWISKO I IMIĘ">
+                                    <div class="btn btn-success second-option-button">Z bazy</div>
+                                </label>
                             </td>
-                            <th scope="row" class="col-2">HOLOWNIK</th>
-                            <td class="col-4">
-                                <select th:field="*{engineFlight.pic}">
+                            <th scope="row" class="col-2 tow-section">HOLOWNIK</th>
+                            <td class="col-4 tow-section">
+                                <label class="first-option"><select th:field="*{engineFlight.pic}">
                                     <option value="">brak</option>
                                     <option th:each="pilot: ${towpilots}" th:value="${pilot.id}"
                                             th:text="${pilot.name}"></option>
                                 </select>
+                                    <div class="btn btn-success first-option-button">Spoza bazy</div>
+                                </label>
+                                <label class="second-option" style="display: none">
+                                    <input type="text" th:field="*{engineFlight.picName}"
+                                           th:value="*{engineFlight.picName}"
+                                           placeholder="NAZWISKO I IMIĘ">
+                                    <div class="btn btn-success second-option-button">Z bazy</div>
+                                </label>
                             </td>
-                        </tr>
-                        <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">Nazwisko i Imię Pilota / Ucznia-Pilota</th>
-                            <td class="col-4">
-                                <input type="text" th:field="*{picName}" th:value="*{picName}">
-                            </td>
-                            <th scope="row" class="col-2">Nazwisko i Imię Holownika</th>
-                            <td class="col-4">
-                                <input type="text" th:field="*{engineFlight.picName}"
-                                       th:value="*{engineFlight.picName}">
+                            <td class="col-4 second-option" style="display: none">
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
@@ -68,8 +76,8 @@
                             <td class="col-4">
                                 <input type="checkbox" th:field="*{instructor}" th:value="*{instructor}">
                             </td>
-                            <th scope="row" class="col-2">NAUKA HOLOWANIA</th>
-                            <td class="col-4">
+                            <th scope="row" class="col-2 tow-section">NAUKA HOLOWANIA</th>
+                            <td class="col-4 tow-section">
                                 <input type="checkbox" th:field="*{engineFlight.instructor}"
                                        th:value="*{engineFlight.instructor}">
                             </td>
@@ -77,43 +85,48 @@
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">INSTRUKTOR / II PILOT</th>
                             <td class="col-4">
-                                <select th:field="*{copilot}">
-                                    <option value="">brak</option>
-                                    <option class="pilots" th:each="pilot: ${pilots}" th:value="${pilot.id}"
-                                            th:text="${pilot.name}"></option>
-                                    <option class="instructors" th:each="instructor: ${instructors}"
-                                            th:value="${instructor.id}"
-                                            th:text="${instructor.name}"></option>
-                                </select>
+                                <label class="first-option">
+                                    <select th:field="*{copilot}">
+                                        <option value="">brak</option>
+                                        <option class="pilots" th:each="pilot: ${pilots}" th:value="${pilot.id}"
+                                                th:text="${pilot.name}"></option>
+                                        <option class="instructors" th:each="instructor: ${instructors}"
+                                                th:value="${instructor.id}"
+                                                th:text="${instructor.name}"></option>
+                                    </select>
+                                    <div class="btn btn-success first-option-button">Spoza bazy</div>
+                                </label>
+                                <label class="second-option" style="display: none">
+                                    <input type="text" th:field="*{copilotName}" th:value="*{copilotName}"
+                                           placeholder="NAZWISKO I IMIĘ">
+                                    <div class="btn btn-success second-option-button">Z bazy</div>
+                                </label>
                             </td>
-                            <th scope="row" class="col-2">INSTRUKTOR HOLOWNIK</th>
-                            <td class="col-4">
-                                <select th:field="*{engineFlight.copilot}">
+                            <th scope="row" class="col-2 tow-section">INSTRUKTOR HOLOWNIK</th>
+                            <td class="col-4 tow-section">
+                                <label class="first-option"><select th:field="*{engineFlight.copilot}">
                                     <option value="">brak</option>
                                     <option class="instructors" th:each="instructor: ${engineinstructors}"
                                             th:value="${instructor.id}"
                                             th:text="${instructor.name}"></option>
                                 </select>
+                                    <div class="btn btn-success first-option-button">Spoza bazy</div>
+
+                                </label><label class="second-option" style="display: none">
+                                <input type="text"
+                                       th:field="*{engineFlight.copilotName}"
+                                       th:value="*{engineFlight.copilotName}" placeholder="NAZWISKO I IMIĘ">
+                                <div class="btn btn-success second-option-button">Z bazy</div>
+                            </label>
                             </td>
-                        <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">Nazwisko i Imię Instruktora / II Pilota</th>
-                            <td class="col-4">
-                                <input type="text" th:field="*{copilotName}" th:value="*{copilotName}">
-                            </td>
-                            <th scope="row" class="col-2">Nazwisko i Imię Instruktora-Holownika</th>
-                            <td class="col-4">
-                                <input type="text" th:field="*{engineFlight.copilotName}"
-                                       th:value="*{engineFlight.copilotName}">
-                            </td>
-                        </tr>
                         </tr>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">ZADANIE</th>
                             <td class="col-4">
                                 <input type="text" th:field="*{task}" th:value="*{task}">
                             </td>
-                            <th scope="row" class="col-2">ZADANIE</th>
-                            <td class="col-4">
+                            <th scope="row" class="col-2 tow-section">ZADANIE</th>
+                            <td class="col-4 tow-section">
                                 <input type="text" th:field="*{engineFlight.task}" placeholder="HOL" value="HOL"
                                        readonly>
                             </td>
@@ -121,34 +134,42 @@
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">STATEK POWIETRZNY</th>
                             <td class="col-4">
-                                <select th:field="*{aircraft}">
-                                    <option value="">brak</option>
-                                    <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
-                                            th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
-                                </select>
+                                <label class="first-option">
+                                    <select th:field="*{aircraft}">
+                                        <option value="">brak</option>
+                                        <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
+                                                th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
+                                    </select>
+                                    <div class="btn btn-success first-option-button">Spoza bazy</div>
+                                </label>
+                                <label class="second-option" style="display: none">
+                                    <input type="text" th:field="*{aircraftType}" th:value="*{aircraftType}"
+                                           placeholder="TYP ST. POWIETRZNEGO"><br><br>
+                                    <input type="text" th:field="*{aircraftRegistrationNumber}"
+                                           th:value="*{aircraftRegistrationNumber}"
+                                           placeholder="ZNAKI ST. POWIETRZNEGO">
+                                    <div class="btn btn-success second-option-button">Z bazy</div>
+                                </label>
                             </td>
-                            <th scope="row" class="col-2">SAMOLOT HOLUJĄCY</th>
-                            <td class="col-4">
-                                <select th:field="*{engineFlight.aircraft}">
-                                    <option value="">brak</option>
-                                    <option th:each="aircraft: ${towaircrafts}" th:value="${aircraft.id}"
-                                            th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr class="d-flex dashed">
-                            <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO<br>ZNAKI STATKU POWIETRZNEGO</th>
-                            <td class="col-4">
-                                <input type="text" th:field="*{aircraftType}" th:value="*{aircraftType}"><br><br>
-                                <input type="text" th:field="*{aircraftRegistrationNumber}"
-                                       th:value="*{aircraftRegistrationNumber}">
-                            </td>
-                            <th scope="row" class="col-2">TYP SAMOLOTU HOLUJĄCEGO<br>ZNAKI SAMOLOTU HOLUJĄCEGO</th>
-                            <td class="col-4">
-                                <input type="text" th:field="*{engineFlight.aircraftType}"
-                                       th:value="*{engineFlight.aircraftType}"><br><br>
-                                <input type="text" th:field="*{engineFlight.aircraftRegistrationNumber}"
-                                       th:value="*{engineFlight.aircraftRegistrationNumber}">
+                            <th scope="row" class="col-2 tow-section">SAMOLOT HOLUJĄCY</th>
+                            <td class="col-4 tow-section">
+                                <label class="first-option">
+                                    <select th:field="*{engineFlight.aircraft}">
+                                        <option value="">brak</option>
+                                        <option th:each="aircraft: ${towaircrafts}" th:value="${aircraft.id}"
+                                                th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
+                                    </select>
+                                    <div class="btn btn-success first-option-button">Spoza bazy</div>
+                                </label>
+                                <label class="second-option" style="display: none">
+                                    <input type="text" th:field="*{engineFlight.aircraftType}"
+                                           th:value="*{engineFlight.aircraftType}"
+                                           placeholder="TYP ST. POWIETRZNEGO"><br><br>
+                                    <input type="text" th:field="*{engineFlight.aircraftRegistrationNumber}"
+                                           th:value="*{engineFlight.aircraftRegistrationNumber}"
+                                           placeholder="ZNAKI ST. POWIETRZNEGO">
+                                    <div class="btn btn-success second-option-button">Z bazy</div>
+                                </label>
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
@@ -156,8 +177,8 @@
                             <td class="col-4">
                                 <input type="time" th:field="*{start}" th:value="*{start}">
                             </td>
-                            <th scope="row" class="col-2">Godzina startu</th>
-                            <td class="col-4">
+                            <th scope="row" class="col-2 tow-section">Godzina startu</th>
+                            <td class="col-4 tow-section">
                                 <input type="time" th:field="*{engineFlight.start}" th:value="*{engineFlight.start}"
                                        readonly>
                             </td>
@@ -167,17 +188,28 @@
                             <td class="col-4">
                                 <input th:type="time" th:field="*{touchdown}" th:value="*{touchdown}">
                             </td>
-                            <th scope="row" class="col-2">Godzina lądowania samolotu holującego</th>
-                            <td class="col-4">
+                            <th scope="row" class="col-2 tow-section">Godzina lądowania samolotu holującego</th>
+                            <td class="col-4 tow-section">
                                 <input th:type="time" th:field="*{engineFlight.touchdown}"
                                        th:value="*{engineFlight.touchdown}">
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Rozliczać szybowiec</th>
+                            <td class="col-4">
+                                <input type="checkbox" th:field="*{charge}" th:value="*{charge}" th:text="Tak">
+                            </td>
+                            <th scope="row" class="col-2 tow-section">Rozliczać holówkę</th>
+                            <td class="col-4 tow-section">
+                                <input type="checkbox" th:field="*{engineFlight.charge}" th:value="*{engineFlight.charge}" th:text="Tak">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
                             <th scope="row" class="col-2">Rodzaj startu</th>
                             <td class="col-4">
-                                <select th:field="*{startMethod}">
-                                    <option th:each="method: ${T(pl.jgora.aeroklub.airflightslist.model.StartMethod).values()}"
+                                <select id="start-method" class="start-method" th:field="*{startMethod}">
+                                    <option th:class="${method}" th:id="${method}"
+                                            th:each="method: ${T(pl.jgora.aeroklub.airflightslist.model.StartMethod).values()}"
                                             th:text="${method}"
                                             th:value="${method}"></option>
                                 </select>
@@ -195,5 +227,7 @@
         </div>
     </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
 </body>
 </html>
