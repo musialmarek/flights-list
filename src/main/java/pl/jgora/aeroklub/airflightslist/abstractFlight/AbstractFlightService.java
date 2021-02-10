@@ -1,8 +1,11 @@
 package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.*;
+import pl.jgora.aeroklub.airflightslist.price.PriceService;
+import pl.jgora.aeroklub.airflightslist.price.TowPriceRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,9 +13,11 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-
+@RequiredArgsConstructor
 
 public class AbstractFlightService {
+    private final PriceService priceService;
+
     public static void updateFlight(AbstractFlight flight, AbstractFlight toEdit) {
         toEdit.setActive(flight.getActive());
         toEdit.setAircraftRegistrationNumber(flight.getAircraftRegistrationNumber());
@@ -78,10 +83,13 @@ public class AbstractFlightService {
     }
 
     public static BigDecimal calculateCost(AbstractFlight flight) {
-        Price aircraftsPrice = flight.getAircraft().getPrice();
-        BigDecimal price = aircraftsPrice.getOthers();
+        Price prices = flight.getAircraft().getPrice();
+        if("HOL".equals(flight.getTask())){
+            prices = TowPriceRepository.getTowingPrice();
+        }
+        BigDecimal price = prices.getOthers();
         if (flight.getPayer().getNativeMember()) {
-            price = aircraftsPrice.getNativeMember();
+            price = prices.getNativeMember();
         }
         return price.multiply(new BigDecimal(flight.getFlightTime()));
     }
