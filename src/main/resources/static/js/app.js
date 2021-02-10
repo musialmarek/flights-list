@@ -1,6 +1,17 @@
 $(function () {
     const $firstOptionButton = $('.first-option-button');
     const $secondOptionButton = $('.second-option-button');
+    const $startMethod = $('.start-method');
+    const $towSection = $('.tow-section');
+    const $atto = $('#ATTO');
+
+    $startMethod.change(function () {
+        if ($atto.is(':selected')) {
+            $towSection.show();
+        } else {
+            $towSection.hide();
+        }
+    });
 
     $firstOptionButton.click(function () {
         $(this).parent('.first-option').hide();
@@ -25,5 +36,4 @@ $(function () {
             $wrongConfirming.remove();
         }
     });
-
 });
