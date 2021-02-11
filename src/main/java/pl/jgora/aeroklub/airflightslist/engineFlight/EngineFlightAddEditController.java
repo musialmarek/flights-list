@@ -50,7 +50,9 @@ public class EngineFlightAddEditController {
         }
         log.debug("ADDING FLIGHT TO MODEL");
         model.addAttribute("flight", flight);
-        return "flights/engine-add-flight";
+        model.addAttribute("type","engine");
+        model.addAttribute("action", "add");
+        return "flights/engine-add-edit-flight";
     }
 
     @PostMapping("/add")
@@ -72,7 +74,9 @@ public class EngineFlightAddEditController {
         EngineFlight toEdit = engineFlightService.getById(id);
         log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
         model.addAttribute("flight", toEdit);
-        return "flights/engine-edit-flight";
+        model.addAttribute("type","engine");
+        model.addAttribute("action", "edit");
+        return "flights/engine-add-edit-flight";
     }
 
     @PostMapping("/edit")
