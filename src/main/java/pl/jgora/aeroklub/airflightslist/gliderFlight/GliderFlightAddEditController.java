@@ -60,10 +60,16 @@ public class GliderFlightAddEditController {
         if (id != null) {
             flight = gliderFlightService.getById(id);
             flight.setId(null);
+        }else{
+            flight.setCharge(true);
+            flight.setEngineFlight(new EngineFlight());
+            flight.getEngineFlight().setCharge(true);
         }
         log.debug("ADDING FLIGHT TO MODEL");
         model.addAttribute("flight", flight);
-        return "flights/glider-add-flight";
+        model.addAttribute("type", "glider");
+        model.addAttribute("action", "add");
+        return "flights/add-edit-flight";
     }
 
     @PostMapping("/add")
@@ -97,7 +103,9 @@ public class GliderFlightAddEditController {
         GliderFlight toEdit = gliderFlightService.getById(id);
         log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
         model.addAttribute("flight", toEdit);
-        return "flights/glider-edit-flight";
+        model.addAttribute("type", "glider");
+        model.addAttribute("action", "edit");
+        return "flights/add-edit-flight";
     }
 
     @PostMapping("/edit")
