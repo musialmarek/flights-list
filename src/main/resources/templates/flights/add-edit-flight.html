@@ -21,7 +21,8 @@
         <div class="border-dashed view-height w-100">
             <div class="mt-4 ml-4 mr-4">
                 <div class="row border-bottom border-3">
-                    <div class="col"><h3 class="text-color-darker text-uppercase">dodaj lot</h3></div>
+                    <div th:if="${action=='add'}" class="col"><h3 class="text-color-darker text-uppercase">dodaj lot</h3></div>
+                    <div th:if="${action=='edit'}" class="col"><h3 class="text-color-darker text-uppercase">edytuj lot</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
                         <button class="btn-warning"><a th:href="@{|/admin/${type}-flights/list?date=${flight.date}|}"
                                                        class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
