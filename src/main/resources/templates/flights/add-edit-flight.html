@@ -28,7 +28,7 @@
                         </button>
                     </div>
                 </div>
-                <form th:attrappend="action=${action=='add'}?@{|/admin/${type}-flights/add|} : @{|/admin/${type}-flights/edit|}"
+                <form th:action="@{|/admin/${type}-flights/${action}|}"
                       th:object="${flight}" method="post">
                     <input th:if="${action}==edit" th:type="hidden" th:field="*{id}" th:value="*{id}">
                     <input th:type="hidden" th:field="*{date}" th:value="*{date}">
