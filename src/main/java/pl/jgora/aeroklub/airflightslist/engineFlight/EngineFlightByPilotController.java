@@ -35,7 +35,7 @@ public class EngineFlightByPilotController {
                                          Model model,
                                          @RequestParam(name = "filter", required = false) Boolean filter,
                                          @ModelAttribute(name = "flightsFilter") FlightsFilter flightsFilter) {
-        model.addAttribute("flightsFilter", new FlightsFilter());
+        model.addAttribute("category", "user");
         Pilot pilot = user.getUser().getPilot();
         flightsFilter.setPilot(pilot);
         showEngineFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
@@ -49,7 +49,7 @@ public class EngineFlightByPilotController {
             @RequestParam(name = "filter", required = false) Boolean filter,
             @ModelAttribute(name = "flightsFilter") FlightsFilter flightsFilter
     ) {
-        model.addAttribute("flightsFilter", new FlightsFilter());
+        model.addAttribute("category", "pilot");
         Pilot pilot = pilotService.findById(id);
         flightsFilter.setPilot(pilot);
         showEngineFlights(model, filter, flightsFilter, PdfExporter.ListType.PILOT);
@@ -84,5 +84,7 @@ public class EngineFlightByPilotController {
                 .map(flight -> (AbstractFlight) flight)
                 .collect(Collectors.toSet())));
         PdfExporter.addPdfExporterToModel("pdf", model, flights, type);
+        model.addAttribute("type", "engine");
+        model.addAttribute("flightsFilter", new FlightsFilter());
     }
 }

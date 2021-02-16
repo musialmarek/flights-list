@@ -40,7 +40,7 @@ public class GliderFlightByPilotController {
 
         Pilot pilot = user.getUser().getPilot();
         flightsFilter.setPilot(pilot);
-        model.addAttribute("flightsFilter", new FlightsFilter());
+        model.addAttribute("category", "user");
         showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
         return "flights/glider-by-user";
 
@@ -53,6 +53,7 @@ public class GliderFlightByPilotController {
                                           @ModelAttribute(name = "flightsFilter") FlightsFilter flightsFilter) {
         Pilot pilot = pilotService.findById(id);
         flightsFilter.setPilot(pilot);
+        model.addAttribute("category", "pilot");
         showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.PILOT);
         return "flights/glider-by-pilot";
     }
@@ -83,5 +84,7 @@ public class GliderFlightByPilotController {
                 .stream()
                 .map(flight -> (AbstractFlight) flight)
                 .collect(Collectors.toSet())));
+        model.addAttribute("type", "glider");
+        model.addAttribute("flightsFilter", new FlightsFilter());
     }
 }
