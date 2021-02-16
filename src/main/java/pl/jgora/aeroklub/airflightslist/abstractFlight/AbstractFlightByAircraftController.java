@@ -55,8 +55,6 @@ public class AbstractFlightByAircraftController {
                 model.addAttribute("flights", flights);
                 model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
                 PdfExporter.addPdfExporterToModel("pdf", model, flights, PdfExporter.ListType.AIRCRAFT);
-                return "flights/engine-by-aircraft";
-
             } else {
                 List<GliderFlight> flights;
                 if (filter != null && filter == true) {
@@ -74,8 +72,8 @@ public class AbstractFlightByAircraftController {
                 model.addAttribute("flights", flights);
                 model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
                 PdfExporter.addPdfExporterToModel("pdf", model, PdfExporter.ListType.AIRCRAFT, flights);
-                return "flights/glider-by-aircraft";
             }
+            return "flights/by-aircraft";
         }
         return "redirect:/admin/aircrafts";
     }
