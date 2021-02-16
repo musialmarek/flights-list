@@ -59,8 +59,9 @@ public class GliderFlightAddEditController {
         flight.setDate(LocalDate.parse(date));
         if (id != null) {
             flight = gliderFlightService.getById(id);
+            AbstractFlightService.replacePilots(flight);
             flight.setId(null);
-        }else{
+        } else {
             flight.setCharge(true);
             flight.setEngineFlight(new EngineFlight());
             flight.getEngineFlight().setCharge(true);
@@ -102,6 +103,7 @@ public class GliderFlightAddEditController {
     public String gliderFlightEditForm(Model model, @RequestParam Long id) {
         GliderFlight toEdit = gliderFlightService.getById(id);
         log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
+        AbstractFlightService.replacePilots(toEdit);
         model.addAttribute("flight", toEdit);
         model.addAttribute("type", "glider");
         model.addAttribute("action", "edit");

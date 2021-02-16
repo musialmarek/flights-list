@@ -46,6 +46,7 @@ public class EngineFlightAddEditController {
         flight.setDate(LocalDate.parse(date));
         if (id != null) {
             flight = engineFlightService.getById(id);
+            AbstractFlightService.replacePilots(flight);
             flight.setId(null);
         } else {
             flight.setCharge(true);
@@ -75,6 +76,7 @@ public class EngineFlightAddEditController {
     public String engineFlightEditForm(Model model, @RequestParam Long id) {
         EngineFlight toEdit = engineFlightService.getById(id);
         log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
+        AbstractFlightService.replacePilots(toEdit);
         model.addAttribute("flight", toEdit);
         model.addAttribute("type", "engine");
         model.addAttribute("action", "edit");
