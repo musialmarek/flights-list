@@ -222,8 +222,15 @@ public class PdfExporter {
                 table.addCell(new Phrase(flights.get(i).getDate().toString(), font));
             }
             if (!ListType.USER.equals(type)) {
-                table.addCell(new Phrase(flights.get(i).getPicName(), font));
-                table.addCell(new Phrase(flights.get(i).getCopilotName(), font));
+                String picName = flights.get(i).getPicName();
+                String copilotName = flights.get(i).getCopilotName();
+                if (flights.get(i).getInstructor()) {
+                    table.addCell(new Phrase(copilotName, font));
+                    table.addCell(new Phrase(picName, font));
+                } else {
+                    table.addCell(new Phrase(picName, font));
+                    table.addCell(new Phrase(copilotName, font));
+                }
             }
             if (glider) {
                 table.addCell(new Phrase(gliderFlights.get(i).getStartMethod().toString(), font));
