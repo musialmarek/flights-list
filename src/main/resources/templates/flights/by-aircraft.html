@@ -40,14 +40,14 @@
                         <tr class="d-flex">
                             <th class="col-1">Lp.</th>
                             <th class="col-1">Data</th>
-                            <th class="col-1">Pilot /Uczeń-Pilot</th>
+                            <th th:classappend="${aircraft.engine}? ' col-2' : ' col-1'">Pilot /Uczeń-Pilot</th>
                             <th class="col-1">Instruktor/ Pasażer/ II Pilot</th>
                             <th class="col-1">Zadanie</th>
                             <th class="col-1">Godzina Startu /Lądowania</th>
                             <th class="col-1">Czas Lotu</th>
-                            <th class="col-1">Rodzaj startu / Holownik</th>
-                            <th class="col-1">Samolot / Znaki</th>
-                            <th class="col-1">Godzina Lądowania / Czas lotu</th>
+                            <th th:unless="${aircraft.engine}" class="col-1">Rodzaj startu / Holownik</th>
+                            <th th:unless="${aircraft.engine}" class="col-1">Samolot / Znaki</th>
+                            <th th:unless="${aircraft.engine}" class="col-1">Godzina Lądowania / Czas lotu</th>
                             <th class="col-2">Akcje</th>
                         </tr>
                         </thead>
@@ -74,11 +74,15 @@
                                 th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
                             <td class="col-1" th:if="${flight.flightTime%60<10}"
                                 th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
-                            <td class="col-1" th:if="${!flight.startMethod.toString().equals('ATTO')}"
-                                th:text="${flight.startMethod}"></td>
-                            <td class="col-1" th:if="${!flight.startMethod.toString().equals('ATTO')}"></td>
-                            <td class="col-1" th:if="${!flight.startMethod.toString().equals('ATTO')}"></td>
-                            <tow th:if="${flight.startMethod.toString().equals('ATTO')}"
+                            <glider th:if="${!aircraft.engine}">
+                                <td class="col-1"
+                                    th:if="${!aircraft.engine&&!flight.startMethod.toString().equals('ATTO')}"
+                                    th:text="${flight.startMethod}"></td>
+
+                            <td th:unless="${aircraft.engine}" class="col-1" th:if="${!flight.startMethod.toString().equals('ATTO')}"></td>
+                            <td th:unless="${aircraft.engine}" class="col-1" th:if="${!flight.startMethod.toString().equals('ATTO')}"></td>
+
+                            <tow th:unless="${aircraft.engine}" th:if="${flight.startMethod.toString().equals('ATTO')}"
                                  th:object="${flight.engineFlight}">
                                 <td class="col-1" th:if="*{instructor==false}" th:text="*{picName}"></td>
                                 <td class="col-1" th:if="*{instructor==true}"
@@ -89,14 +93,16 @@
                                 <td class="col-1" th:if="*{flightTime%60<10}"
                                     th:utext="|*{touchdown} <br> *{flightTime/60}:0*{flightTime%60}|"></td>
                             </tow>
-
+                            </glider>
                             <td class="col-2 center">
+                                <p th:if="${aircraft.engine}">SILNIK</p>
+                                <p th:if="${!aircraft.engine}">SZYBOWIEC</p>
                                 <a class="btn btn-info btn-sm"
-                                   th:href="@{/admin/glider-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
+                                   th:href="${aircraft.engine}? @{/admin/engine-flights/details(date=${flight.date}, id=${flight.id})} : @{/admin/glider-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
                                 <a class="btn btn-warning btn-sm"
-                                   th:href="@{/admin/glider-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
+                                   th:href="${aircraft.engine}? @{/admin/engine-flights/edit(date=${flight.date}, id=${flight.id})} : @{/admin/glider-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
                                 <a class="btn btn-success btn-sm"
-                                   th:href="@{/admin/glider-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
+                                   th:href="${aircraft.engine}? @{/admin/engine-flights/add(date=${flight.date}, id=${flight.id} )} : @{/admin/glider-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
                             </td>
                         </tr>
                         </tbody>
