@@ -87,8 +87,7 @@
                 Nie
             </label>
         <li class="nav-item">
-            <glider th:if="${type=='glider'}">
-        <li class="nav-item">
+        <li th:if="${type=='glider'}" class="nav-item">
             <label>
                 Metoda startu:
                 <select th:field="*{start}">
@@ -99,6 +98,5 @@
                 </select>
             </label>
         </li>
-        </glider>
     </form>
 </ul>
