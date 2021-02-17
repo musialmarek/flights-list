@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.ListSummary;
@@ -26,6 +23,9 @@ import java.util.stream.Collectors;
 @RequestMapping("admin/engine-flights")
 public class EngineFlightController {
     private final EngineFlightService engineFlightService;
+
+    @ModelAttribute("type")
+    String getType(){return "engine";}
 
     @GetMapping
     public String engineFlightsDates(Model model, @RequestParam(name = "year", required = false) Integer year) {
@@ -58,7 +58,6 @@ public class EngineFlightController {
         List<EngineFlight> engineFlights = new ArrayList<>(flightsInDay);
         PdfExporter.addPdfExporterToModel("pdf", model, engineFlights, PdfExporter.ListType.DAILY);
         model.addAttribute("category", "daily");
-        model.addAttribute("type", "engine");
         return "flights/list";
     }
 

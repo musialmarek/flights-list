@@ -40,6 +40,9 @@ public class EngineFlightAddEditController {
         return aircraftService.getEngineAircrafts();
     }
 
+    @ModelAttribute("type")
+    String getType(){return "engine";}
+
     @GetMapping("/add")
     public String addFlightForm(Model model, @RequestParam("date") String date, @RequestParam(name = "id", required = false) Long id) {
         EngineFlight flight = new EngineFlight();
@@ -53,7 +56,6 @@ public class EngineFlightAddEditController {
         }
         log.debug("ADDING FLIGHT TO MODEL");
         model.addAttribute("flight", flight);
-        model.addAttribute("type", "engine");
         model.addAttribute("action", "add");
         return "flights/add-edit-flight";
     }
@@ -78,7 +80,6 @@ public class EngineFlightAddEditController {
         log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
         AbstractFlightService.replacePilots(toEdit);
         model.addAttribute("flight", toEdit);
-        model.addAttribute("type", "engine");
         model.addAttribute("action", "edit");
         return "flights/add-edit-flight";
     }

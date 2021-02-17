@@ -22,6 +22,8 @@ public class GliderFlightAddEditController {
     private final AircraftService aircraftService;
     private final GliderFlightService gliderFlightService;
 
+    @ModelAttribute("type")
+    String getType(){return "glider";}
 
     @ModelAttribute("pilots")
     Set<Pilot> getPilots() {
@@ -68,7 +70,6 @@ public class GliderFlightAddEditController {
         }
         log.debug("ADDING FLIGHT TO MODEL");
         model.addAttribute("flight", flight);
-        model.addAttribute("type", "glider");
         model.addAttribute("action", "add");
         return "flights/add-edit-flight";
     }
@@ -105,7 +106,6 @@ public class GliderFlightAddEditController {
         log.debug("\nADDING EDITING FLIGHT TO MODEL {}", toEdit);
         AbstractFlightService.replacePilots(toEdit);
         model.addAttribute("flight", toEdit);
-        model.addAttribute("type", "glider");
         model.addAttribute("action", "edit");
         return "flights/add-edit-flight";
     }
