@@ -42,7 +42,7 @@ public class EngineFlightController {
         }
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("dates", datesAndActives);
-        return "flights/engine-dates";
+        return "flights/dates";
     }
 
     @GetMapping("/list")

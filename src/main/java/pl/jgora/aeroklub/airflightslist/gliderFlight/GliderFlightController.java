@@ -42,7 +42,7 @@ public class GliderFlightController {
         model.addAttribute("nextYear", year + 1);
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("dates", datesAndActives);
-        return "flights/glider-dates";
+        return "flights/dates";
 
     }
 
