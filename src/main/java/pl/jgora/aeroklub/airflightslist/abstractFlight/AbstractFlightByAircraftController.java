@@ -77,7 +77,7 @@ public class AbstractFlightByAircraftController {
                 model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
                 PdfExporter.addPdfExporterToModel("pdf", model, PdfExporter.ListType.AIRCRAFT, flights);
             }
-            return "flights/by-aircraft";
+            return "flights/list";
         }
         return "redirect:/admin/aircrafts";
     }

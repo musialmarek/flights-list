@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title th:if="${category=='user'||category=='pilot'}" th:text="|Loty ${pilot.name} |"></title>
+    <title th:if="${category=='aircraft'}" th:text="|Loty ${aircraft.registrationNumber}|"></title>
+    <title th:if="${category=='daily'}"
+           th:text="${type=='engine'}? |Loty Samolotowe ${date}| : |Loty Szybowcowe ${date}|"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+          integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+</head>
+<body>
+
+<header th:if="${category!='user'}" class="page-header" th:include="fragments/admin-header :: admin-header"></header>
+<header th:if="${category=='user'}" class="page-header" th:include="fragments/user-header :: user-header"></header>
+<section class="dashboard-section">
+    <div class="row dashboard-nowrap">
+        <ul th:if="${category!='daily'}" class="nav flex-column long-bg"
+            th:include="flights/fragments/flights-filter :: filter"></ul>
+        <div class="m-4 p-3 width-medium">
+            <div class="m-4 p-3 border-dashed view-height">
+                <div class="row border-bottom border-3 p-1 m-1">
+                    <div class="col noPadding">
+                        <h3 th:if="${category=='user'||category=='pilot'}" class="text-color-darker text-uppercase"
+                            th:text="|lista lotów ${pilot.name}|"></h3>
+                        <h3 th:if="${category=='aircraft'}" class="text-color-darker text-uppercase"
+                            th:text="|Loty ${aircraft.type} ${aircraft.registrationNumber}|"></h3>
+                    </div>
+                </div>
+                <div class="schedules-content table-header">
+                    <table class="table">
+                        <thead>
+                        <tr class="d-flex">
+                            <th class="col-1">Lp.</th>
+                            <th th:if="${category!='daily'}" class="col-1">Data</th>
+                            <th th:if="${category=='aircraft'||category=='daily'}"
+                                th:classappend="${type=='engine'}? ' col-2' : ' col-1'">
+                                Pilot /Uczeń-Pilot
+                            </th>
+                            <th th:if="${category=='aircraft'||category=='daily'}"
+                                th:classappend="${type=='engine'}? ' col-2' : ' col-1'">Instruktor/ Pasażer/ II
+                                Pilot
+                            </th>
+                            <th th:if="${category=='user'||category=='pilot'}" class="col-1">PIC / DUAL</th>
+                            <th class="col-1">Zadanie</th>
+                            <th th:if="${category!='aircraft'}" class="col-1">Typ / Znaki</th>
+                            <th class="col-1">Godzina Startu/ Lądowania</th>
+                            <th class="col-1">Czas Lotu</th>
+                            <th th:if="${type=='glider'&&category!='user'}" class="col-1">Rodzaj startu / Holownik</th>
+                            <th th:if="${type=='glider'&&category!='user'}" class="col-1">Samolot / Znaki</th>
+                            <th th:if="${type=='glider'&&category!='user'}" class="col-1">Godzina Lądowania / Czas
+                                lotu
+                            </th>
+                            <th th:if="${category!='user'}" th:classappend="${type=='glider'}? ' col-2' : ' col-3'"
+                                class="center">AKCJE
+                            </th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="schedules-content list">
+                    <table class="table">
+                        <tbody class="text-color-lighter list">
+                        <tr class="d-flex" th:each="flight,count: ${flights}">
+                            <td class="col-1" th:text="${count.count}"></td>
+
+                            <td th:if="${category!='daily'}" class="col-1" th:text="${flight.date}"></td>
+                            <pilot th:if="${category=='user'||category=='pilot'}">
+                                <pic th:if="${flight.picName==pilot.name || flight.pic==pilot}">
+                                    <td class="col-1">PIC</td>
+                                    <td class="col-1" th:if="${flight.instructor==true}">INSTR</td>
+                                    <td class="col-1" th:if="${flight.instructor==false}" th:text="${flight.task}"></td>
+                                </pic>
+                                <dual th:if="${flight.copilot==pilot || flight.copilotName==pilot.name}">
+                                    <td class="col-1">DUAL</td>
+                                    <td class="col-1" th:text="${flight.task}"></td>
+                                </dual>
+                            </pilot>
+                            <aircraft-daily th:if="${category=='aircraft'||category=='daily'}">
+                                <instr th:if="${flight.instructor==true}">
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.copilotName}"></td>
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.picName}"></td>
+                                </instr>
+                                <not-instr th:if="${flight.instructor==false or flight.instructor==null}">
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.picName}"></td>
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.copilotName}"></td>
+                                </not-instr>
+                                <td class="col-1" th:text="${flight.task}"></td>
+                            </aircraft-daily>
+                            <td class="col-1" th:if="${category!='aircraft'}"
+                                th:utext="|${flight.aircraftType} <br> ${flight.aircraftRegistrationNumber}|"></td>
+                            <td class="col-1" th:utext="|${flight.start} <br> ${flight.touchdown}|"></td>
+                            <td class="col-1" th:if="${flight.flightTime%60>9}"
+                                th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
+                            <td class="col-1" th:if="${flight.flightTime%60<10}"
+                                th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
+
+                            <td th:if="${type=='glider'&&(!flight.startMethod.toString().equals('ATTO'))||type=='user'}"
+                                class="col-3" th:text="${flight.startMethod.toString()}"></td>
+
+                            <tow th:if="${type=='glider'&&category!='user'&&flight.startMethod.toString().equals('ATTO')}"
+                                 th:object="${flight.engineFlight}">
+                                <td class="col-1" th:if="*{instructor==false}" th:text="*{picName}"></td>
+                                <td class="col-1" th:if="*{instructor==true}"
+                                    th:text="|*{copilotName} *{picName}|"></td>
+                                <td class="col-1" th:utext="|*{aircraftType} <br> *{aircraftRegistrationNumber}|"></td>
+                                <td class="col-1" th:if="*{flightTime%60>9}"
+                                    th:utext="|*{touchdown} <br> *{flightTime/60}:*{flightTime%60}|"></td>
+                                <td class="col-1" th:if="*{flightTime%60<10}"
+                                    th:utext="|*{touchdown} <br> *{flightTime/60}:0*{flightTime%60}|"></td>
+                            </tow>
+                            <td th:if="${category!='user'}" th:classappend="${type=='glider'}? ' col-2' : ' col-3'"
+                                class="center">
+                                <a class="btn btn-info"
+                                   th:href="@{/admin/glider-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
+                                <a class="btn btn-warning"
+                                   th:href="@{/admin/glider-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
+
+                                <a class="btn btn-success"
+                                   th:href="@{/admin/glider-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div th:object="${summary}" th:include="flights/fragments/summary"></div>
+            </div>
+            <div th:include="flights/fragments/pdf :: pdf"></div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

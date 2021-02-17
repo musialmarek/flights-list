@@ -42,7 +42,7 @@ public class GliderFlightByPilotController {
         flightsFilter.setPilot(pilot);
         model.addAttribute("category", "user");
         showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
-        return "flights/by-pilot";
+        return "flights/list";
 
     }
 
@@ -55,7 +55,7 @@ public class GliderFlightByPilotController {
         flightsFilter.setPilot(pilot);
         model.addAttribute("category", "pilot");
         showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.PILOT);
-        return "flights/by-pilot";
+        return "flights/list";
     }
 
     private void showGliderFlights(Model model, Boolean filter, FlightsFilter flightsFilter, PdfExporter.ListType type) {

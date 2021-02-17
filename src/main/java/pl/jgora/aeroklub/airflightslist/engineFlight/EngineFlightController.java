@@ -57,7 +57,9 @@ public class EngineFlightController {
         model.addAttribute("summary", summary);
         List<EngineFlight> engineFlights = new ArrayList<>(flightsInDay);
         PdfExporter.addPdfExporterToModel("pdf", model, engineFlights, PdfExporter.ListType.DAILY);
-        return "flights/engine-daily";
+        model.addAttribute("category", "daily");
+        model.addAttribute("type", "engine");
+        return "flights/list";
     }
 
     @GetMapping("/details")

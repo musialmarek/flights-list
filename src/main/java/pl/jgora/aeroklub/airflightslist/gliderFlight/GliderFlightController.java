@@ -63,7 +63,9 @@ public class GliderFlightController {
         model.addAttribute("towSummary", new ListSummary(towFlights));
         List<GliderFlight> gliderFlights = new ArrayList<>(flightsInDay);
         PdfExporter.addPdfExporterToModel("pdf", model, PdfExporter.ListType.DAILY, gliderFlights);
-        return "flights/glider-daily";
+        model.addAttribute("category", "daily");
+        model.addAttribute("type", "glider");
+        return "flights/list";
     }
 
     @GetMapping("/details")
