@@ -38,7 +38,8 @@ public class EngineFlightByPilotController {
         model.addAttribute("category", "user");
         Pilot pilot = user.getUser().getPilot();
         flightsFilter.setPilot(pilot);
-        showEngineFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
+        flightsFilter.setActive(true);
+        showEngineFlights(model, true, flightsFilter, PdfExporter.ListType.USER);
         return "flights/list";
     }
 

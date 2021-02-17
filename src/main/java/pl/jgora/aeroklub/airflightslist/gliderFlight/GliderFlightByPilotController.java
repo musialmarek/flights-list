@@ -40,8 +40,9 @@ public class GliderFlightByPilotController {
 
         Pilot pilot = user.getUser().getPilot();
         flightsFilter.setPilot(pilot);
+        flightsFilter.setActive(true);
         model.addAttribute("category", "user");
-        showGliderFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
+        showGliderFlights(model, true, flightsFilter, PdfExporter.ListType.USER);
         return "flights/list";
 
     }
