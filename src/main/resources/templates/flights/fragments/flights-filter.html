@@ -7,8 +7,14 @@
         <input th:if="${category=='aircraft'}" type="hidden" name="id" th:value="${aircraft.id}">
         <li class="nav-item">
             <label>
-                <button><input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
-                </button>
+                <a class="btn btn-success">
+                    <input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
+                </a>
+            </label>
+            <label>
+                <a th:if="${category=='aircraft'}" class="btn btn-danger" th:href="@{/admin/aircrafts}">Resetuj filtry</a>
+                <a th:if="${category=='pilot'}" class="btn btn-danger" th:href="@{|/admin/pilot/${type}-flights?id=${pilot.id}|}">Resetuj filtry</a>
+                <a th:if="${category=='user'}" class="btn btn-danger" th:href="@{|/user/${type}-flights|}">Resetuj filtry</a>
             </label>
         </li>
         <li th:if="${category!='user'}" class="nav-item">
