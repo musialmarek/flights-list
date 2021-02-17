@@ -39,7 +39,7 @@ public class EngineFlightByPilotController {
         Pilot pilot = user.getUser().getPilot();
         flightsFilter.setPilot(pilot);
         showEngineFlights(model, filter, flightsFilter, PdfExporter.ListType.USER);
-        return "flights/engine-by-user";
+        return "flights/by-pilot";
     }
 
     @GetMapping("admin/pilot/engine-flights")
@@ -53,7 +53,7 @@ public class EngineFlightByPilotController {
         Pilot pilot = pilotService.findById(id);
         flightsFilter.setPilot(pilot);
         showEngineFlights(model, filter, flightsFilter, PdfExporter.ListType.PILOT);
-        return "flights/engine-by-pilot";
+        return "flights/by-pilot";
     }
 
     private void showEngineFlights(Model model, Boolean filter, FlightsFilter flightsFilter, PdfExporter.ListType type) {

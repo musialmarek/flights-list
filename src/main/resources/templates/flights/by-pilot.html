@@ -31,7 +31,7 @@
 
                     <div class="col d-flex justify-content-end mb-2 noPadding">
                         <button><a class="btn btn-danger nav-link"
-                                   th:href="@{/admin/pilot/glider-flights(id=${pilot.id})}">Resetuj
+                                   th:href="@{|/admin/pilot/${type}-flights?id=${pilot.id}|}">Resetuj
                             filtry</a></button>
                     </div>
                 </div>
@@ -44,16 +44,15 @@
                             <th class="col-1">PIC / DUAL</th>
                             <th class="col-1">Zadanie</th>
                             <th class="col-1">Typ / Znaki</th>
-                            <th class="col-1">Rodzaj Startu</th>
+                            <th th:if="${type=='glider'}" class="col-1">Rodzaj Startu</th>
                             <th class="col-1">Godzina Startu</th>
                             <th class="col-1">Godzina Lądowania</th>
                             <th class="col-1">Czas Lotu</th>
-                            <th class="col-3 center">AKCJE</th>
+                            <th th:if="${category!='user'}"class="col-3 center">AKCJE</th>
                         </tr>
                         </thead>
                     </table>
                 </div>
-
                 <div class="schedules-content list">
                     <table class="table">
                         <tbody class="text-color-lighter list">
@@ -70,14 +69,14 @@
                                 <td class="col-1" th:text="${flight.task}"></td>
                             </dual>
                             <td class="col-1" th:utext="|${flight.aircraftType} <br> ${flight.aircraftRegistrationNumber}|"></td>
-                            <td class="col-1" th:text="${flight.startMethod.toString()}"></td>
+                            <td th:if="${type=='glider'}" class="col-1" th:text="${flight.startMethod.toString()}"></td>
                             <td class="col-1" th:text="${flight.start}"></td>
                             <td class="col-1" th:text="${flight.touchdown}"></td>
                             <td class="col-1" th:if="${flight.flightTime%60>9}"
                                 th:text="|${flight.flightTime/60}:${flight.flightTime%60}|"></td>
                             <td class="col-1" th:if="${flight.flightTime%60<10}"
                                 th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
-                            <td class="col-3 center">
+                            <td th:if="${category!='user'}" class="col-3 center">
                                 <a class="btn btn-info"
                                    th:href="@{/admin/glider-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
                                 <a class="btn btn-warning"
