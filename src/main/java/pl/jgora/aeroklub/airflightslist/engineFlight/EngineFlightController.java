@@ -66,7 +66,7 @@ public class EngineFlightController {
         log.debug("\n SHOWING DETAILS OF FLIGHT WITH ID: {}", id);
         if (engineFlightService.getById(id) != null) {
             model.addAttribute("flight", engineFlightService.getById(id));
-            return "flights/engine-flight-details";
+            return "flights/flight-details";
         }
         return engineDailyFlights(model, date);
     }

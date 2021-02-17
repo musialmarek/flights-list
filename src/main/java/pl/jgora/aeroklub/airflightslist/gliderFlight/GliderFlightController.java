@@ -73,7 +73,7 @@ public class GliderFlightController {
         log.debug("\n SHOWING DETAILS OF FLIGHT WITH ID: {}", id);
         if (gliderFlightService.getById(id) != null) {
             model.addAttribute("flight", gliderFlightService.getById(id));
-            return "flights/glider-flight-details";
+            return "flights/flight-details";
         }
         return gliderDailyFlights(model, date);
     }
