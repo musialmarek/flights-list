@@ -15,4 +15,8 @@ public class PriceService {
     public List<Price> findAll() {
         return priceRepository.findAll();
     }
+
+    public Price getTowingPrice(){
+    return priceRepository.findFirstByName("HOL");
+    }
 }
