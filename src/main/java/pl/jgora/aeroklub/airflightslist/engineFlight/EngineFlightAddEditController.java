@@ -65,9 +65,6 @@ public class EngineFlightAddEditController {
         String date = engineFlight.getDate().toString();
         engineFlight.setTow(false);
         engineFlight.setActive(false);
-        if (engineFlight.getCharge() && engineFlight.getCost() == null) {
-            engineFlight.setCost(AbstractFlightService.calculateCost(engineFlight));
-        }
         log.debug("\n ENGINE-FLIGHT BEFORE SAVE: {}", engineFlight);
         engineFlightService.save(engineFlight);
         log.debug("\n ENGINE-FLIGHT AFTER SAVE: {}", engineFlight);

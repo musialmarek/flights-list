@@ -9,6 +9,7 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -17,6 +18,7 @@ import java.util.*;
 @Slf4j
 public class EngineFlightService {
     private final EngineFlightRepository engineFlightRepository;
+    private final AbstractFlightService abstractFlightService;
 
     private Set<LocalDate> getAllFlyingDays(int year) {
         LocalDate start = LocalDate.of(year, 1, 1);
@@ -31,6 +33,10 @@ public class EngineFlightService {
 
     public EngineFlight save(EngineFlight flight) {
         AbstractFlightService.replacePilots(flight);
+        flight.setFlightTime( (int) (Duration.between(flight.getStart(), flight.getTouchdown()).getSeconds() / 60));
+        if (flight.getCharge() && flight.getCost() == null) {
+            flight.setCost(abstractFlightService.calculateCost(flight));
+        }
         log.debug("\n SAVING ENGINE FLIGHT {}", flight);
         return engineFlightRepository.save(flight);
     }
@@ -45,7 +51,7 @@ public class EngineFlightService {
             log.debug("\nGETTING ENGINE-FLIGHT FROM DATABASE");
             EngineFlight toEdit = engineFlightRepository.findFirstById(flight.getId());
             log.debug("\n SETTING ALL FIELDS IN ENGINE-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA{}", toEdit, flight);
-            AbstractFlightService.updateFlight(flight, toEdit);
+            abstractFlightService.updateFlight(flight, toEdit);
             toEdit.setCrew(flight.getCrew());
             toEdit.setTow(flight.getTow());
             log.debug("SAVING ENGINE-FLIGHT WITH NEW DATA");
