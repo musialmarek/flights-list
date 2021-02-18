@@ -76,6 +76,10 @@
                         <th scope="row" class="col-2">NASTĘPNA OBSŁUGA W DNIU - OPIS</th>
                         <td class="col-7" th:text="*{nextWorkDateDescription}"></td>
                     </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">CENA</th>
+                        <td class="col-7"  th:text="*{price!=null}? |*{price.name} *{price.nativeMember}/*{price.others}| : 'brak'"></td>
+                    </tr>
                     </tbody>
                     <div>
                         <a class="col-1 btn btn-warning nav-link" th:href="@{/admin/aircraft/edit(id=*{id})}">EDYTUJ</a>
