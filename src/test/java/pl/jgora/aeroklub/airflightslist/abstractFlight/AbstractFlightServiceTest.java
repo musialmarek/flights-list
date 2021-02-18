@@ -1,10 +1,13 @@
 package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.pilot.PilotTestBase;
+import pl.jgora.aeroklub.airflightslist.price.PriceRepository;
+import pl.jgora.aeroklub.airflightslist.price.PriceService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,6 +21,8 @@ class AbstractFlightServiceTest {
     void shouldUpdateFlightDataToDataFromNewFlight() {
 //TODO create parametrized test with more data
         //given
+        AbstractFlightService abstractFlightService = new AbstractFlightService(new PriceService(Mockito.mock(PriceRepository.class)) {
+        });
         EngineFlight engineFlight = (EngineFlight) FlightTestBase.builder("engine")
                 .withActive(true)
                 .withPicName("Żwirko Franciszek")
@@ -42,7 +47,7 @@ class AbstractFlightServiceTest {
                 .withInstructor(true)
                 .build();
         //when
-        AbstractFlightService.updateFlight(engineFlight, newEngineFlight);
+        abstractFlightService.updateFlight(engineFlight, newEngineFlight);
         //then
         assertThat(engineFlight.getActive()).isEqualTo(newEngineFlight.getActive());
         assertThat(engineFlight.getDate()).isEqualTo(newEngineFlight.getDate());

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightTestBase;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
@@ -20,11 +21,13 @@ import static org.mockito.Mockito.*;
 class EngineFlightServiceTest {
     private EngineFlightService testingObject;
     private EngineFlightRepository engineFlightRepository;
+    private AbstractFlightService abstractFlightService;
 
     @BeforeEach
     void setUp() {
         engineFlightRepository = mock(EngineFlightRepository.class);
-        testingObject = new EngineFlightService(engineFlightRepository);
+        abstractFlightService = mock(AbstractFlightService.class);
+        testingObject = new EngineFlightService(engineFlightRepository,abstractFlightService);
     }
 
     static Stream<Arguments> searchingFlightsByDateArgumentsProvider() {
