@@ -46,6 +46,8 @@ public class PilotService {
                 toEdit.setName(pilot.getName());
                 toEdit.setTheory(pilot.getTheory());
                 toEdit.setTow(pilot.getTow());
+                toEdit.setNativeMember(pilot.getNativeMember());
+                toEdit.setAddress(pilot.getAddress());
                 pilotRepository.save(toEdit);
             }
         }

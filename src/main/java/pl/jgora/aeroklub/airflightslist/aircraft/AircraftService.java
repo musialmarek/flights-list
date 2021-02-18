@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -49,6 +47,7 @@ public class AircraftService {
                 toEdit.setFlyingTimeMinutes(aircraft.getFlyingTimeMinutes());
                 toEdit.setWorkTimeHours(aircraft.getWorkTimeHours());
                 toEdit.setWorkTimeMinutes(aircraft.getWorkTimeMinutes());
+                toEdit.setPrice(aircraft.getPrice());
                 aircraftRepository.save(toEdit);
             }
         }
