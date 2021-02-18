@@ -20,6 +20,7 @@ public class Pilot {
     private Long id;
     @Column(unique = true)
     private String name;
+    private String address;
     @Column(unique = true)
     private String licence;
     private Boolean active;
