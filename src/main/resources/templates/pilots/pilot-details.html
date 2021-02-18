@@ -31,6 +31,16 @@
                         </td>
                     </tr>
                     <tr class="d-flex">
+                        <th scope="row" class="col-2">Adres</th>
+                        <td class="col-7" th:text="*{address}"/>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
+                        <th scope="row" class="col-2">Członek AJ</th>
+                        <td class="col-7" th:text="*{nativeMember}? 'Tak' : 'Nie'"/>
+                        </td>
+                    </tr>
+                    <tr class="d-flex">
                         <th scope="row" class="col-2">Nr Licencji</th>
                         <td class="col-7" th:text="*{licence}"/>
                     </tr>
