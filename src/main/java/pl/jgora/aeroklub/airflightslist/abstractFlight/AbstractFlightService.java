@@ -5,9 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.model.*;
 import pl.jgora.aeroklub.airflightslist.price.PriceService;
-import pl.jgora.aeroklub.airflightslist.price.TowPriceRepository;
 
 import java.math.BigDecimal;
+import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class AbstractFlightService {
     private final PriceService priceService;
 
-    public static void updateFlight(AbstractFlight flight, AbstractFlight toEdit) {
+    public void updateFlight(AbstractFlight flight, AbstractFlight toEdit) {
         toEdit.setActive(flight.getActive());
         toEdit.setAircraftRegistrationNumber(flight.getAircraftRegistrationNumber());
         toEdit.setCopilotName(flight.getCopilotName());
@@ -82,13 +82,14 @@ public class AbstractFlightService {
         return flights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
     }
 
-    public static BigDecimal calculateCost(AbstractFlight flight) {
+    public BigDecimal calculateCost(AbstractFlight flight) {
+        flight.setFlightTime( (int) (Duration.between(flight.getStart(), flight.getTouchdown()).getSeconds() / 60));
         Price prices = flight.getAircraft().getPrice();
-        if("HOL".equals(flight.getTask())){
-            prices = TowPriceRepository.getTowingPrice();
+        if ("HOL".equals(flight.getTask())) {
+            prices = priceService.getTowingPrice();
         }
         BigDecimal price = prices.getOthers();
-        if (flight.getPayer().getNativeMember()) {
+        if (flight.getPayer() != null && flight.getPayer().getNativeMember()) {
             price = prices.getNativeMember();
         }
         return price.multiply(new BigDecimal(flight.getFlightTime()));
