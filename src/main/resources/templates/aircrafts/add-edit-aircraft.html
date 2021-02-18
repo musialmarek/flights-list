@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <head-details th:include="fragments/head-details :: head-details"></head-details>
-    <title>Dodaj Statek Powietrzny</title>
+    <title th:text="${action=='add'}? 'Dodaj Statek Powietrzny' : |${aircraft.type} ${aircraft.registrationNumber}|"></title>
 </head>
 <body>
 <header class="page-header" th:include="fragments/admin-header :: admin-header">
@@ -15,19 +15,22 @@
         <div class="border-dashed view-height w-100">
             <div class="mt-4 ml-4 mr-4">
                 <div class="row border-bottom border-3">
-                    <div class="col"><h3 class="text-color-darker text-uppercase">dodaj statek powietrzny</h3></div>
+                    <div class="col"><h3 class="text-color-darker text-uppercase"
+                                         th:text="${action=='add'}? 'Dodaj Statek Powietrzny' : |Edytuj ${aircraft.type} ${aircraft.registrationNumber}|"></h3>
+                    </div>
                     <div class="col d-flex justify-content-end mb-2">
                         <button class="btn-warning"><a th:href="@{/admin/aircrafts}"
                                                        class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
                         </button>
                     </div>
                 </div>
-                <form th:action="@{/admin/aircraft/add}" th:object="${aircraft}" method="post">
+
+                <form th:action="@{|/admin/aircraft/${action}|}" th:object="${aircraft}" method="post">
+                    <input th:if="${action=='edit'}" th:type="hidden" th:name="id" th:value="*{id}">
                     <table class="table borderless" th:object="${aircraft}">
                         <tbody>
                         <tr class="d-flex">
                             <th scope="row" class="col-2">KLASA</th>
-
                             <td class="col-7">
                                 <label>
                                     <input th:type="radio" th:field="*{engine}"
@@ -93,10 +96,18 @@
                             <td class="col-7"><textarea th:field="*{nextWorkDateDescription}"
                                                         th:value="*{nextWorkDateDescription}"/></td>
                         </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">CENA</th>
+                            <td class="col-7"><select th:field="*{price}" th:value="*{price}">
+                                <option th:value=null>wybierz</option>
+                                <option th:each="price : ${prices}" th:value="${price.id}"
+                                        th:text="|${price.name} ${price.nativeMember}/${price.others}|"></option>
+                            </select></td>
+                        </tr>
                         <tr>
                             <th>
-                                <input class="btn btn-warning nav-link" th:type="submit"
-                                       value="DODAJ STATEK POWIETRZNY">
+                                <input class="btn btn-warning nav-link" th:type="submit" value="Zapisz">
+
                             </th>
                         </tr>
                         </tbody>
