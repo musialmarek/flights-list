@@ -115,7 +115,7 @@ public class PilotTestBase {
         }
 
         public Pilot build() {
-            return new Pilot(id, name, licence, active, gliderPilot, gliderInstructor, enginePilot, engineInstructor, tow, medicine, theory, gliderPractise, enginePractise, sepl, fis, fia, nativeMember);
+            return new Pilot(id, name, "", licence, active, gliderPilot, gliderInstructor, enginePilot, engineInstructor, tow, medicine, theory, gliderPractise, enginePractise, sepl, fis, fia, nativeMember);
         }
     }
 }
