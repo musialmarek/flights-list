@@ -34,6 +34,7 @@ class AbstractFlightServiceTest {
                 .withAircraftType("RWD-6")
                 .withTask("Chalange")
                 .withInstructor(false)
+                .withCharge(true)
                 .build();
         EngineFlight newEngineFlight = (EngineFlight) FlightTestBase.builder("engine").withActive(false)
                 .withPicName("Wigura stanisław")
@@ -45,6 +46,7 @@ class AbstractFlightServiceTest {
                 .withAircraftType("RWD6")
                 .withTask("CHAL")
                 .withInstructor(true)
+                .withCharge(true)
                 .build();
         //when
         abstractFlightService.updateFlight(engineFlight, newEngineFlight);

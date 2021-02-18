@@ -55,6 +55,7 @@ class EngineFlightServiceTest {
         EngineFlight flight = (EngineFlight) FlightTestBase
                 .builder("engine")
                 .withPic(pilot)
+                .withCharge(true)
                 .withInstructor(false)
                 .build();
         //when
@@ -83,17 +84,21 @@ class EngineFlightServiceTest {
                 .builder("engine")
                 .withActive(false)
                 .withId(1L)
+                .withInstructor(false)
                 .withPic(pilot)
                 .withStart(LocalTime.of(12, 15))
                 .withTouchdown(LocalTime.of(15, 15))
+                .withCharge(true)
                 .build();
         EngineFlight newDataFlight = (EngineFlight) FlightTestBase
                 .builder("engine")
                 .withActive(true)
+                .withInstructor(false)
                 .withId(1L)
                 .withPic(otherPilot)
                 .withStart(LocalTime.of(13, 15))
                 .withTouchdown(LocalTime.of(17, 15))
+                .withCharge(true)
                 .build();
         when(engineFlightRepository.findFirstById(1L)).thenReturn(oldDataFlight);
         //when

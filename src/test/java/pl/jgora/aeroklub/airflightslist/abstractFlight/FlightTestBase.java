@@ -2,6 +2,7 @@ package pl.jgora.aeroklub.airflightslist.abstractFlight;
 
 import pl.jgora.aeroklub.airflightslist.model.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -23,6 +24,9 @@ public class FlightTestBase {
             } else {
                 throw new IllegalArgumentException("unknown flight type " + type);
             }
+            Aircraft aircraft = new Aircraft();
+            aircraft.setPrice(new Price(1L,"Price",new BigDecimal(1),new BigDecimal(1)));
+            flight.setAircraft(aircraft);
         }
         public FlightBuilder withId(Long id){
             flight.setId(id);
@@ -94,8 +98,14 @@ public class FlightTestBase {
             return this;
         }
 
+       public FlightBuilder withCharge(boolean charge) {
+           flight.setCharge(charge);
+           return this;
+       }
+
         public AbstractFlight build() {
             return this.flight;
         }
-    }
+
+   }
 }
