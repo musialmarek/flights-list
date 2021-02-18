@@ -33,7 +33,6 @@ public class EngineFlightService {
 
     public EngineFlight save(EngineFlight flight) {
         AbstractFlightService.replacePilots(flight);
-        flight.setFlightTime( (int) (Duration.between(flight.getStart(), flight.getTouchdown()).getSeconds() / 60));
         if (flight.getCharge() && flight.getCost() == null) {
             flight.setCost(abstractFlightService.calculateCost(flight));
         }
