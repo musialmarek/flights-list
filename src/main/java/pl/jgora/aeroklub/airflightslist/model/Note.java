@@ -23,6 +23,7 @@ public class Note {
     private String number;
     @ManyToOne
     private Pilot payer;
+    private String payerData;
     private Boolean paid;
     private Boolean active;
     private LocalDate date;
