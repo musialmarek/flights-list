@@ -8,6 +8,7 @@ import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
 import pl.jgora.aeroklub.airflightslist.model.*;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.Set;
 public class GliderFlightService {
     private final GliderFlightRepository gliderFlightRepository;
     private final EngineFlightService engineFlightService;
+    private final AbstractFlightService abstractFlightService;
 
     public Set<LocalDate> getAllFlyingDays(int year) {
         LocalDate start = LocalDate.of(year, 1, 1);
@@ -32,6 +34,23 @@ public class GliderFlightService {
     }
 
     public GliderFlight save(GliderFlight flight) {
+        if (flight.getStartMethod().equals(StartMethod.ATTO)) {
+        EngineFlight towFlight = flight.getEngineFlight();
+        towFlight.setDate(flight.getDate());
+        towFlight.setTow(true);
+        towFlight.setTask("HOL");
+        towFlight.setStart(flight.getStart());
+        towFlight.setActive(false);
+        flight.setActive(false);
+        if (towFlight.getCharge() && towFlight.getCost() == null) {
+            towFlight.setCost(abstractFlightService.calculateCost(towFlight));
+        }
+    } else {
+        flight.setEngineFlight(null);
+    }
+        if (flight.getCharge() && flight.getCost() == null) {
+            flight.setCost(abstractFlightService.calculateCost(flight));
+        }
         AbstractFlightService.replacePilots(flight);
         EngineFlight engineFlight = flight.getEngineFlight();
         if (engineFlight != null) {
@@ -57,7 +76,7 @@ public class GliderFlightService {
             if (flight.getStartMethod().equals(StartMethod.ATTO)) {
                 toEdit.setEngineFlight(engineFlightService.update(flight.getEngineFlight()));
             }
-            AbstractFlightService.updateFlight(flight, toEdit);
+            abstractFlightService.updateFlight(flight, toEdit);
             log.debug("SAVING GLIDER-FLIGHT WITH NEW DATA");
             save(toEdit);
         }

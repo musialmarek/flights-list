@@ -23,7 +23,9 @@ public class GliderFlightAddEditController {
     private final GliderFlightService gliderFlightService;
 
     @ModelAttribute("type")
-    String getType(){return "glider";}
+    String getType() {
+        return "glider";
+    }
 
     @ModelAttribute("pilots")
     Set<Pilot> getPilots() {
@@ -77,23 +79,6 @@ public class GliderFlightAddEditController {
     @PostMapping("/add")
     public String addFlightAction(@ModelAttribute("flight") GliderFlight gliderFlight) {
         String date = gliderFlight.getDate().toString();
-        if (gliderFlight.getStartMethod().equals(StartMethod.ATTO)) {
-            EngineFlight towFlight = gliderFlight.getEngineFlight();
-            towFlight.setDate(gliderFlight.getDate());
-            towFlight.setTow(true);
-            towFlight.setTask("HOL");
-            towFlight.setStart(gliderFlight.getStart());
-            towFlight.setActive(false);
-            gliderFlight.setActive(false);
-            if (towFlight.getCharge() && towFlight.getCost() == null) {
-                towFlight.setCost(AbstractFlightService.calculateCost(towFlight));
-            }
-        } else {
-            gliderFlight.setEngineFlight(null);
-        }
-        if (gliderFlight.getCharge() && gliderFlight.getCost() == null) {
-            gliderFlight.setCost(AbstractFlightService.calculateCost(gliderFlight));
-        }
         log.debug("\n GLIDER-FLIGHT BEFORE SAVE: {}", gliderFlight);
         gliderFlightService.save(gliderFlight);
         log.debug("\n GLIDER-FLIGHT AFTER SAVE: {}", gliderFlight);
