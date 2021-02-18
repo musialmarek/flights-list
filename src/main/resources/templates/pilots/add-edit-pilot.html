@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <head-details th:include="fragments/head-details :: head-details"></head-details>
-    <title>Edycja Pilota</title>
+    <title th:text="${action=='add'}? 'Dodaj Pilota' : 'Edycja Pilota'">Piloci</title>
 </head>
 <body>
 <header class="page-header" th:include="fragments/admin-header :: admin-header">
@@ -23,13 +23,17 @@
                     </div>
                 </div>
 
-                <form th:action="@{/admin/pilot/edit}" th:object="${pilot}" method="post">
-                    <input th:type="hidden" th:name="id" th:value="*{id}">
+                <form th:action="@{|/admin/pilot/${action}|}" th:object="${pilot}" method="post">
+                    <input th:if="${action=='edit'}" th:type="hidden" th:name="id" th:value="*{id}">
                     <table class="table borderless" th:object="${pilot}">
                         <tbody>
                         <tr class="d-flex">
                             <th scope="row" class="col-2">Nazwisko i imię:</th>
                             <td class="col-7"><input th:type="text" th:field="*{name}" th:value="*{name}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">Adres:</th>
+                            <td class="col-7"><textarea th:field="*{address}" th:value="*{address}"></textarea>
                             </td>
                         </tr>
                         <tr class="d-flex">
@@ -39,6 +43,10 @@
                         <tr class="d-flex">
                             <th scope="row" class="col-2">Aktywny:</th>
                             <td class="col-7"><input th:type="checkbox" th:field="*{active}" th:value="*{active}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th scope="row" class="col-2">Członek AJ:</th>
+                            <td class="col-7"><input th:type="checkbox" th:field="*{nativeMember}" th:value="*{nativeMember}"></td>
                         </tr>
 
                         <tr class="d-flex">
@@ -97,7 +105,7 @@
                         </tr>
                         <tr>
                             <th>
-                                <input  class="btn btn-warning nav-link" th:type="submit" value="Zapisz zmiany">
+                                <input class="btn btn-warning nav-link" th:type="submit" th:value="${action=='add'}? 'Dodaj pilota' : 'Zapisz zmiany'">
 
                             </th>
                         </tr>
