@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
+import pl.jgora.aeroklub.airflightslist.price.PriceService;
 
 @Controller
 @RequestMapping("/admin/aircraft")
@@ -16,6 +17,7 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 @Slf4j
 public class AircraftEditController {
     private final AircraftService aircraftService;
+    private final PriceService priceService;
 
     @GetMapping("/edit")
     public String editForm(Model model, @RequestParam("id") Long id) {
@@ -23,7 +25,9 @@ public class AircraftEditController {
         if (toEdit != null) {
             log.debug("\n ADDING AIRCRAFT: {} TO MODEL", toEdit.getRegistrationNumber());
             model.addAttribute("aircraft", toEdit);
-            return "aircrafts/edit-aircraft";
+            model.addAttribute("action", "edit");
+            model.addAttribute("prices",priceService.findAll());
+            return "aircrafts/add-edit-aircraft";
         }
         log.debug("\nTHERE IS NO AIRCRAFT WITH ID: {}", id);
         return "redirect:/admin/aircrafts";

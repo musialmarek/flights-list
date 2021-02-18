@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
+import pl.jgora.aeroklub.airflightslist.price.PriceService;
 
 @Controller
 @Slf4j
@@ -15,12 +16,15 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 @RequestMapping("admin/aircraft")
 public class AircraftAddController {
     private final AircraftRepository aircraftRepository;
+    private final PriceService priceService;
 
     @GetMapping("/add")
     public String addForm(Model model) {
         log.debug("\n ADDING EMPTY AIRCRAFT TO MODEL");
         model.addAttribute("aircraft", new Aircraft());
-        return "aircrafts/add-aircraft";
+        model.addAttribute("action", "add");
+        model.addAttribute("prices", priceService.findAll());
+        return "aircrafts/add-edit-aircraft";
     }
 
     @PostMapping("/add")
