@@ -24,7 +24,19 @@
                             th:text="|lista lotów ${pilot.name}|"></h3>
                         <h3 th:if="${category=='aircraft'}" class="text-color-darker text-uppercase"
                             th:text="|Loty ${aircraft.type} ${aircraft.registrationNumber}|"></h3>
+                        <h3 th:if="${category=='daily'}" class="text-color-darker text-uppercase"
+                            th:text="${type=='engine'}? |Loty Samolotowe ${date}| : |Loty Szybowcowe ${date}|"></h3>
                     </div>
+                    <div class="col-2 nav-link">
+                        <a th:if="${category=='daily'}" class="btn btn-primary nav-link"
+                           th:href="@{|/admin/${type}-flights?year=${date.substring(0,4)}|}">POWRÓT</a>
+                        <a th:if="${category!='daily'&&category!='user'}" class="btn btn-primary nav-link"
+                           th:href="@{|/admin/${type}s}">POWRÓT</a>
+                    </div>
+                </div>
+                <div class="col-2 nav-link ">
+                    <a class="btn btn-success nav-link" th:href="@{/admin/glider-flights/add(date=${date})}">DODAJ
+                        LOT</a>
                 </div>
                 <div class="schedules-content table-header">
                     <table class="table">
@@ -77,12 +89,16 @@
                             </pilot>
                             <aircraft-daily th:if="${category=='aircraft'||category=='daily'}">
                                 <instr th:if="${flight.instructor==true}">
-                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.copilotName}"></td>
-                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.picName}"></td>
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'"
+                                        th:text="${flight.copilotName}"></td>
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'"
+                                        th:text="${flight.picName}"></td>
                                 </instr>
                                 <not-instr th:if="${flight.instructor==false or flight.instructor==null}">
-                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.picName}"></td>
-                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'" th:text="${flight.copilotName}"></td>
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'"
+                                        th:text="${flight.picName}"></td>
+                                    <td th:classappend="${type=='engine'}? ' col-2' : ' col-1'"
+                                        th:text="${flight.copilotName}"></td>
                                 </not-instr>
                                 <td class="col-1" th:text="${flight.task}"></td>
                             </aircraft-daily>
