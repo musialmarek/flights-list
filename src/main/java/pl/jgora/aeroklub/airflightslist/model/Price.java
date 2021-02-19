@@ -22,4 +22,9 @@ public class Price {
     private BigDecimal nativeMember;
     @Column(name = "others")
     private BigDecimal others;
+
+    public Price(int sameForBoth) {
+        this.nativeMember = new BigDecimal(sameForBoth);
+        this.others = new BigDecimal(sameForBoth);
+    }
 }
