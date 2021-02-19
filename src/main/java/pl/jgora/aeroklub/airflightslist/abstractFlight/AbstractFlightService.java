@@ -35,8 +35,12 @@ public class AbstractFlightService {
         toEdit.setCharge(flight.getCharge());
         toEdit.setPayer(flight.getPayer());
         toEdit.setNote(flight.getNote());
-        if (flight.getCharge() && (flight.getCost() == null || flight.getCost().equals(toEdit.getCost()))) {
-            toEdit.setCost(calculateCost(flight));
+        if (flight.getCharge()) {
+            if (flight.getCost() == null || flight.getCost().equals(toEdit.getCost())) {
+                toEdit.setCost(calculateCost(flight));
+            } else {
+                toEdit.setCost(flight.getCost());
+            }
         }
     }
 
@@ -83,8 +87,11 @@ public class AbstractFlightService {
     }
 
     public BigDecimal calculateCost(AbstractFlight flight) {
-        flight.setFlightTime( (int) (Duration.between(flight.getStart(), flight.getTouchdown()).getSeconds() / 60));
-        Price prices = flight.getAircraft().getPrice();
+        Price prices = new Price(0);
+        flight.setFlightTime((int) (Duration.between(flight.getStart(), flight.getTouchdown()).getSeconds() / 60));
+        if (flight.getAircraft() != null) {
+            prices = flight.getAircraft().getPrice();
+        }
         if ("HOL".equals(flight.getTask())) {
             prices = priceService.getTowingPrice();
         }
