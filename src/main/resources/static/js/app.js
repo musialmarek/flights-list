@@ -4,6 +4,18 @@ $(function () {
     const $startMethod = $('.start-method');
     const $towSection = $('.tow-section');
     const $atto = $('#ATTO');
+    const $pic = $('.pic');
+    const $start = $('#start-time');
+
+    $start.focusout(function () {
+        $('#tow-start-time').val($start.val())
+        $('.touchdown-time').attr('min',$(this).val())
+    })
+
+    $pic.change(function () {
+        $('.payers option[value=' + $(this).children(":selected").val() + ']').prop('selected', true)
+
+    });
 
     $startMethod.change(function () {
         if ($atto.is(':selected')) {
@@ -22,7 +34,7 @@ $(function () {
     $secondOptionButton.click(function () {
         $(this).parent('.second-option').hide();
         $(this).parent('.second-option').siblings('.first-option').show();
-
+        $(this).siblings('input').val(null)
     });
 
     const $confirmingPassword = $('#confirming-password');
