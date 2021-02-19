@@ -13,8 +13,10 @@
         <div class="border-dashed view-height w-100">
             <div class="mt-4 ml-4 mr-4">
                 <div class="row border-bottom border-3">
-                    <div th:if="${action=='add'}" class="col"><h3 class="text-color-darker text-uppercase">dodaj lot</h3></div>
-                    <div th:if="${action=='edit'}" class="col"><h3 class="text-color-darker text-uppercase">edytuj lot</h3></div>
+                    <div th:if="${action=='add'}" class="col"><h3 class="text-color-darker text-uppercase">dodaj
+                        lot</h3></div>
+                    <div th:if="${action=='edit'}" class="col"><h3 class="text-color-darker text-uppercase">edytuj
+                        lot</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
                         <button class="btn-warning"><a th:href="@{|/admin/${type}-flights/list?date=${flight.date}|}"
                                                        class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
@@ -43,12 +45,12 @@
                             <td th:classappend="${type=='engine'}? ' col-7':' col-4'">
                                 <label th:classappend="${action=='edit'}? |option-*{pic!=null}|"
                                        class="first-option">
-                                    <select th:field="*{pic}" th:value="*{pic}">
-                                        <option value="">brak</option>
-                                        <option th:if="*{pic!=null}" th:unless="${#lists.contains(pilots,flight.pic)}"
+                                    <select class="pic" th:field="*{pic}" th:value="*{pic}">
+                                        <option class="pic-value" value="">brak</option>
+                                        <option class="pic-value" th:if="*{pic!=null}" th:unless="${#lists.contains(pilots,flight.pic)}"
                                                 th:value="*{pic.id}"
                                                 th:text="*{pic.name}"></option>
-                                        <option th:each="pilot: ${pilots}"
+                                        <option class="pic-value" th:each="pilot: ${pilots}"
                                                 th:value="${pilot.id}"
                                                 th:text="${pilot.name}"></option>
                                     </select>
@@ -215,22 +217,24 @@
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">Godzina startu</th>
                             <td th:classappend="${type=='engine'}? ' col-7':' col-4'">
-                                <input type="time" th:field="*{start}" th:value="*{start}">
+                                <input type="time" id="start-time" th:field="*{start}" th:value="*{start}">
                             </td>
                             <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section">Godzina startu</th>
                             <td th:if="${type=='glider'}" class="col-4 tow-section">
-                                <input type="time" th:field="*{engineFlight.start}" th:value="*{engineFlight.start}"
+                                <input type="time" id="tow-start-time" th:field="*{engineFlight.start}" th:value="*{engineFlight.start}"
                                        readonly>
                             </td>
                         </tr>
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">Godzina lądowania</th>
                             <td th:classappend="${type=='engine'}? ' col-7':' col-4'">
-                                <input th:type="time" th:field="*{touchdown}" th:value="*{touchdown}">
+                                <input th:type="time" class="touchdown-time" th:field="*{touchdown}" th:value="*{touchdown}">
                             </td>
-                            <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section">Godzina lądowania samolotu holującego</th>
+                            <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section">Godzina lądowania
+                                samolotu holującego
+                            </th>
                             <td th:if="${type=='glider'}" class="col-4 tow-section">
-                                <input th:type="time" th:field="*{engineFlight.touchdown}"
+                                <input th:type="time" class="touchdown-time" th:field="*{engineFlight.touchdown}"
                                        th:value="*{engineFlight.touchdown}">
                             </td>
                         </tr>
@@ -248,7 +252,42 @@
                             </td>
                             <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section">Rozliczać holówkę</th>
                             <td th:if="${type=='glider'}" class="col-4 tow-section">
-                                <input type="checkbox" th:field="*{engineFlight.charge}" th:value="*{engineFlight.charge}" th:text="Tak" th:default="checked">
+                                <input type="checkbox" th:field="*{engineFlight.charge}"
+                                       th:value="*{engineFlight.charge}" th:text="Tak" th:default="checked">
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2"></th>
+
+                            <td class="col-4 tow-section">
+                                <label th:class="|first-option option-*{cost==null}|">
+                                    <div class="btn btn-success first-option-button">Własna kwota</div>
+                                </label>
+                                <label th:class="|second-option option-*{cost!=null}|">
+                                    <input type="number" step="0.01" th:field="*{cost}"
+                                           th:value="*{cost}">
+                                    <div class="btn btn-success second-option-button">Oblicz standardowo</div>
+                                </label>
+                            </td>
+                            <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section"></th>
+                            <td class="col-4 tow-section">
+                                <label th:class="|first-option option-*{engineFlight.cost==null}|">
+                                    <div class="btn btn-success first-option-button">Własna kwota</div>
+                                </label>
+                                <label th:class="|second-option option-*{engineFlight.cost!=null}|">
+                                    <input type="number" step="0.01" th:field="*{engineFlight.cost}"
+                                              th:value="*{engineFlight.cost}">
+                                <div class="btn btn-success second-option-button">Oblicz standardowo</div>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="d-flex dashed">
+                            <th scope="row" class="col-2">Płatnik</th>
+                            <td class="col-4">
+                                <select class="payers" th:field="*{payer}" th:value="*{payer}">
+                                    <option value="">brak</option>
+                                    <option class="payer" th:each="pilot:${pilots}" th:value="${pilot.id}" th:text="${pilot.name}"></option>
+                                </select>
                             </td>
                         </tr>
                         <tr th:if="${type=='glider'}" class="d-flex dashed">
