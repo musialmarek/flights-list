@@ -25,7 +25,9 @@ public class EngineFlightController {
     private final EngineFlightService engineFlightService;
 
     @ModelAttribute("type")
-    String getType(){return "engine";}
+    String getType() {
+        return "engine";
+    }
 
     @GetMapping
     public String engineFlightsDates(Model model, @RequestParam(name = "year", required = false) Integer year) {
@@ -76,8 +78,7 @@ public class EngineFlightController {
         log.debug("\nACTIVATING LIST FROM {}", date);
         Set<EngineFlight> flights = engineFlightService.getByDate(LocalDate.parse(date));
         for (EngineFlight flight : flights) {
-            flight.setActive(true);
-            engineFlightService.update(flight);
+            engineFlightService.activateDeactivate(flight, true);
         }
         String year = date.substring(0, 4);
         return "redirect:/admin/engine-flights?year=" + year;
@@ -88,8 +89,7 @@ public class EngineFlightController {
         log.debug("\nDEACTIVATING LIST FROM {}", date);
         Set<EngineFlight> flights = engineFlightService.getByDate(LocalDate.parse(date));
         for (EngineFlight flight : flights) {
-            flight.setActive(false);
-            engineFlightService.update(flight);
+            engineFlightService.activateDeactivate(flight, false);
         }
         String year = date.substring(0, 4);
         return "redirect:/admin/engine-flights?year=" + year;

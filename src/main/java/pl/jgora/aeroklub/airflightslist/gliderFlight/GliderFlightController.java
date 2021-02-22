@@ -26,7 +26,9 @@ public class GliderFlightController {
     private final GliderFlightService gliderFlightService;
 
     @ModelAttribute("type")
-    String getType(){return "glider";}
+    String getType() {
+        return "glider";
+    }
 
     @GetMapping
     public String gliderFlightsDates(Model model, @RequestParam(name = "year", required = false) Integer year) {
@@ -82,12 +84,10 @@ public class GliderFlightController {
     public String activateList(@RequestParam("date") String date) {
         log.debug("\nACTIVATING LIST FROM {}", date);
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
+        log.debug("FLIGHTS TO ACTIVATE {}", flights.size());
         for (GliderFlight flight : flights) {
-            flight.setActive(true);
-            if (flight.getStartMethod().equals(StartMethod.ATTO)) {
-                flight.getEngineFlight().setActive(true);
-            }
-            gliderFlightService.update(flight);
+            gliderFlightService.activateDeactivate(flight, true);
+
         }
         String year = date.substring(0, 4);
         return "redirect:/admin/glider-flights?year=" + year;
@@ -98,11 +98,7 @@ public class GliderFlightController {
         log.debug("\nDEACTIVATING LIST FROM {}", date);
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
         for (GliderFlight flight : flights) {
-            flight.setActive(false);
-            if (flight.getStartMethod().equals(StartMethod.ATTO)) {
-                flight.getEngineFlight().setActive(false);
-            }
-            gliderFlightService.update(flight);
+            gliderFlightService.activateDeactivate(flight,false);
         }
         String year = date.substring(0, 4);
         return "redirect:/admin/glider-flights?year=" + year;

@@ -9,9 +9,11 @@ import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
-import java.time.Duration;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -69,6 +71,12 @@ public class EngineFlightService {
             }
         }
         return anyInactive;
+    }
+
+    public void activateDeactivate(EngineFlight flight, boolean activate) {
+        EngineFlight toChange = engineFlightRepository.findFirstById(flight.getId());
+        toChange.setActive(activate);
+        engineFlightRepository.save(toChange);
     }
 
     Map<LocalDate, Boolean> getDatesAndActives(int year) {
