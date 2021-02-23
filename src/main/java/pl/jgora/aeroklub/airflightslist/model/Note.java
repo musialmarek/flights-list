@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"payer", "account"})
 @EqualsAndHashCode(of = "id")
 
 public class Note {
@@ -23,9 +23,23 @@ public class Note {
     private String number;
     @ManyToOne
     private Pilot payer;
+    @ManyToOne
+    private Account account;
     private String payerData;
     private Boolean paid;
     private Boolean active;
     private LocalDate date;
     private BigDecimal value;
+    private String description;
+
+    @PrePersist
+    @PreUpdate
+    private void prePersist() {
+        if (payer != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(payer.getName()).append("\n").append(payer.getAddress());
+            this.payerData = sb.toString();
+        }
+    }
 }
+
