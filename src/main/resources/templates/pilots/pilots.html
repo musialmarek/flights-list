@@ -49,8 +49,12 @@
                                    class="btn btn-sm btn-warning rounded-0 text-light m-1">Edytuj</a>
                                 <a class="btn btn-sm btn-primary rounded-0 text-light m-1" th:if="${pilot.enginePilot==true}"
                                    th:href="@{/admin/pilot/engine-flights(id=${pilot.id})}">Samolotowe</a>
+                                <a class="btn btn-sm btn-primary rounded-0 text-light m-1" th:if="${pilot.enginePilot==true}"
+                                   th:href="@{/admin/engine-flights/charge(id=${pilot.id})}">Rozlicz samoloty</a>
                                 <a class="btn btn-sm btn-secondary rounded-0 text-light m-1" th:if="${pilot.gliderPilot==true}"
                                    th:href="@{/admin/pilot/glider-flights(id=${pilot.id})}">Szybowcowe</a>
+                                <a class="btn btn-sm btn-secondary rounded-0 text-light m-1" th:if="${pilot.gliderPilot==true}"
+                                   th:href="@{/admin/glider-flights/charge(id=${pilot.id})}">Rozlicz szybowce</a>
                             </td>
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
                                 <form th:if="${pilot.active==true}"
