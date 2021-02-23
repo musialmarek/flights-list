@@ -113,4 +113,8 @@ public class EngineFlightService {
         log.debug("SEARCHING ALL ENGINE FLIGHTS BY AIRCRAFT: {} {}", type, registrationNumber);
         return engineFlightRepository.findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStartAsc(aircraft, type, registrationNumber);
     }
+
+    public List<EngineFlight> getAllToChargeByPayer(Pilot payer) {
+        return engineFlightRepository.findByPayerAndActiveAndChargeAndNoteIsNull(payer, true, true);
+    }
 }
