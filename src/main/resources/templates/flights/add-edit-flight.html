@@ -217,7 +217,7 @@
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">Godzina startu</th>
                             <td th:classappend="${type=='engine'}? ' col-7':' col-4'">
-                                <input type="time" id="start-time" th:field="*{start}" th:value="*{start}">
+                                <input type="time" id="start-time" th:field="*{start}" th:value="*{start}" required>
                             </td>
                             <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section">Godzina startu</th>
                             <td th:if="${type=='glider'}" class="col-4 tow-section">
@@ -228,7 +228,7 @@
                         <tr class="d-flex dashed">
                             <th scope="row" class="col-2">Godzina lądowania</th>
                             <td th:classappend="${type=='engine'}? ' col-7':' col-4'">
-                                <input th:type="time" class="touchdown-time" th:field="*{touchdown}" th:value="*{touchdown}">
+                                <input th:type="time" class="touchdown-time" th:field="*{touchdown}" th:value="*{touchdown}" required>
                             </td>
                             <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section">Godzina lądowania
                                 samolotu holującego
@@ -270,7 +270,7 @@
                                 </label>
                             </td>
                             <th th:if="${type=='glider'}" scope="row" class="col-2 tow-section"></th>
-                            <td class="col-4 tow-section">
+                            <td th:if="${type=='glider'}" class="col-4 tow-section">
                                 <label th:class="|first-option option-*{engineFlight.cost==null}|">
                                     <div class="btn btn-success first-option-button">Własna kwota</div>
                                 </label>
