@@ -40,7 +40,7 @@
                 </div>
                 <div class="schedules-content list">
                     <form th:action="${category=='charge'}? @{|/admin/${type}-flights/charge?id=${pilot.id}|}" method="post">
-                        <table class="table list" xmlns:th="http://www.w3.org/1999/xhtml">
+                        <table class="table list">
                             <thead>
                             <tr class="d-flex">
                                 <th th:if="${category!='charge'}" class="col-1">Lp.</th>
@@ -64,7 +64,8 @@
                                 <th th:if="${type=='glider'&&category!='user'}" class="col-1" th:text="${category=='charge'}? 'Czas lotu holówki' : 'Godzina Lądowania / Czas'">
                                     lotu
                                 </th>
-                                <th th:if="${category!='user'&&category!='charge'}" th:classappend="${type=='glider'}? ' col-2' : ' col-3'"
+                                <th th:if="${category=='charge'}" class="col-1">KOSZT</th>
+                                <th th:if="${category!='user'}" th:classappend="${type=='glider'}? ' col-2' : ' col-3'"
                                     class="center">AKCJE
                                 </th>
                             </tr>
@@ -110,7 +111,7 @@
                                     th:text="|${flight.flightTime/60}:0${flight.flightTime%60}|"></td>
 
                                 <td th:if="${type=='glider'&&(!flight.startMethod.toString().equals('ATTO'))||type=='user'}"
-                                    class="col-3" th:text="${flight.startMethod.toString()}"></td>
+                                    th:classappend="${category=='charge'}? ' col-2':' col-3'" th:text="${flight.startMethod.toString()}"></td>
 
                                 <tow th:if="${type=='glider'&&category!='user'&&flight.startMethod.toString().equals('ATTO')}"
                                      th:object="${flight.engineFlight}">
@@ -123,14 +124,16 @@
                                     <td class="col-1" th:if="*{flightTime%60<10}"
                                         th:utext="${category!='charge'}? |*{touchdown} <br> *{flightTime/60}:0*{flightTime%60}| : |*{flightTime/60}:0*{flightTime%60}|"></td>
                                 </tow>
-                                <td th:if="${category!='user'&&category!='charge'}" th:classappend="${type=='glider'}? ' col-2' : ' col-3'"
+                                <td class="col-1" th:if="${category=='charge'}" th:text="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}? ${flight.cost+flight.engineFlight.cost} : ${flight.cost}">
+                                </td>
+                                <td th:if="${category!='user'}" th:classappend="${type=='glider'}? ' col-2' : ' col-3'"
                                     class="center">
                                     <a class="btn btn-info"
                                        th:href="@{/admin/glider-flights/details(date=${flight.date}, id=${flight.id})}">Szczegóły</a>
                                     <a class="btn btn-warning"
                                        th:href="@{/admin/glider-flights/edit(date=${flight.date}, id=${flight.id})}">Edytuj</a>
 
-                                    <a class="btn btn-success"
+                                    <a th:if="${category=='daily'}" class="btn btn-success"
                                        th:href="@{/admin/glider-flights/add(date=${flight.date}, id=${flight.id} )}">Kopiuj</a>
                                 </td>
                             </tr>
