@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.FilterFlightsRepository;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
+import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 
 import java.time.LocalDate;
@@ -23,4 +24,5 @@ public interface EngineFlightRepository extends JpaRepository<EngineFlight, Long
 
     List<EngineFlight> findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStartAsc(Aircraft aircraft, String type, String registrationNumber);
 
+    List<EngineFlight> findByPayerAndActiveAndChargeAndNoteIsNull(Pilot payer, boolean active, boolean charge);
 }
