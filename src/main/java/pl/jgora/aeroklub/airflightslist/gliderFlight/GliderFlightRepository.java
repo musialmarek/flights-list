@@ -22,4 +22,6 @@ public interface GliderFlightRepository extends JpaRepository<GliderFlight, Long
     List<GliderFlight> findByPicOrCopilotOrPicNameOrCopilotNameOrderByDateAscStart(Pilot pic, Pilot copilot, String picName, String copilotName);
 
     List<GliderFlight> findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStart(Aircraft aircraft, String type, String registrationNumber);
+
+    List<GliderFlight> findByPayerAndActiveAndChargeAndNoteIsNull(Pilot payer, Boolean active, Boolean charge);
 }
