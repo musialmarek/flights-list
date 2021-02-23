@@ -115,6 +115,6 @@ public class EngineFlightService {
     }
 
     public List<EngineFlight> getAllToChargeByPayer(Pilot payer) {
-        return engineFlightRepository.findByPayerAndActiveAndChargeAndNoteIsNull(payer, true, true);
+        return engineFlightRepository.findByPayerAndActiveAndChargeAndNoteIsNullAndTowIsFalseOrTowIsNull(payer, true, true);
     }
 }

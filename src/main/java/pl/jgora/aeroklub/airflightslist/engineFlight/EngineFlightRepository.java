@@ -24,5 +24,5 @@ public interface EngineFlightRepository extends JpaRepository<EngineFlight, Long
 
     List<EngineFlight> findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStartAsc(Aircraft aircraft, String type, String registrationNumber);
 
-    List<EngineFlight> findByPayerAndActiveAndChargeAndNoteIsNull(Pilot payer, boolean active, boolean charge);
+    List<EngineFlight> findByPayerAndActiveAndChargeAndNoteIsNullAndTowIsFalseOrTowIsNull(Pilot payer, boolean active, boolean charge);
 }
