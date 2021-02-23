@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
-import pl.jgora.aeroklub.airflightslist.model.Aircraft;
-import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
-import pl.jgora.aeroklub.airflightslist.model.Pilot;
+import pl.jgora.aeroklub.airflightslist.model.*;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
@@ -77,6 +75,13 @@ public class EngineFlightService {
         EngineFlight toChange = engineFlightRepository.findFirstById(flight.getId());
         toChange.setActive(activate);
         engineFlightRepository.save(toChange);
+    }
+
+    public void setNote(Note note, AbstractFlight flight) {
+        EngineFlight toEdit = engineFlightRepository.findFirstById(flight.getId());
+        toEdit.setNote(note);
+        log.debug("EF SETTING NOTE {} IN FLIGHT {}", note, toEdit);
+        engineFlightRepository.save(toEdit);
     }
 
     Map<LocalDate, Boolean> getDatesAndActives(int year) {
