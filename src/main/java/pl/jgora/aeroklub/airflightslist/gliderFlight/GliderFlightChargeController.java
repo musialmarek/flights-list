@@ -39,14 +39,11 @@ public class GliderFlightChargeController {
         log.debug("flights to charge {}", flights.size());
         log.debug("pilot payer {}", pilot.getName());
         model.addAttribute("category", "charge");
-        Integer[] integers = new Integer[flights.size()];
-        model.addAttribute("toCharge", integers);
         return "flights/list";
     }
 
     @PostMapping()
-    @ResponseBody
-    public String generateNote(Model model, @RequestParam(name = "id") Long id, HttpServletRequest request) {
+    public String chargeFlights(Model model, @RequestParam(name = "id") Long id, HttpServletRequest request) {
         Pilot pilot = pilotService.findById(id);
         model.addAttribute("pilot", pilot);
         List<GliderFlight> flights = gliderFlightService.getAllToChargeByPayer(pilot);
@@ -62,6 +59,6 @@ public class GliderFlightChargeController {
             }
         }
         noteService.createNote(flightsToCharge, towingToCharge);
-        return "rozlicz";
+        return "redirect:/admin/glider-flights/charge?id="+pilot.getId();
     }
 }
