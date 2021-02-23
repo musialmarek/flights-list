@@ -35,13 +35,6 @@ public class AbstractFlightService {
         toEdit.setCharge(flight.getCharge());
         toEdit.setPayer(flight.getPayer());
         toEdit.setNote(flight.getNote());
-        if (flight.getCharge()) {
-            if (flight.getCost() == null || flight.getCost().equals(toEdit.getCost())) {
-                toEdit.setCost(calculateCost(flight));
-            } else {
-                toEdit.setCost(flight.getCost());
-            }
-        }
     }
 
     public static void replacePilots(AbstractFlight flight) {
