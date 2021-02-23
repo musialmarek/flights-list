@@ -7,8 +7,8 @@ import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
 import pl.jgora.aeroklub.airflightslist.model.*;
+import pl.jgora.aeroklub.airflightslist.price.PriceRepository;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -22,6 +22,7 @@ public class GliderFlightService {
     private final GliderFlightRepository gliderFlightRepository;
     private final EngineFlightService engineFlightService;
     private final AbstractFlightService abstractFlightService;
+    private final PriceRepository priceRepository;
 
     public Set<LocalDate> getAllFlyingDays(int year) {
         LocalDate start = LocalDate.of(year, 1, 1);
@@ -34,22 +35,15 @@ public class GliderFlightService {
     }
 
     public GliderFlight save(GliderFlight flight) {
-        if (flight.getStartMethod().equals(StartMethod.ATTO)) {
         EngineFlight towFlight = flight.getEngineFlight();
-        towFlight.setDate(flight.getDate());
-        towFlight.setTow(true);
-        towFlight.setTask("HOL");
-        towFlight.setStart(flight.getStart());
-        towFlight.setActive(false);
-        flight.setActive(false);
-        if (towFlight.getCharge() && towFlight.getCost() == null) {
-            towFlight.setCost(abstractFlightService.calculateCost(towFlight));
-        }
-    } else {
-        flight.setEngineFlight(null);
-    }
+        log.debug("cost {}", flight.getCost());
         if (flight.getCharge() && flight.getCost() == null) {
-            flight.setCost(abstractFlightService.calculateCost(flight));
+            setCostValue(flight, towFlight);
+        }
+        if (flight.getStartMethod().equals(StartMethod.ATTO) && towFlight != null) {
+            setTowFlightDetails(flight, towFlight);
+        } else {
+            flight.setEngineFlight(null);
         }
         AbstractFlightService.replacePilots(flight);
         EngineFlight engineFlight = flight.getEngineFlight();
@@ -61,6 +55,40 @@ public class GliderFlightService {
         return gliderFlightRepository.save(flight);
     }
 
+   private void setCostValue(GliderFlight flight, EngineFlight towFlight) {
+        flight.setCost(abstractFlightService.calculateCost(flight));
+        if (flight.getStartMethod().equals(StartMethod.ATTO)) {
+            if (towFlight != null) {
+                if (towFlight.getCharge() && towFlight.getCost() == null) {
+                    towFlight.setCost(abstractFlightService.calculateCost(towFlight));
+                }
+            }
+        } else {
+            String priceName = flight.getStartMethod().toString();
+            log.debug("START PRICE NAME: {}", priceName);
+            Price start = priceRepository.findFirstByName(priceName);
+            if (flight.getCost() != null && start != null) {
+                if (flight.getPayer().getNativeMember()) {
+                    log.debug("ADD START COST : {}", start.getNativeMember());
+                    flight.setCost(flight.getCost().add(start.getNativeMember()));
+                } else {
+                    log.debug("ADD START COST : {}", start.getOthers());
+                    flight.setCost(flight.getCost().add(start.getOthers()));
+                }
+            }
+        }
+    }
+
+   private void setTowFlightDetails(GliderFlight flight, EngineFlight towFlight) {
+        towFlight.setDate(flight.getDate());
+        towFlight.setTow(true);
+        towFlight.setTask("HOL");
+        towFlight.setStart(flight.getStart());
+        towFlight.setActive(false);
+        towFlight.setActive(false);
+        towFlight.setPayer(flight.getPayer());
+    }
+
     public GliderFlight getById(Long id) {
         return gliderFlightRepository.findFirstById(id);
     }
@@ -70,7 +98,7 @@ public class GliderFlightService {
         if (flight != null && flight.getId() != null) {
             log.debug("\nGETTING GLIDER-FLIGHT FROM DATABASE");
             GliderFlight toEdit = gliderFlightRepository.findFirstById(flight.getId());
-            log.debug("\n SETTING ALL FIELDS IN GLIDER-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA{}", toEdit, flight);
+            log.debug("\n SETTING ALL FIELDS IN GLIDER-FLIGHT TO EDIT \n OLD DATA {} \n NEW DATA {}", toEdit, flight);
             toEdit.setStartMethod(flight.getStartMethod());
             toEdit.setEngineFlight(null);
             if (flight.getStartMethod().equals(StartMethod.ATTO)) {
@@ -80,6 +108,22 @@ public class GliderFlightService {
             log.debug("SAVING GLIDER-FLIGHT WITH NEW DATA");
             save(toEdit);
         }
+    }
+
+    public void activateDeactivate(GliderFlight flight, boolean activate) {
+        GliderFlight toChange = gliderFlightRepository.findFirstById(flight.getId());
+        if (toChange.getStartMethod().equals(StartMethod.ATTO)) {
+            engineFlightService.activateDeactivate(toChange.getEngineFlight(), activate);
+        }
+        toChange.setActive(activate);
+        gliderFlightRepository.save(toChange);
+    }
+
+    public void setNote(Note note, AbstractFlight flight) {
+        GliderFlight toEdit = gliderFlightRepository.findFirstById(flight.getId());
+        toEdit.setNote(note);
+        log.debug("GF SETTING NOTE {} IN FLIGHT {}", note, toEdit);
+        gliderFlightRepository.save(toEdit);
     }
 
     private boolean isEveryFlightActive(LocalDate date) {
@@ -119,5 +163,9 @@ public class GliderFlightService {
         String type = aircraft.getType();
         String registrationNumber = aircraft.getRegistrationNumber();
         return gliderFlightRepository.findByAircraftOrAircraftTypeAndAircraftRegistrationNumberOrderByDateAscStart(aircraft, type, registrationNumber);
+    }
+
+    public List<GliderFlight> getAllToChargeByPayer(Pilot payer) {
+        return gliderFlightRepository.findByPayerAndActiveAndChargeAndNoteIsNull(payer, true, true);
     }
 }
