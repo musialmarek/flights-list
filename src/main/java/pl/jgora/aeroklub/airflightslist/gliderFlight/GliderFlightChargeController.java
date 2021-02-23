@@ -53,12 +53,13 @@ public class GliderFlightChargeController {
         for (GliderFlight flight : flights) {
             if (request.getParameter(flight.getId().toString()) != null) {
                 flightsToCharge.add(flight);
-                if (flight.getStartMethod().equals(StartMethod.ATTO) && flight.getEngineFlight() != null) {
+                if (flight.getStartMethod().equals(StartMethod.ATTO) && flight.getEngineFlight() != null && flight.getEngineFlight().getCharge()) {
                     towingToCharge.add(flight.getEngineFlight());
                 }
             }
         }
-        noteService.createNote(flightsToCharge, towingToCharge);
+        if(!flightsToCharge.isEmpty()){
+            noteService.createNote(flightsToCharge, towingToCharge);}
         return "redirect:/admin/glider-flights/charge?id="+pilot.getId();
     }
 }

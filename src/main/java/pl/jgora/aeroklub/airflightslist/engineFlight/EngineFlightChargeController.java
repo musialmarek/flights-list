@@ -52,7 +52,9 @@ public class EngineFlightChargeController {
                 flightsToCharge.add(flight);
             }
         }
-        noteService.createNote(flightsToCharge);
+        if (!flightsToCharge.isEmpty()) {
+            noteService.createNote(flightsToCharge);
+        }
         return "redirect:/admin/engine-flights/charge?id=" + pilot.getId();
     }
 }
