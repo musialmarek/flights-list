@@ -9,4 +9,6 @@ import java.time.LocalDate;
 public interface NoteRepository extends JpaRepository<Note, Long>, FilterFlightsRepository {
 
     int countByDateBetween(LocalDate yearBegin, LocalDate yearEnd);
+
+    Note findFirstById(Long id);
 }
