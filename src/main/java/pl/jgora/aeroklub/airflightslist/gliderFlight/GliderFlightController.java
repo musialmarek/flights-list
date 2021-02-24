@@ -98,7 +98,7 @@ public class GliderFlightController {
         log.debug("\nDEACTIVATING LIST FROM {}", date);
         Set<GliderFlight> flights = gliderFlightService.getByDate(LocalDate.parse(date));
         for (GliderFlight flight : flights) {
-            gliderFlightService.activateDeactivate(flight,false);
+            gliderFlightService.activateDeactivate(flight, false);
         }
         String year = date.substring(0, 4);
         return "redirect:/admin/glider-flights?year=" + year;

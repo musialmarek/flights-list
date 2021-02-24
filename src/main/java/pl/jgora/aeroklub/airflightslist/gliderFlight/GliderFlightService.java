@@ -55,7 +55,7 @@ public class GliderFlightService {
         return gliderFlightRepository.save(flight);
     }
 
-   private void setCostValue(GliderFlight flight, EngineFlight towFlight) {
+    private void setCostValue(GliderFlight flight, EngineFlight towFlight) {
         flight.setCost(abstractFlightService.calculateCost(flight));
         if (flight.getStartMethod().equals(StartMethod.ATTO)) {
             if (towFlight != null) {
@@ -79,7 +79,7 @@ public class GliderFlightService {
         }
     }
 
-   private void setTowFlightDetails(GliderFlight flight, EngineFlight towFlight) {
+    private void setTowFlightDetails(GliderFlight flight, EngineFlight towFlight) {
         towFlight.setDate(flight.getDate());
         towFlight.setTow(true);
         towFlight.setTask("HOL");

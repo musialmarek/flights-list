@@ -26,7 +26,7 @@ public class AircraftEditController {
             log.debug("\n ADDING AIRCRAFT: {} TO MODEL", toEdit.getRegistrationNumber());
             model.addAttribute("aircraft", toEdit);
             model.addAttribute("action", "edit");
-            model.addAttribute("prices",priceService.findAll());
+            model.addAttribute("prices", priceService.findAll());
             return "aircrafts/add-edit-aircraft";
         }
         log.debug("\nTHERE IS NO AIRCRAFT WITH ID: {}", id);

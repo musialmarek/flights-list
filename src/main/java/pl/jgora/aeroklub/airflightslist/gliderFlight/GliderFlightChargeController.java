@@ -58,8 +58,9 @@ public class GliderFlightChargeController {
                 }
             }
         }
-        if(!flightsToCharge.isEmpty()){
-            noteService.createNote(flightsToCharge, towingToCharge);}
-        return "redirect:/admin/glider-flights/charge?id="+pilot.getId();
+        if (!flightsToCharge.isEmpty()) {
+            noteService.createNote(flightsToCharge, towingToCharge);
+        }
+        return "redirect:/admin/glider-flights/charge?id=" + pilot.getId();
     }
 }

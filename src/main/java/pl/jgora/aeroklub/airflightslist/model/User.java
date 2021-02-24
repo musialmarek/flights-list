@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Setter
 @Getter
 @EqualsAndHashCode(of = {"id"})
-@ToString(exclude = {"pilot","password","token"})
+@ToString(exclude = {"pilot", "password", "token"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

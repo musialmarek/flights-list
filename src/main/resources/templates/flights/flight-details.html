@@ -17,8 +17,8 @@
                 <div class="row border-bottom border-3">
                     <div class="col"><h3 class="text-color-darker text-uppercase">SZCZEGÓŁY LOTU</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
-                        <button class="btn-warning"><a th:href="|@{/admin/${type}-flights/list?date=${flight.date}|}"
-                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <button class="btn-warning"><a class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4"
+                                                       th:href="|@{/admin/${type}-flights/list?date=${flight.date}|}">Powrót</a>
                         </button>
                     </div>
                 </div>
@@ -26,96 +26,96 @@
                     <tbody>
 
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">ZATWIERDZONY</th>
-                        <td th:if="*{active==true}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'">TAK</td>
-                        <td th:if="*{active==false}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'">NIE</td>
+                        <th class="col-2" scope="row">ZATWIERDZONY</th>
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{active==true}">TAK</td>
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{active==false}">NIE</td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">LOT HOLUJĄCY ZATWIERDZONY</th>
-                            <td th:if="*{engineFlight.active==true}" class="col-4">TAK</td>
-                            <td th:if="*{engineFlight.active==false}" class="col-4">NIE</td>
+                            <th class="col-2" scope="row">LOT HOLUJĄCY ZATWIERDZONY</th>
+                            <td class="col-4" th:if="*{engineFlight.active==true}">TAK</td>
+                            <td class="col-4" th:if="*{engineFlight.active==false}">NIE</td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">PILOT / UCZEŃ PILOT</th>
-                        <td th:if="*{instructor==true}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'"
+                        <th class="col-2" scope="row">PILOT / UCZEŃ PILOT</th>
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{instructor==true}"
                             th:text="*{copilotName}"></td>
-                        <td th:if="*{instructor==false}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'"
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{instructor==false}"
                             th:text="*{picName}"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">HOLOWNIK</th>
-                            <td th:if="*{engineFlight.instructor==true}" class="col-4"
+                            <th class="col-2" scope="row">HOLOWNIK</th>
+                            <td class="col-4" th:if="*{engineFlight.instructor==true}"
                                 th:text="*{engineFlight.copilotName}"></td>
-                            <td th:if="*{engineFlight.instructor==false}" class="col-4"
+                            <td class="col-4" th:if="*{engineFlight.instructor==false}"
                                 th:text="*{engineFlight.picName}"></td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">II PILOT/ INSTRUKTOR/ PASAŻER</th>
-                        <td th:if="*{instructor==false}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'"
+                        <th class="col-2" scope="row">II PILOT/ INSTRUKTOR/ PASAŻER</th>
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{instructor==false}"
                             th:text="*{copilotName}"></td>
-                        <td th:if="*{instructor==true}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'"
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{instructor==true}"
                             th:text="*{picName}"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th th:if="*{engineFlight.instructor==true}" scope="row" class="col-2"> INSTRUKTOR -
+                            <th class="col-2" scope="row" th:if="*{engineFlight.instructor==true}"> INSTRUKTOR -
                                 HOLOWNIK
                             </th>
-                            <td th:if="*{engineFlight.instructor==true}" class="col-4" th:text="*{picName}"></td>
+                            <td class="col-4" th:if="*{engineFlight.instructor==true}" th:text="*{picName}"></td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">INSTRUKTOR</th>
-                        <td th:if="*{instructor==true}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'">TAK</td>
-                        <td th:if="*{instructor==false}" th:classappend="${type=='engine'}? 'col-7' : 'col-4'">NIE</td>
+                        <th class="col-2" scope="row">INSTRUKTOR</th>
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{instructor==true}">TAK</td>
+                        <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="*{instructor==false}">NIE</td>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">ZADANIE</th>
+                        <th class="col-2" scope="row">ZADANIE</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:text="*{task}"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">ZADANIE</th>
+                            <th class="col-2" scope="row">ZADANIE</th>
                             <td class="col-4" th:text="HOL"></td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">TYP STATKU POWIETRZNEGO</th>
+                        <th class="col-2" scope="row">TYP STATKU POWIETRZNEGO</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:text="*{aircraftType}"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">TYP STATKU HOLUJĄCEGO</th>
+                            <th class="col-2" scope="row">TYP STATKU HOLUJĄCEGO</th>
                             <td class="col-4" th:text="*{engineFlight.aircraftType}"></td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">ZNAKI STATKU POWIETRZNEGO</th>
+                        <th class="col-2" scope="row">ZNAKI STATKU POWIETRZNEGO</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'"
                             th:text="*{aircraftRegistrationNumber}"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">ZNAKI SAMOLOTU HOLUJĄCEGO</th>
+                            <th class="col-2" scope="row">ZNAKI SAMOLOTU HOLUJĄCEGO</th>
                             <td class="col-4" th:text="*{engineFlight.aircraftRegistrationNumber}"></td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">Data</th>
+                        <th class="col-2" scope="row">Data</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:text="*{date}"></td>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">Godzina startu</th>
+                        <th class="col-2" scope="row">Godzina startu</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:text="*{start}"></td>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">Godzina lądowania</th>
+                        <th class="col-2" scope="row">Godzina lądowania</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:text="*{touchdown}"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">Godzina lądowania samolotu holującego</th>
+                            <th class="col-2" scope="row">Godzina lądowania samolotu holującego</th>
                             <td class="col-4" th:text="*{engineFlight.touchdown}"></td>
                         </tow>
                     </tr>
                     <tr class="d-flex dashed">
-                        <th scope="row" class="col-2">Czas lotu</th>
+                        <th class="col-2" scope="row">Czas lotu</th>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="${flight.flightTime%60>9}"
                             th:text="|*{flightTime/60}:*{flightTime%60}|"></td>
                         <td th:classappend="${type=='engine'}? 'col-7' : 'col-4'" th:if="${flight.flightTime%60<10}"
                             th:text="|*{flightTime/60}:0*{flightTime%60}|"></td>
                         <tow th:if="${type=='glider'&&flight.startMethod.toString().equals('ATTO')}">
-                            <th scope="row" class="col-2">Czas lotu samolotu holującego</th>
+                            <th class="col-2" scope="row">Czas lotu samolotu holującego</th>
                             <td class="col-4" th:if="${flight.engineFlight.flightTime%60>9}"
                                 th:text="|*{engineFlight.flightTime/60}:*{engineFlight.flightTime%60}|"></td>
                             <td class="col-4" th:if="${flight.engineFlight.flightTime%60<10}"

@@ -1,6 +1,5 @@
 package pl.jgora.aeroklub.airflightslist.model;
 
-import com.sun.istack.Nullable;
 import jdk.jfr.Unsigned;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

@@ -2,11 +2,10 @@ package pl.jgora.aeroklub.airflightslist.model;
 
 import lombok.*;
 
-
 import javax.persistence.*;
 
 @Entity
-@Table(name= "accounts")
+@Table(name = "accounts")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")

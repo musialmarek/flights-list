@@ -16,11 +16,11 @@
 
                 <div class="row border-bottom border-3 p-1 m-1">
                     <div class="col noPadding">
-                        <h3 th:text="${type=='glider'}? 'dni lotne szybowców' : 'dni lotne samolotów'"
-                            class="text-color-darker text-uppercase">dni lotne</h3>
+                        <h3 class="text-color-darker text-uppercase"
+                            th:text="${type=='glider'}? 'dni lotne szybowców' : 'dni lotne samolotów'">dni lotne</h3>
                     </div>
                     <div class="col-2 nav-link">
-                        <a th:if="${previousYear>2019}" th:href="@{|/admin/${type}-flights?year=${previousYear}|}"
+                        <a th:href="@{|/admin/${type}-flights?year=${previousYear}|}" th:if="${previousYear>2019}"
                            th:text="|<<${previousYear}|"></a>
                     </div>
                     <div class="col-2" th:text="${previousYear}+1">
@@ -30,8 +30,8 @@
                     </div>
                     <div>
                         <form method="get" th:action="@{|/admin/${type}-flights/list|}">
-                            <input type="date" name="date" th:value="${today}">
-                            <button><input type="submit" class="btn btn-success nav-link" value="PRZEJDŹ"/>
+                            <input name="date" th:value="${today}" type="date">
+                            <button><input class="btn btn-success nav-link" type="submit" value="PRZEJDŹ"/>
                             </button>
                         </form>
                     </div>
@@ -51,21 +51,21 @@
                             <td class="col-2" th:text="${dates.size()-count.index}"></td>
                             <td class="col-6 text-size-big" th:text="${date.key}"></td>
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                                <form th:if="${date.value==true}"
+                                <form method="post"
                                       th:action="@{|/admin/${type}-flights/deactivate|}"
-                                      method="post">
+                                      th:if="${date.value==true}">
                                     <label class="switch">
-                                        <input type="hidden" name="date" th:value="*{date.key}">
+                                        <input name="date" th:value="*{date.key}" type="hidden">
                                         <input class="btn btn-danger rounded-0 text-light m-1" type="submit"
                                                value=""/>
                                         <span class="slider round item-active"></span>
                                     </label>
                                 </form>
-                                <form th:if="${date.value==false}"
+                                <form method="post"
                                       th:action="@{|/admin/${type}-flights/activate|}"
-                                      method="post">
+                                      th:if="${date.value==false}">
                                     <label class="switch">
-                                        <input type="hidden" name="date" th:value="*{date.key}">
+                                        <input name="date" th:value="*{date.key}" type="hidden">
                                         <input class="btn btn-success rounded-0 text-light m-1" type="submit"
                                                value=""/>
                                         <span class="slider round item-non-active"></span>
@@ -73,8 +73,8 @@
                                 </form>
                             </td>
                             <td class="col-2 align-items-center justify-content-center flex-wrap">
-                                <a th:href="@{|/admin/${type}-flights/list?date=${date.key}|}"
-                                   class="btn btn-info rounded-0 text-light m-1">Pokaż listę</a>
+                                <a class="btn btn-info rounded-0 text-light m-1"
+                                   th:href="@{|/admin/${type}-flights/list?date=${date.key}|}">Pokaż listę</a>
                             </td>
                         </tr>
                         </tbody>

@@ -18,25 +18,6 @@ import java.util.stream.Collectors;
 public class AbstractFlightService {
     private final PriceService priceService;
 
-    public void updateFlight(AbstractFlight flight, AbstractFlight toEdit) {
-        toEdit.setActive(flight.getActive());
-        toEdit.setAircraftRegistrationNumber(flight.getAircraftRegistrationNumber());
-        toEdit.setCopilotName(flight.getCopilotName());
-        toEdit.setDate(flight.getDate());
-        toEdit.setInstructor(flight.getInstructor());
-        toEdit.setPicName(flight.getPicName());
-        toEdit.setStart(flight.getStart());
-        toEdit.setTask(flight.getTask());
-        toEdit.setTouchdown(flight.getTouchdown());
-        toEdit.setAircraft(flight.getAircraft());
-        toEdit.setCopilot(flight.getCopilot());
-        toEdit.setPic(flight.getPic());
-        toEdit.setAircraftType(flight.getAircraftType());
-        toEdit.setCharge(flight.getCharge());
-        toEdit.setPayer(flight.getPayer());
-        toEdit.setNote(flight.getNote());
-    }
-
     public static void replacePilots(AbstractFlight flight) {
         if (flight.getInstructor()) {
             log.debug("\n REPLACING PILOTS - FLIGHT IS INSTRUCTOR FLIGHT ");
@@ -77,6 +58,25 @@ public class AbstractFlightService {
 
     public static List<AbstractFlight> gliderToAbstractFlightList(List<GliderFlight> flights) {
         return flights.stream().map(flight -> (AbstractFlight) flight).collect(Collectors.toList());
+    }
+
+    public void updateFlight(AbstractFlight flight, AbstractFlight toEdit) {
+        toEdit.setActive(flight.getActive());
+        toEdit.setAircraftRegistrationNumber(flight.getAircraftRegistrationNumber());
+        toEdit.setCopilotName(flight.getCopilotName());
+        toEdit.setDate(flight.getDate());
+        toEdit.setInstructor(flight.getInstructor());
+        toEdit.setPicName(flight.getPicName());
+        toEdit.setStart(flight.getStart());
+        toEdit.setTask(flight.getTask());
+        toEdit.setTouchdown(flight.getTouchdown());
+        toEdit.setAircraft(flight.getAircraft());
+        toEdit.setCopilot(flight.getCopilot());
+        toEdit.setPic(flight.getPic());
+        toEdit.setAircraftType(flight.getAircraftType());
+        toEdit.setCharge(flight.getCharge());
+        toEdit.setPayer(flight.getPayer());
+        toEdit.setNote(flight.getNote());
     }
 
     public BigDecimal calculateCost(AbstractFlight flight) {

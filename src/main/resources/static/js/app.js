@@ -8,9 +8,9 @@ $(function () {
     const $start = $('#start-time');
 
     $start.focusout(function () {
-        $('#tow-start-time').val($start.val())
-        $('.touchdown-time').attr('min',$(this).val())
-    })
+        $('#tow-start-time').val($start.val());
+        $('.touchdown-time').attr('min', $(this).val())
+    });
 
     $pic.change(function () {
         $('.payers option[value=' + $(this).children(":selected").val() + ']').prop('selected', true)
@@ -40,7 +40,7 @@ $(function () {
     const $confirmingPassword = $('#confirming-password');
     const $password = $('#password');
     $password.val('');
-    const $wrongConfirming = $("<p class='text-danger' id='wrong-confirming'>Hasła nie są jednakowe!</p>")
+    const $wrongConfirming = $("<p class='text-danger' id='wrong-confirming'>Hasła nie są jednakowe!</p>");
     $confirmingPassword.keyup(function () {
         if ($confirmingPassword.val() !== $password.val()) {
             $confirmingPassword.before($wrongConfirming)

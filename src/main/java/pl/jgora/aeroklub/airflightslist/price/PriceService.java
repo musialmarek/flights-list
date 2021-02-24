@@ -12,11 +12,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PriceService {
     private final PriceRepository priceRepository;
+
     public List<Price> findAll() {
         return priceRepository.findAll();
     }
 
-    public Price getTowingPrice(){
-    return priceRepository.findFirstByName("HOL");
+    public Price getTowingPrice() {
+        return priceRepository.findFirstByName("HOL");
     }
 }

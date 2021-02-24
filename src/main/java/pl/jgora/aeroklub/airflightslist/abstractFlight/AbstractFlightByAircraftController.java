@@ -24,7 +24,7 @@ public class AbstractFlightByAircraftController {
     private final GliderFlightService gliderFlightService;
     private final AircraftService aircraftService;
 
-    @GetMapping(path = {"admin/aircraft/glider-flights","admin/aircraft/engine-flights"})
+    @GetMapping(path = {"admin/aircraft/glider-flights", "admin/aircraft/engine-flights"})
     public String showFlightsByAircraft(
             Model model,
             @RequestParam("id") Long id,
@@ -32,7 +32,7 @@ public class AbstractFlightByAircraftController {
             @ModelAttribute(name = "flightsFilter") FlightsFilter flightsFilter
     ) {
 
-        model.addAttribute("category","aircraft");
+        model.addAttribute("category", "aircraft");
         model.addAttribute("flightsFilter", new FlightsFilter());
         log.debug("\nGETTING AIRCRAFT WITH ID {} ", id);
         Aircraft aircraft = aircraftService.findById(id);
@@ -41,7 +41,7 @@ public class AbstractFlightByAircraftController {
             model.addAttribute("aircraft", aircraft);
             flightsFilter.setAircraft(aircraft);
             if (aircraft.getEngine()) {
-                model.addAttribute("type","engine");
+                model.addAttribute("type", "engine");
                 List<EngineFlight> flights;
                 if (filter != null && filter == true) {
                     log.debug("\n FILTER IS TRUE");
@@ -59,7 +59,7 @@ public class AbstractFlightByAircraftController {
                 model.addAttribute("summary", new ListSummary(flights.stream().map(engineFlight -> (AbstractFlight) engineFlight).collect(Collectors.toSet())));
                 PdfExporter.addPdfExporterToModel("pdf", model, flights, PdfExporter.ListType.AIRCRAFT);
             } else {
-                model.addAttribute("type","glider");
+                model.addAttribute("type", "glider");
                 List<GliderFlight> flights;
                 if (filter != null && filter == true) {
                     log.debug("\n FILTER IS TRUE");

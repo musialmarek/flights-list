@@ -41,7 +41,9 @@ public class EngineFlightAddEditController {
     }
 
     @ModelAttribute("type")
-    String getType(){return "engine";}
+    String getType() {
+        return "engine";
+    }
 
     @GetMapping("/add")
     public String addFlightForm(Model model, @RequestParam("date") String date, @RequestParam(name = "id", required = false) Long id) {

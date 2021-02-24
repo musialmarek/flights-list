@@ -67,9 +67,9 @@ p {
     opacity: .8;
 }
 
-.btn-dashboard{
+.btn-dashboard {
     padding: 60px 0;
-    text-align: center ;
+    text-align: center;
 }
 
 .label-size {
@@ -601,6 +601,7 @@ p.main-logo {
     height: 10px;
 
 }
+
 .option-false {
     display: none;
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 @Getter
 public class AircraftSummary {
     private String aircraftType;
@@ -23,6 +24,6 @@ public class AircraftSummary {
         List<AbstractFlight> thisAircraftFlights = flightList.stream().filter(flight -> aircraftsRegistration.equals(flight.getAircraftRegistrationNumber()))
                 .collect(Collectors.toList());
         this.numberOfFlights = thisAircraftFlights.size();
-        this.totalTime = thisAircraftFlights.stream().map(AbstractFlight::getFlightTime).reduce(0,Integer::sum);
+        this.totalTime = thisAircraftFlights.stream().map(AbstractFlight::getFlightTime).reduce(0, Integer::sum);
     }
 }
