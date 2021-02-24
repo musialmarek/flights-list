@@ -35,7 +35,7 @@ public class FlightsFilter {
     private String payerName;
     private Boolean paid;
     private String noteNumber;
-    private NoteCategory category;
+    private String category;
     private BigDecimal minValue;
     private BigDecimal maxValue;
     private String whereSection;
@@ -68,7 +68,7 @@ public class FlightsFilter {
             log.debug("ACTIVE: {}", active);
             whereSectionBuilder.append(" f.active=").append(active).append(" AND");
         }
-        if(note){
+        if (note) {
             log.debug("FINDING NOTES");
             getWhereSectionFilteringNotes(whereSectionBuilder);
         }
@@ -172,25 +172,30 @@ public class FlightsFilter {
     private void getWhereSectionFilteringNotes(StringBuilder whereSectionBuilder) {
         if (payer != null && payer.getId() != null) {
             whereSectionBuilder.append(" f.payer = :payer OR f.payerData like concat('%',:payerData,'%') AND");
-            filters.put("payer",payer);
-            filters.put("payerData",payer.getName());
+            filters.put("payer", payer);
+            filters.put("payerData", payer.getName());
         }
-        if(payerName!=null && payer==null && !payerName.isEmpty()){
+        if (payerName != null && payer == null && !payerName.isEmpty()) {
             whereSectionBuilder.append(" f.payerData like concat('%',:payerData,'%') AND");
             filters.put("payerData", payerName);
         }
-        if(noteNumber!=null && !noteNumber.isEmpty()){
+        if (noteNumber != null && !noteNumber.isEmpty()) {
             whereSectionBuilder.append(" f.number like concat('%',:number,'%') AND");
-            filters.put("number",noteNumber);
+            filters.put("number", noteNumber);
         }
-        if(paid!=null){
+        if (paid != null) {
             whereSectionBuilder.append(" f.paid=").append(paid).append(" AND");
         }
-        if(minValue!=null){
+        if (minValue != null) {
             whereSectionBuilder.append(" ").append(minValue).append(" <= f.value AND");
         }
-        if(maxValue!=null){
+        if (maxValue != null) {
             whereSectionBuilder.append(" f.value <= ").append(minValue).append(" AND");
+        }
+        if (category != null) {
+            NoteCategory noteCategory = NoteCategory.valueOf(category);
+            whereSectionBuilder.append(" f.category = :category AND");
+            filters.put("category", noteCategory);
         }
     }
 }
