@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
 import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
+import pl.jgora.aeroklub.airflightslist.model.Note;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -33,6 +34,15 @@ public class FilterFlightsRepositoryImpl implements FilterFlightsRepository {
         log.debug("\nSETTING PARAMETERS TO QUERY");
         flightsFilter.getFilters().forEach(query::setParameter);
         log.debug("\nQUERY {}", query.toString());
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Note> getFilteredNotes(FlightsFilter filter) {
+        log.debug("\n CREATING QUERY TO FILTER NOTES");
+        TypedQuery<Note> query = entityManager.createQuery("SELECT f FROM Note f WHERE " + filter.getWhereSection() + " ORDER BY f.date, f.number", Note.class);
+        log.debug("\nSETTING PARAMETERS TO QUERY");
+        filter.getFilters().forEach(query::setParameter);
         return query.getResultList();
     }
 }
