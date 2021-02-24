@@ -1,0 +1,95 @@
+<ul class="nav flex-column long-bg" th:fragment="filter" xmlns:th="http://www.thymeleaf.org">
+    <h4 class="text-light">FILTRY</h4>
+    <form method="get"
+          th:action="${category!='user'}? @{/admin/notes} : @{|/user/notes}" th:object="${flightsFilter}">
+        <input name="filter" type="hidden" value="true">
+        <input th:field="*{note}" type="hidden" th:value="true">
+        <li class="nav-item">
+            <label>
+                <a class="btn btn-success">
+                    <input class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" type="submit" value="SZUKAJ">
+                </a>
+            </label>
+            <label>
+                <a class="btn btn-danger" th:href="${category!='user'}? @{/admin/notes} : @{/user/notes}">Resetuj
+                    filtry</a>
+            </label>
+        </li>
+        <li class="nav-item" th:if="${category!='user'}">
+            <label>
+                Aktywne noty:<br>
+                <input th:field="*{active}" type="radio" value=true>
+                Tak
+                <br>
+                <input th:field="*{active}" type="radio" value=false>
+                Nie
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Data początkowa:<br>
+                <input th:field="*{from}" th:value="*{from}" type="date">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Data końcowa:<br>
+                <input th:field="*{to}" th:value="*{to}" type="date">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label class="first-option">
+                Płatnik:
+                <select th:field="*{payer}">
+                    <option value="">brak</option>
+                    <option th:each="payer: ${pilots}" th:text="${payer.name}"
+                            th:value="${payer.id}"></option>
+                </select>
+                <div class="btn btn-success first-option-button">Spoza bazy</div>
+            </label>
+            <label class="second-option" style="display: none">
+                Płatnik:
+                <input th:field="*{payerName}" type="text">
+                <div class="btn btn-success second-option-button">Z bazy</div>
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                NUMER
+                <input th:field="*{noteNumber}" type="text">
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                ZAPŁACONA:<br>
+                <input th:field="*{paid}" th:value=true type="radio">
+                Tak
+                <br>
+                <input th:field="*{paid}" th:value=false type="radio">
+                Nie
+            </label>
+        </li>
+        <li class="nav-item">
+            <label>
+                Kategoria
+                <select th:field="*{category}">
+                    <option value="">brak</option>
+                    <option th:each="category: ${T(pl.jgora.aeroklub.airflightslist.model.NoteCategory).values()}"
+                            th:text="${category}"
+                            th:value="${category}"></option>
+                </select>
+            </label>
+        </li>
+        <li class="nav-item">
+            WARTOŚĆ
+            <label>
+                OD
+                <input type="number" step="0.01" th:field="*{minValue}" th:value="*{minValue}">
+            </label>
+            <label>
+                Do
+                <input type="number" step="0.01" th:field="*{maxValue}" th:value="*{maxValue}">
+            </label>
+        </li>
+    </form>
+</ul>
