@@ -113,4 +113,13 @@ public class NoteService {
     public List<Note> findAll() {
         return noteRepository.findAll();
     }
+
+    public Note findById(Long id) {
+        return noteRepository.findFirstById(id);
+    }
+
+    public void activationUpdate(Note toActivateDeactivate, boolean active) {
+        toActivateDeactivate.setActive(active);
+        noteRepository.save(toActivateDeactivate);
+    }
 }
