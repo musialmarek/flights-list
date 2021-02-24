@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head-details th:include="fragments/head-details :: head-details"></head-details>
+    <title>Lista Not</title>
+</head>
+<body>
+
+<header class="page-header" th:if="${category=='admin'}" th:include="fragments/admin-header :: admin-header"></header>
+<header class="page-header" th:if="${category=='user'}" th:include="fragments/user-header :: user-header">
+
+</header>
+<section class="dashboard-section">
+    <div class="row dashboard-nowrap">
+        <ul class="nav flex-column long-bg" th:include="notes/fragments/notes-filter :: filter"></ul>
+        <div class="m-4 p-3 width-medium">
+            <div class="m-4 p-3 border-dashed view-height">
+
+                <div class="row border-bottom border-3 p-1 m-1">
+                    <div class="col noPadding">
+                        <h3 class="text-color-darker text-uppercase">lista not</h3>
+                    </div>
+                    <div>
+                        <button><a class="btn btn-success nav-link" th:href="@{/admin/notes/add}">DODAJ NOTĘ</a>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="schedules-content list">
+                    <table class="table">
+                        <thead>
+                        <tr class="d-flex">
+                            <th class="col-1">Lp.</th>
+                            <th class="col-1">Numer</th>
+                            <th class="col-1">Data</th>
+                            <th th:if="${category=='admin'}" class="col-2">Płatnik</th>
+                            <th class="col-1 center">Kwota</th>
+                            <th class="col-1 center">Zapłacono</th>
+                            <th class="col-3" center>Akcje</th>
+                            <th class="col-2 leftTop">AKTYWACJA /DEAKTYWACJA</th>
+                        </tr>
+                        </thead>
+                        <tbody class="text-color-lighter">
+                        <tr class="d-flex" th:each="note,count: ${notes}">
+                            <td class="col-1" th:text="${count.count}"></td>
+                            <td class="col-1" th:text="${note.number}"></td>
+                            <td class="col-1 " th:text="${note.date}"></td>
+                            <td class="col-2 " th:text="${note.payer.name!=null && note.payer.name!=''}? ${note.payer.name} : ${note.payerData}"></td>
+                            <td class="col-1 " th:text="${note.value}"></td>
+                            <td class="col-1 " th:text="${note.paidValue}"></td>
+                            <td class="col-3 align-items-center justify-content-center flex-wrap">
+                                <a class="btn btn-info rounded-0 text-light m-1"
+                                   th:href="@{/admin/notes/details(id=${note.id})}">Szczegóły</a>
+                                <a class="btn btn-warning rounded-0 text-light m-1"
+                                   th:href="@{/admin/note/edit(id=${note.id})}">Edytuj</a>
+                                <a class="btn btn-success" th:href="@{|/admin/notes/add?date=${flight.date}&id=${flight.id}|}"
+                                   th:if="${category=='daily'}">Kopiuj</a>
+                            </td>
+                            <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                                <form method="post"
+                                      th:action="@{/admin/notes/deactivate}"
+                                      th:if="${note.active==true}" th:object="${note}">
+                                    <label class="switch">
+                                        <input name="id" th:value="*{id}" type="hidden">
+                                        <input class="btn btn-danger rounded-0 text-light m-1" type="submit"
+                                               value=""/>
+                                        <span class="slider round item-active"></span>
+                                    </label>
+                                </form>
+                                <form method="post"
+                                      th:action="@{/admin/notes/activate}"
+                                      th:if="${note.active==false}" th:object="${note}">
+                                    <label class="switch">
+                                        <input name="id" th:value="*{id}" type="hidden">
+                                        <input class="btn btn-success rounded-0 text-light m-1" type="submit"
+                                               value=""/>
+                                        <span class="slider round item-non-active"></span>
+                                    </label>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
