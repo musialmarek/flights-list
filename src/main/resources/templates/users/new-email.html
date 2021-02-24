@@ -15,18 +15,18 @@
     <div class="container pt-4 pb-4">
         <div class="border-dashed view-height">
             <div class="container w-25">
-                <form method="post" th:action="@{/user/email/confirm}" th:object="${user}"
-                      class="padding-small text-center">
+                <form class="padding-small text-center" method="post" th:action="@{/user/email/confirm}"
+                      th:object="${user}">
                     <h1 class="text-color-darker">Zmiana emaila</h1>
                     <div class="form-group">
                         <label for="email">
                             <p class="text-danger"
                                th:unless="${#httpServletRequest.getParameter('email-available')==null}">Wybrany adres
                                 email jest niedostępny</p>
-                            <input type="email" class="form-control" id="email" th:field="*{userName}"
-                                   placeholder="podaj nowy adres email">
+                            <input class="form-control" id="email" placeholder="podaj nowy adres email" th:field="*{userName}"
+                                   type="email">
                         </label>
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <input th:name="${_csrf.parameterName}" th:value="${_csrf.token}" type="hidden"/>
                     </div>
                     <button class="btn btn-color rounded-0" type="submit">Zapisz</button>
                 </form>

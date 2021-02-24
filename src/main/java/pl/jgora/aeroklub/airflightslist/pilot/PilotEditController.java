@@ -23,7 +23,7 @@ public class PilotEditController {
         if (toEdit != null) {
             log.debug("\n ADDING PILOT: {} TO MODEL", toEdit.getName());
             model.addAttribute("pilot", toEdit);
-            model.addAttribute("action","edit");
+            model.addAttribute("action", "edit");
             return "pilots/add-edit-pilot";
         }
         log.debug("\nTHERE IS NO PILOT WITH ID: {}", id);

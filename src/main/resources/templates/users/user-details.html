@@ -17,8 +17,8 @@
                 <div class="row border-bottom border-3">
                     <div class="col"><h3 class="text-color-darker text-uppercase">Szczegółowe dane</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
-                        <button class="btn-warning"><a th:href="@{/user}"
-                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <button class="btn-warning"><a class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4"
+                                                       th:href="@{/user}">Powrót</a>
                         </button>
                     </div>
                 </div>
@@ -37,13 +37,13 @@
                         zostało zmienione poprawnie</p>
                     <user-details th:object="${user}">
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Email/Login</th>
+                            <th class="col-2" scope="row">Email/Login</th>
                             <td class="col-2" th:text="*{userName}"/>
                             </td>
                             <td class="col-2"><a class="btn btn-warning" th:href="@{/user/email}">Zmień email</a></td>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Hasło</th>
+                            <th class="col-2" scope="row">Hasło</th>
                             <td class="col-7">
                                 <a class="btn btn-warning" th:href="@{/user/password}">Zmień hasło</a>
                             </td>
@@ -53,48 +53,48 @@
                     </user-details>
                     <pilot-details th:object="${pilot}">
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Nazwisko i imię:</th>
+                            <th class="col-2" scope="row">Nazwisko i imię:</th>
                             <td class="col-7" th:text="*{name}"/>
                             </td>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Adres</th>
+                            <th class="col-2" scope="row">Adres</th>
                             <td class="col-7" th:text="*{address}"/>
                             </td>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Nr Licencji</th>
+                            <th class="col-2" scope="row">Nr Licencji</th>
                             <td class="col-7" th:text="*{licence}"/>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Badania</th>
+                            <th class="col-2" scope="row">Badania</th>
                             <td class="col-7" th:text="*{medicine}"/>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">KWT</th>
+                            <th class="col-2" scope="row">KWT</th>
                             <td class="col-7" th:text="*{theory}"/>
                         </tr>
                         <glider-pilot th:if="*{gliderPilot==true}">
                             <tr class="d-flex">
-                                <th scope="row" class="col-2">KTP SZYBOWCOWE</th>
+                                <th class="col-2" scope="row">KTP SZYBOWCOWE</th>
                                 <td class="col-7" th:text="*{gliderPractise}"></td>
                             </tr>
-                            <tr th:if="*{gliderInstructor==true}" class="d-flex">
-                                <th scope="row" class="col-2">UPRAWNIENIA INSTRUKTORSKIE FI(S)</th>
+                            <tr class="d-flex" th:if="*{gliderInstructor==true}">
+                                <th class="col-2" scope="row">UPRAWNIENIA INSTRUKTORSKIE FI(S)</th>
                                 <td class="col-7" th:text="*{fis}"></td>
                             </tr>
                         </glider-pilot>
                         <engine-pilot th:if="*{enginePilot==true}">
                             <tr class="d-flex">
-                                <th scope="row" class="col-2">KTP SAMOLOTOWE</th>
+                                <th class="col-2" scope="row">KTP SAMOLOTOWE</th>
                                 <td class="col-7" th:text="*{enginePractise}"></td>
                             </tr>
                             <tr class="d-flex">
-                                <th scope="row" class="col-2">SEPL</th>
+                                <th class="col-2" scope="row">SEPL</th>
                                 <td class="col-7" th:text="*{sepl}"></td>
                             </tr>
-                            <tr th:if="*{engineInstructor==true}" class="d-flex">
-                                <th scope="row" class="col-2">UPRAWNIENIA INSTRUKTORSKIE FI(A)</th>
+                            <tr class="d-flex" th:if="*{engineInstructor==true}">
+                                <th class="col-2" scope="row">UPRAWNIENIA INSTRUKTORSKIE FI(A)</th>
                                 <td class="col-7" th:text="*{fia}"></td>
                             </tr>
                         </engine-pilot>

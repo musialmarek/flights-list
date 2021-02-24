@@ -55,6 +55,16 @@ public class PdfExporter {
                 .collect(Collectors.toList());
     }
 
+    public static void addPdfExporterToModel(String attributeName, Model model, ListType listType, List<GliderFlight> flights) {
+        log.debug("glider list size to create pdfExporter: {}", flights.size());
+        model.addAttribute(attributeName, new PdfExporter(listType, flights));
+    }
+
+    public static void addPdfExporterToModel(String attributeName, Model model, List<EngineFlight> flights, ListType listType) {
+        log.debug("engine list size to create pdfExporter: {}", flights.size());
+        model.addAttribute(attributeName, new PdfExporter(flights, listType));
+    }
+
     public void export(HttpServletResponse response) throws IOException {
         Document document = new Document(PageSize.A4.rotate());
         PdfWriter.getInstance(document, response.getOutputStream());
@@ -67,16 +77,6 @@ public class PdfExporter {
         document.add(table);
         writeSummary(document);
         document.close();
-    }
-
-    public static void addPdfExporterToModel(String attributeName, Model model, ListType listType, List<GliderFlight> flights) {
-        log.debug("glider list size to create pdfExporter: {}", flights.size());
-        model.addAttribute(attributeName, new PdfExporter(listType, flights));
-    }
-
-    public static void addPdfExporterToModel(String attributeName, Model model, List<EngineFlight> flights, ListType listType) {
-        log.debug("engine list size to create pdfExporter: {}", flights.size());
-        model.addAttribute(attributeName, new PdfExporter(flights, listType));
     }
 
     private void writeSummary(Document document) {

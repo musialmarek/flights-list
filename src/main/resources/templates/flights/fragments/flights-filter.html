@@ -1,99 +1,102 @@
 <ul class="nav flex-column long-bg" th:fragment="filter" xmlns:th="http://www.thymeleaf.org">
     <h4 class="text-light">FILTRY</h4>
-    <form th:action="${category!='user'}? @{|/admin/${category}/${type}-flights|} : @{|/user/${type}-flights|}"
-          method="get" th:object="${flightsFilter}">
-        <input type="hidden" name="filter" value="true">
-        <input th:if="${category=='pilot'}" type="hidden" name="id" th:value="${pilot.id}">
-        <input th:if="${category=='aircraft'}" type="hidden" name="id" th:value="${aircraft.id}">
+    <form method="get"
+          th:action="${category!='user'}? @{|/admin/${category}/${type}-flights|} : @{|/user/${type}-flights|}" th:object="${flightsFilter}">
+        <input name="filter" type="hidden" value="true">
+        <input name="id" th:if="${category=='pilot'}" th:value="${pilot.id}" type="hidden">
+        <input name="id" th:if="${category=='aircraft'}" th:value="${aircraft.id}" type="hidden">
         <li class="nav-item">
             <label>
                 <a class="btn btn-success">
-                    <input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="SZUKAJ">
+                    <input class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" type="submit" value="SZUKAJ">
                 </a>
             </label>
             <label>
-                <a th:if="${category=='aircraft'}" class="btn btn-danger" th:href="@{/admin/aircrafts}">Resetuj filtry</a>
-                <a th:if="${category=='pilot'}" class="btn btn-danger" th:href="@{|/admin/pilot/${type}-flights?id=${pilot.id}|}">Resetuj filtry</a>
-                <a th:if="${category=='user'}" class="btn btn-danger" th:href="@{|/user/${type}-flights|}">Resetuj filtry</a>
+                <a class="btn btn-danger" th:href="@{/admin/aircrafts}" th:if="${category=='aircraft'}">Resetuj
+                    filtry</a>
+                <a class="btn btn-danger" th:href="@{|/admin/pilot/${type}-flights?id=${pilot.id}|}"
+                   th:if="${category=='pilot'}">Resetuj filtry</a>
+                <a class="btn btn-danger" th:href="@{|/user/${type}-flights|}" th:if="${category=='user'}">Resetuj
+                    filtry</a>
             </label>
         </li>
-        <li th:if="${category!='user'}" class="nav-item">
+        <li class="nav-item" th:if="${category!='user'}">
             <label>
                 Aktywne loty:<br>
-                <input type="radio" th:field="*{active}" value=true>
+                <input th:field="*{active}" type="radio" value=true>
                 Tak
                 <br>
-                <input type="radio" th:field="*{active}" value=false>
+                <input th:field="*{active}" type="radio" value=false>
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Data początkowa:<br>
-                <input type="date" th:field="*{from}" th:value="*{from}">
+                <input th:field="*{from}" th:value="*{from}" type="date">
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Data końcowa:<br>
-                <input type="date" th:field="*{to}" th:value="*{to}">
+                <input th:field="*{to}" th:value="*{to}" type="date">
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Zadanie:<br>
-                <input type="text" th:field="*{task}" th:value="*{task}">
+                <input th:field="*{task}" th:value="*{task}" type="text">
             </label>
         </li>
-        <li th:if="${category!='aircraft'}" class="nav-item">
+        <li class="nav-item" th:if="${category!='aircraft'}">
             <label>
                 Dowódca:<br>
-                <input type="radio" th:field="*{pic}" value=true>
+                <input th:field="*{pic}" type="radio" value=true>
                 Tak
                 <br>
-                <input type="radio" th:field="*{pic}" value=false>
+                <input th:field="*{pic}" type="radio" value=false>
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Instruktor:<br>
-                <input type="radio" th:field="*{instructor}" value=true>
+                <input th:field="*{instructor}" type="radio" value=true>
                 Tak
                 <br>
-                <input type="radio" th:field="*{instructor}" value=false>
+                <input th:field="*{instructor}" type="radio" value=false>
                 Nie
             </label>
         </li>
-        <li th:if="${category!='aircraft'}" class="nav-item">
+        <li class="nav-item" th:if="${category!='aircraft'}">
             <label class="first-option">
                 Statek powietrzny:
                 <select th:field="*{aircraft}">
                     <option value="">brak</option>
-                    <option th:each="aircraft: ${aircrafts}" th:value="${aircraft.id}"
-                            th:text="|${aircraft.type} ${aircraft.registrationNumber}|"></option>
+                    <option th:each="aircraft: ${aircrafts}" th:text="|${aircraft.type} ${aircraft.registrationNumber}|"
+                            th:value="${aircraft.id}"></option>
                 </select>
                 <div class="btn btn-success first-option-button">Spoza bazy</div>
             </label>
             <label class="second-option" style="display: none">
                 TYP:
-                <input type="text" th:field="*{type}">
+                <input th:field="*{type}" type="text">
                 ZNAKI:
-                <input type="text" th:field="*{registration}">
+                <input th:field="*{registration}" type="text">
                 <div class="btn btn-success second-option-button">Z bazy</div>
             </label>
         </li>
-        <li th:if="${type=='engine'&&category=='aircraft'}" class="nav-item">
+        <li class="nav-item" th:if="${type=='engine'&&category=='aircraft'}">
             <label>
                 HOL:<br>
-                <input type="radio" th:field="*{tow}" th:value=true>
+                <input th:field="*{tow}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{tow}" th:value=false>
+                <input th:field="*{tow}" th:value=false type="radio">
                 Nie
             </label>
         <li class="nav-item">
-        <li th:if="${type=='glider'}" class="nav-item">
+        <li class="nav-item" th:if="${type=='glider'}">
             <label>
                 Metoda startu:
                 <select th:field="*{start}">

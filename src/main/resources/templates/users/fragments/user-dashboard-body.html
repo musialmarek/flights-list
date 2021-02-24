@@ -1,39 +1,39 @@
 <section class="dashboard-section" th:fragment="section">
     <div class="container pt-4 pb-4">
         <div class="border-dashed view-height">
-            <div th:if="${user.pilot.gliderPilot}" class="padding-small">
+            <div class="padding-small" th:if="${user.pilot.gliderPilot}">
                 <div class="col-12 center">
-                    <a th:href="@{/user/glider-flights}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/user/glider-flights}"><p
                             class="display-4">Loty Szybowcowe</p>
-                        </a>
+                    </a>
                 </div>
             </div>
-            <div th:if="${user.pilot.enginePilot}" class="padding-small">
+            <div class="padding-small" th:if="${user.pilot.enginePilot}">
                 <div class="col-12 center">
-                    <a th:href="@{/user/engine-flights}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/user/engine-flights}"><p
                             class="display-4">Loty Samolotowe</p>
-                        </a>
+                    </a>
                 </div>
             </div>
             <div class="padding-small">
                 <div class="col-12 center">
-                    <a th:href="@{/user/details}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/user/details}"><p
                             class="display-4">Moje Konto</p>
-                        </a>
+                    </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/admin}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/admin}"><p
                             class="display-4">Panel Administratora</p>
-                        </a>
+                    </a>
                 </div>
             </div>
             <div class="padding-small">
                 <div class="col-12 center">
-                    <a th:href="@{/logout}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/logout}"><p
                             class="display-4">Wyloguj</p>
-                        </a>
+                    </a>
                 </div>
             </div>
         </div>

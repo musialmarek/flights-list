@@ -21,7 +21,7 @@ public class PilotController {
                                 @RequestParam(value = "filter", required = false) Boolean filter,
                                 @ModelAttribute(name = "pilotFilter") PilotFilter pilotFilter) {
         List<Pilot> pilots;
-        model.addAttribute("pilotFilter",new PilotFilter());
+        model.addAttribute("pilotFilter", new PilotFilter());
         if (filter != null) {
             log.debug("\n FILTER IS TRUE");
             pilots = pilotService.filteredPilots(pilotFilter);

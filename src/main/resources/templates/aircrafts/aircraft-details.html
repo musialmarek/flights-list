@@ -14,10 +14,11 @@
         <div class="border-dashed view-height w-100">
             <div class="mt-4 ml-4 mr-4">
                 <div class="row border-bottom border-3">
-                    <div class="col"><h3 class="text-color-darker text-uppercase">Szczegółowe dane statku powietrznego</h3></div>
+                    <div class="col"><h3 class="text-color-darker text-uppercase">Szczegółowe dane statku
+                        powietrznego</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
-                        <button class="btn-warning"><a th:href="@{/admin/aircrafts}"
-                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <button class="btn-warning"><a class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4"
+                                                       th:href="@{/admin/aircrafts}">Powrót</a>
                         </button>
                     </div>
                 </div>
@@ -25,60 +26,63 @@
                 <table class="table borderless" th:object="${aircraft}">
                     <tbody>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">KLASA</th>
-                        <td th:if="*{engine==true}" class="col-7">
-                        SAMOLOT</td>
-                        <td th:if="*{engine==false}" class="col-7">
-                        SZYBOWIEC</td>
+                        <th class="col-2" scope="row">KLASA</th>
+                        <td class="col-7" th:if="*{engine==true}">
+                            SAMOLOT
+                        </td>
+                        <td class="col-7" th:if="*{engine==false}">
+                            SZYBOWIEC
+                        </td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">TYP</th>
+                        <th class="col-2" scope="row">TYP</th>
                         <td class="col-7" th:text="*{type}"/>
                         </td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">ZNAKI REJESTRACYJNE</th>
+                        <th class="col-2" scope="row">ZNAKI REJESTRACYJNE</th>
                         <td class="col-7" th:text="*{registrationNumber}"/>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">Aktywny:</th>
+                        <th class="col-2" scope="row">Aktywny:</th>
                         <td class="col-7" th:if="*{active==true}">TAK</td>
                         <td class="col-7" th:if="*{active==false}">NIE</td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">ARC</th>
+                        <th class="col-2" scope="row">ARC</th>
                         <td class="col-7" th:text="*{arc}"/>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">UBEZPIECZENIE</th>
+                        <th class="col-2" scope="row">UBEZPIECZENIE</th>
                         <td class="col-7" th:text="*{insurance}"/>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">NALOT CAŁKOWITY</th>
+                        <th class="col-2" scope="row">NALOT CAŁKOWITY</th>
                         <td class="col-7"><span th:text="*{flyingTimeHours}"/>:<span th:text="*{flyingTimeMinutes}"/>
                         </td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA PRZY NALOCIE</th>
+                        <th class="col-2" scope="row">NASTĘPNA OBSŁUGA PRZY NALOCIE</th>
                         <td class="col-7"><span th:text="*{workTimeHours}"/>:<span th:text="*{workTimeMinutes}"/>
                         </td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA PRZY NALOCIE - OPIS</th>
+                        <th class="col-2" scope="row">NASTĘPNA OBSŁUGA PRZY NALOCIE - OPIS</th>
                         <td class="col-7" th:text="*{nextWorkTimeDescription}"></td>
 
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA W DNIU</th>
+                        <th class="col-2" scope="row">NASTĘPNA OBSŁUGA W DNIU</th>
                         <td class="col-7" th:text="*{nextWorkDate}"></td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">NASTĘPNA OBSŁUGA W DNIU - OPIS</th>
+                        <th class="col-2" scope="row">NASTĘPNA OBSŁUGA W DNIU - OPIS</th>
                         <td class="col-7" th:text="*{nextWorkDateDescription}"></td>
                     </tr>
                     <tr class="d-flex">
-                        <th scope="row" class="col-2">CENA</th>
-                        <td class="col-7"  th:text="*{price!=null}? |*{price.name} *{price.nativeMember}/*{price.others}| : 'brak'"></td>
+                        <th class="col-2" scope="row">CENA</th>
+                        <td class="col-7"
+                            th:text="*{price!=null}? |*{price.name} *{price.nativeMember}/*{price.others}| : 'brak'"></td>
                     </tr>
                     </tbody>
                     <div>

@@ -20,7 +20,7 @@ public class PilotAddController {
     public String addForm(Model model) {
         log.debug("\n ADDING EMPTY PILOT TO MODEL");
         model.addAttribute("pilot", new Pilot());
-        model.addAttribute("action","add");
+        model.addAttribute("action", "add");
         return "pilots/add-edit-pilot";
     }
 

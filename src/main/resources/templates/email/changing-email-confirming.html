@@ -11,9 +11,9 @@
     <p>Klikając poniższy przycisk potwierdzisz zmianę adresu email</p>
     <br>
     <form method="get" th:action="${url}">
-        <input type="hidden" name="userName" th:value="${username}">
-        <input type="hidden" name="id" th:value="${id}">
-        <input type="hidden" name="token" th:value="${token}">\
+        <input name="userName" th:value="${username}" type="hidden">
+        <input name="id" th:value="${id}" type="hidden">
+        <input name="token" th:value="${token}" type="hidden">\
         <button type="submit">Zatwierdź</button>
     </form>
 </div>

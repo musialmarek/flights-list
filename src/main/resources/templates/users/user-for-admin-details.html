@@ -17,8 +17,8 @@
                 <div class="row border-bottom border-3">
                     <div class="col"><h3 class="text-color-darker text-uppercase">Szczegółowe dane</h3></div>
                     <div class="col d-flex justify-content-end mb-2">
-                        <button class="btn-warning"><a th:href="@{/admin/users}"
-                                                       class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+                        <button class="btn-warning"><a class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4"
+                                                       th:href="@{/admin/users}">Powrót</a>
                         </button>
                     </div>
                 </div>
@@ -27,20 +27,20 @@
                     <tbody>
                     <user-details th:object="${user}">
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Nazwa użytkownika:</th>
+                            <th class="col-2" scope="row">Nazwa użytkownika:</th>
                             <td class="col-7" th:text="*{userName}"/>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Aktywny</th>
+                            <th class="col-2" scope="row">Aktywny</th>
                             <td class="col-7" th:if="*{active}">TAK</td>
                             <td class="col-7" th:if="*{!active}">NIE</td>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Uprawnienia na stronie</th>
+                            <th class="col-2" scope="row">Uprawnienia na stronie</th>
                             <td class="col-7" th:text="*{role.name.substring(5)}"/>
                         </tr>
                         <tr class="d-flex">
-                            <th scope="row" class="col-2">Pilot</th>
+                            <th class="col-2" scope="row">Pilot</th>
                             <td class="col-7" th:if="${pilot}">
                                 <a class="btn btn-primary" th:href="@{/admin/pilots/details(id=${pilot.id})}"
                                    th:text="${pilot.name}"></a>

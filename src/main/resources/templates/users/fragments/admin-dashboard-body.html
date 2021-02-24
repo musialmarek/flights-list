@@ -2,51 +2,51 @@
     <div class="container  pt-4 pb-4">
         <div class="border-dashed view-height">
 
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/admin/users}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/admin/users}"><p
                             class="display-4">Użytkownicy</p>
                     </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/admin/pilots}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/admin/pilots}"><p
                             class="display-4">Piloci</p>
                     </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/admin/aircrafts}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/admin/aircrafts}"><p
                             class="display-4">Statki powietrzne</p>
                     </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/admin/engine-flights}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/admin/engine-flights}"><p
                             class="display-4">Listy Samolotowe</p>
                     </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/admin/glider-flights}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/admin/glider-flights}"><p
                             class="display-4">Listy Szybowcowe</p>
                     </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/user}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/user}"><p
                             class="display-4">Panel Użytkownika</p>
                     </a>
                 </div>
             </div>
-            <div sec:authorize="hasRole('ROLE_ADMIN')" class="padding-small">
+            <div class="padding-small" sec:authorize="hasRole('ROLE_ADMIN')">
                 <div class="col-12 center">
-                    <a th:href="@{/logout}" class="btn btn-outline-success btn-block"><p
+                    <a class="btn btn-outline-success btn-block" th:href="@{/logout}"><p
                             class="display-4">Wyloguj</p>
                     </a>
                 </div>

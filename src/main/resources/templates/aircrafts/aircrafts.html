@@ -21,7 +21,8 @@
                         <h3 class="text-color-darker text-uppercase">lista statków powietrznych</h3>
                     </div>
                     <div>
-                        <button><a class="btn btn-success nav-link" th:href="@{/admin/aircraft/add}">DODAJ STATEK POWIETRZNY</a>
+                        <button><a class="btn btn-success nav-link" th:href="@{/admin/aircraft/add}">DODAJ STATEK
+                            POWIETRZNY</a>
                         </button>
                     </div>
                 </div>
@@ -43,29 +44,29 @@
                             <td class="col-1" th:text="${aircraft.type}"></td>
                             <td class="col-6 text-size-big" th:text="${aircraft.registrationNumber}"></td>
                             <td class="col-2 align-items-center justify-content-center flex-wrap">
-                                <a th:href="@{/admin/aircrafts/details(id=${aircraft.id})}"
-                                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a th:href="@{/admin/aircraft/edit(id=${aircraft.id})}"
-                                   class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-                                <a th:href="${aircraft.engine}? @{/admin/aircraft/engine-flights(id=${aircraft.id})} : @{/admin/aircraft/glider-flights(id=${aircraft.id})}"
-                                   class="btn btn-primary rounded-0 text-light m-1">Loty</a>
+                                <a class="btn btn-info rounded-0 text-light m-1"
+                                   th:href="@{/admin/aircrafts/details(id=${aircraft.id})}">Szczegóły</a>
+                                <a class="btn btn-warning rounded-0 text-light m-1"
+                                   th:href="@{/admin/aircraft/edit(id=${aircraft.id})}">Edytuj</a>
+                                <a class="btn btn-primary rounded-0 text-light m-1"
+                                   th:href="${aircraft.engine}? @{/admin/aircraft/engine-flights(id=${aircraft.id})} : @{/admin/aircraft/glider-flights(id=${aircraft.id})}">Loty</a>
                             </td>
                             <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                                <form th:if="${aircraft.active==true}"
+                                <form method="post"
                                       th:action="@{/admin/aircrafts/deactivate}"
-                                      method="post" th:object="${aircraft}">
+                                      th:if="${aircraft.active==true}" th:object="${aircraft}">
                                     <label class="switch">
-                                        <input type="hidden" name="id" th:value="*{id}">
+                                        <input name="id" th:value="*{id}" type="hidden">
                                         <input class="btn btn-danger rounded-0 text-light m-1" type="submit"
                                                value=""/>
                                         <span class="slider round item-active"></span>
                                     </label>
                                 </form>
-                                <form th:if="${aircraft.active==false}"
+                                <form method="post"
                                       th:action="@{/admin/aircrafts/activate}"
-                                      method="post" th:object="${aircraft}">
+                                      th:if="${aircraft.active==false}" th:object="${aircraft}">
                                     <label class="switch">
-                                        <input type="hidden" name="id" th:value="*{id}">
+                                        <input name="id" th:value="*{id}" type="hidden">
                                         <input class="btn btn-success rounded-0 text-light m-1" type="submit"
                                                value=""/>
                                         <span class="slider round item-non-active"></span>

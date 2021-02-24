@@ -1,6 +1,6 @@
 <header class="page-header" th:fragment="admin-header">
     <nav class="navbar navbar-expand-lg justify-content-between">
-        <a href="/" class="navbar-brand main-logo main-logo-smaller">
+        <a class="navbar-brand main-logo main-logo-smaller" href="/">
             Aeroklub <span>Jeleniogórski</span>
         </a>
         <ul class="nav nounderline text-uppercase">
@@ -26,7 +26,7 @@
         <div class="d-flex justify-content-around nav nounderline">
             <h4 class="text-light mr-3 nav-item">
                 <form method="post" th:action="@{/logout}">
-                    <button th:type="submit" class="btn btn-danger nav-link disabled">Wyloguj</button>
+                    <button class="btn btn-danger nav-link disabled" th:type="submit">Wyloguj</button>
                 </form>
             </h4>
             <div class="circle-div text-center"><i class="fas fa-user icon-user"></i></div>

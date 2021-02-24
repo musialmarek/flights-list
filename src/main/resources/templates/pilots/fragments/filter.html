@@ -1,11 +1,11 @@
 <ul class="nav flex-column long-bg" th:fragment="filter" xmlns:th="http://www.thymeleaf.org">
     <h4 class="text-light">FILTRY</h4>
-    <form th:action="@{/admin/pilots}" method="get" th:object="${pilotFilter}">
-        <input type="hidden" name="filter" value="true">
+    <form method="get" th:action="@{/admin/pilots}" th:object="${pilotFilter}">
+        <input name="filter" type="hidden" value="true">
         <li class="nav-item">
             <label>
                 <a class="btn btn-success">
-                    <input type="submit" class="btn btn-success" value="SZUKAJ">
+                    <input class="btn btn-success" type="submit" value="SZUKAJ">
                 </a>
             </label>
             <label>
@@ -15,72 +15,72 @@
         <li class="nav-item">
             <label>
                 Nazwisko/Imię
-                <input type="text" th:field="*{name}" th:value="*{name}">
+                <input th:field="*{name}" th:value="*{name}" type="text">
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Numer Licencji
-                <input type="text" th:field="*{licence}" th:value="*{licence}">
+                <input th:field="*{licence}" th:value="*{licence}" type="text">
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Aktywny:<br>
-                <input type="radio" th:field="*{active}" th:value=true>
+                <input th:field="*{active}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{active}" th:value=false>
+                <input th:field="*{active}" th:value=false type="radio">
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Szybowcowy:<br>
-                <input type="radio" th:field="*{gliderPilot}" th:value=true>
+                <input th:field="*{gliderPilot}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{gliderPilot}" th:value=false>
+                <input th:field="*{gliderPilot}" th:value=false type="radio">
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Samolotowy:<br>
-                <input type="radio" th:field="*{enginePilot}" th:value=true>
+                <input th:field="*{enginePilot}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{enginePilot}" th:value=false>
+                <input th:field="*{enginePilot}" th:value=false type="radio">
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Instruktor Szybowcowy:<br>
-                <input type="radio" th:field="*{gliderInstructor}" th:value=true>
+                <input th:field="*{gliderInstructor}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{gliderInstructor}" th:value=false>
+                <input th:field="*{gliderInstructor}" th:value=false type="radio">
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Instruktor Samolotowy:<br>
-                <input type="radio" th:field="*{engineInstructor}" th:value=true>
+                <input th:field="*{engineInstructor}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{engineInstructor}" th:value=false>
+                <input th:field="*{engineInstructor}" th:value=false type="radio">
                 Nie
             </label>
         </li>
         <li class="nav-item">
             <label>
                 Holownik:<br>
-                <input type="radio" th:field="*{tow}" th:value=true>
+                <input th:field="*{tow}" th:value=true type="radio">
                 Tak
                 <br>
-                <input type="radio" th:field="*{tow}" value=false>
+                <input th:field="*{tow}" type="radio" value=false>
                 Nie
             </label>
         </li>

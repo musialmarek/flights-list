@@ -42,29 +42,30 @@
                             <td class="col-1" th:text="${count.count}"></td>
                             <td class="col-3" th:text="${user.userName}"></td>
                             <td class="col-1" th:text="${user.role.name.substring(5)}"></td>
-                            <td class="col-3 text-size-big" th:if="${user.pilot!=null}" th:text="${user.pilot.name}"></td>
+                            <td class="col-3 text-size-big" th:if="${user.pilot!=null}"
+                                th:text="${user.pilot.name}"></td>
                             <td class="col-2 align-items-center justify-content-center flex-wrap">
-                                <a th:href="@{/admin/user/details(id=${user.id})}"
-                                   class="btn btn-sm btn-info rounded-0 text-light m-1">Szczegóły</a>
-                                <a th:href="@{/admin/user/edit(id=${user.id})}"
-                                   class="btn btn-sm btn-warning rounded-0 text-light m-1">Edytuj</a>
+                                <a class="btn btn-sm btn-info rounded-0 text-light m-1"
+                                   th:href="@{/admin/user/details(id=${user.id})}">Szczegóły</a>
+                                <a class="btn btn-sm btn-warning rounded-0 text-light m-1"
+                                   th:href="@{/admin/user/edit(id=${user.id})}">Edytuj</a>
                             </td>
                             <td class="col-1 d-flex align-items-center justify-content-center flex-wrap">
-                                <form th:if="${user.active==true}"
+                                <form method="post"
                                       th:action="@{/admin/user/deactivate}"
-                                      method="post" th:object="${user}">
+                                      th:if="${user.active==true}" th:object="${user}">
                                     <label class="switch">
-                                        <input type="hidden" name="id" th:value="*{id}">
+                                        <input name="id" th:value="*{id}" type="hidden">
                                         <input class="btn btn-danger rounded-0 text-light m-1" type="submit"
                                                value=""/>
                                         <span class="slider round item-active"></span>
                                     </label>
                                 </form>
-                                <form th:if="${user.active==false}"
+                                <form method="post"
                                       th:action="@{/admin/user/activate}"
-                                      method="post" th:object="${user}">
+                                      th:if="${user.active==false}" th:object="${user}">
                                     <label class="switch">
-                                        <input type="hidden" name="id" th:value="*{id}">
+                                        <input name="id" th:value="*{id}" type="hidden">
                                         <input class="btn btn-success rounded-0 text-light m-1" type="submit"
                                                value=""/>
                                         <span class="slider round item-non-active"></span>
