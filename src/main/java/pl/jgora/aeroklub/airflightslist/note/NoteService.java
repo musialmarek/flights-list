@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pl.jgora.aeroklub.airflightslist.abstractFlight.AbstractFlightService;
+import pl.jgora.aeroklub.airflightslist.abstractFlight.FlightsFilter;
 import pl.jgora.aeroklub.airflightslist.account.AccountRepository;
 import pl.jgora.aeroklub.airflightslist.engineFlight.EngineFlightService;
 import pl.jgora.aeroklub.airflightslist.gliderFlight.GliderFlightService;
-import pl.jgora.aeroklub.airflightslist.model.AbstractFlight;
-import pl.jgora.aeroklub.airflightslist.model.EngineFlight;
-import pl.jgora.aeroklub.airflightslist.model.GliderFlight;
-import pl.jgora.aeroklub.airflightslist.model.Note;
+import pl.jgora.aeroklub.airflightslist.model.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,33 +24,44 @@ public class NoteService {
     private final GliderFlightService gliderFlightService;
 
     public void createNote(List<GliderFlight> flights, List<EngineFlight> towingFlights) {
-        Note note = getNewNoteToChargeFlights(AbstractFlightService.gliderToAbstractFlightList(flights));
+        Note note = getNewNoteToChargeFlights(AbstractFlightService.gliderToAbstractFlightList(flights), false);
         BigDecimal value = new BigDecimal(0);
         value = addFlightsCostToNoteValue(AbstractFlightService.gliderToAbstractFlightList(flights), value);
         value = addFlightsCostToNoteValue(AbstractFlightService.engineToAbstractFlightList(towingFlights), value);
         note.setValue(value);
+        note.setCategory(NoteCategory.LOTY);
         Note savedNote = noteRepository.save(note);
         setNoteInGliderFlights(flights, savedNote);
         setNoteInEngineFlights(towingFlights, savedNote);
     }
 
     public void createNote(List<EngineFlight> flights) {
-        Note note = getNewNoteToChargeFlights(AbstractFlightService.engineToAbstractFlightList(flights));
+        Note note = getNewNoteToChargeFlights(AbstractFlightService.engineToAbstractFlightList(flights), true);
         BigDecimal value = new BigDecimal(0);
         value = addFlightsCostToNoteValue(AbstractFlightService.engineToAbstractFlightList(flights), value);
         note.setValue(value);
+        note.setCategory(NoteCategory.LOTY);
         Note savedNote = noteRepository.save(note);
         setNoteInEngineFlights(flights, savedNote);
     }
 
-    Note getNewNoteToChargeFlights(List<AbstractFlight> gliderFlights) {
+    public List<Note> getFilteredNotes(FlightsFilter flightsFilter) {
+        flightsFilter.setNote(true);
+        return noteRepository.getFilteredNotes(flightsFilter);
+    }
+
+    private Note getNewNoteToChargeFlights(List<AbstractFlight> gliderFlights, boolean engine) {
         Note note = new Note();
         note.setPayer(gliderFlights.get(0).getPayer());
         note.setAccount(accountRepository.findFirstByName("MAIN"));
         note.setPaid(false);
         note.setActive(false);
         note.setNumber(generateNumber());
-        note.setDescription("SKŁADKA SEKCYJNA");
+        if (engine) {
+            note.setDescription("SKŁADKA SEKCYJNA SAMOLOTOWA");
+        } else {
+            note.setDescription("SKŁADKA SEKCYJNA SZYBOWCOWA");
+        }
         note.setDate(LocalDate.now());
         return note;
     }
@@ -81,7 +90,16 @@ public class NoteService {
 
     private String generateNumber() {
         StringBuilder sb = new StringBuilder();
-        sb.append(getNextNoteNumber()).append("/").append(LocalDate.now().getYear());
+        String nextNoteNumber = getNextNoteNumber();
+        switch (nextNoteNumber.length()) {
+            case 1:
+                sb.append("00");
+                break;
+            case 2:
+                sb.append("0");
+                break;
+        }
+        sb.append(nextNoteNumber).append("/").append(LocalDate.now().getYear());
         return sb.toString();
     }
 
@@ -90,5 +108,9 @@ public class NoteService {
         return Integer.toString(noteRepository.countByDateBetween
                 (LocalDate.of(currentYear, 1, 1),
                         LocalDate.of(currentYear, 12, 31)) + 1);
+    }
+
+    public List<Note> findAll() {
+        return noteRepository.findAll();
     }
 }
