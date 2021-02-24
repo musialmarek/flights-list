@@ -25,12 +25,18 @@ public class Note {
     private Pilot payer;
     @ManyToOne
     private Account account;
+    @Column(name = "payer_data")
     private String payerData;
     private Boolean paid;
     private Boolean active;
     private LocalDate date;
+    @Column(name = "date_limit")
+    private LocalDate dateLimit;
     private BigDecimal value;
+    private BigDecimal paidValue;
     private String description;
+    private String annotation;
+    private NoteCategory category;
 
     @PrePersist
     @PreUpdate
@@ -39,6 +45,9 @@ public class Note {
             StringBuilder sb = new StringBuilder();
             sb.append(payer.getName()).append("\n").append(payer.getAddress());
             this.payerData = sb.toString();
+        }
+        if (value.equals(paidValue)) {
+            paid = true;
         }
     }
 }
