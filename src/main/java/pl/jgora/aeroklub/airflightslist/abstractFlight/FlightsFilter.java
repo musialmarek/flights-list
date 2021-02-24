@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import pl.jgora.aeroklub.airflightslist.model.Aircraft;
+import pl.jgora.aeroklub.airflightslist.model.NoteCategory;
 import pl.jgora.aeroklub.airflightslist.model.Pilot;
 import pl.jgora.aeroklub.airflightslist.model.StartMethod;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
@@ -28,6 +30,14 @@ public class FlightsFilter {
     private Boolean instructor;
     private Boolean tow;
     private String start;
+    private Boolean note;
+    private Pilot payer;
+    private String payerName;
+    private Boolean paid;
+    private String noteNumber;
+    private NoteCategory category;
+    private BigDecimal minValue;
+    private BigDecimal maxValue;
     private String whereSection;
     private Map<String, Object> filters = new HashMap<>();
 
@@ -57,6 +67,10 @@ public class FlightsFilter {
         if (active != null) {
             log.debug("ACTIVE: {}", active);
             whereSectionBuilder.append(" f.active=").append(active).append(" AND");
+        }
+        if(note){
+            log.debug("FINDING NOTES");
+            getWhereSectionFilteringNotes(whereSectionBuilder);
         }
 
         if (from != null && !from.isEmpty()) {
@@ -152,6 +166,31 @@ public class FlightsFilter {
         if (tow != null) {
             log.debug("TOW: {}", tow);
             whereSectionBuilder.append(" f.tow=").append(tow).append(" AND");
+        }
+    }
+
+    private void getWhereSectionFilteringNotes(StringBuilder whereSectionBuilder) {
+        if (payer != null && payer.getId() != null) {
+            whereSectionBuilder.append(" f.payer = :payer OR f.payerData like concat('%',:payerData,'%') AND");
+            filters.put("payer",payer);
+            filters.put("payerData",payer.getName());
+        }
+        if(payerName!=null && payer==null && !payerName.isEmpty()){
+            whereSectionBuilder.append(" f.payerData like concat('%',:payerData,'%') AND");
+            filters.put("payerData", payerName);
+        }
+        if(noteNumber!=null && !noteNumber.isEmpty()){
+            whereSectionBuilder.append(" f.number like concat('%',:number,'%') AND");
+            filters.put("number",noteNumber);
+        }
+        if(paid!=null){
+            whereSectionBuilder.append(" f.paid=").append(paid).append(" AND");
+        }
+        if(minValue!=null){
+            whereSectionBuilder.append(" ").append(minValue).append(" <= f.value AND");
+        }
+        if(maxValue!=null){
+            whereSectionBuilder.append(" f.value <= ").append(minValue).append(" AND");
         }
     }
 }
