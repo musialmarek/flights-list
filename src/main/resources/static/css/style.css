@@ -605,3 +605,7 @@ p.main-logo {
 .option-false {
     display: none;
 }
+
+.paid {
+    background-color:rgba(100,255,0,0.5);
+}
