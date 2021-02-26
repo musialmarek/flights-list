@@ -68,7 +68,7 @@ public class FlightsFilter {
             log.debug("ACTIVE: {}", active);
             whereSectionBuilder.append(" f.active=").append(active).append(" AND");
         }
-        if (note) {
+        if (note != null && note) {
             log.debug("FINDING NOTES");
             getWhereSectionFilteringNotes(whereSectionBuilder);
         }
