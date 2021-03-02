@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <head-details th:include="fragments/head-details :: head-details"></head-details>
+    <title th:text="${action=='add'}? 'Dodaj Notę' : ${note.number}"></title>
+</head>
+<body>
+<header class="page-header" th:include="fragments/admin-header :: admin-header">
+
+</header>
+
+<section class="width-medium text-color-darker">
+    <div class="pb-2">
+        <div class="border-dashed view-height w-100">
+            <div class="mt-4 ml-4 mr-4">
+                <div class="row border-bottom border-3">
+                    <div class="col"><h3 class="text-color-darker text-uppercase"
+                                         th:text="${action=='add'}? 'Dodaj Notę' : |Edytuj ${note.number}|"></h3>
+                    </div>
+                    <div class="col d-flex justify-content-end mb-2">
+                        <button class="btn-warning"><a class="nav-link rounded-0 pt-0 pb-0 pr-4 pl-4"
+                                                       th:href="@{/admin/notes}">Powrót</a>
+                        </button>
+                    </div>
+                </div>
+
+                <form method="post" th:action="@{|/admin/notes/${action}|}" th:object="${note}">
+                    <input th:if="${action=='edit'}" type="hidden" th:field="*{id}" th:value="*{id}">
+                    <input type="hidden" th:field="*{number}" th:value="*{number}">
+                    <table class="table borderless">
+                        <tbody>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">Aktywna:</th>
+                            <td class="col-7"><input th:field="*{active}" type="checkbox" th:value="*{active}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">Płatnik</th>
+                            <td class="col-7">
+                                <label>
+                                    <select id="payer" th:field="*{payer}" th:value="*{payer}">
+                                        <option value="">wybierz</option>
+                                        <option th:each="pilot: ${pilots}"
+                                                th:text="${pilot.name}"
+                                                th:value="${pilot.id}"
+                                                th:attrappend="address=${pilot.address}"></option>
+                                    </select>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">Dane Płatnika</th>
+                            <td class="col-7">
+                                <label>
+                                    <textarea id="payer-data" placeholder="NAZWISKO I IMIĘ ADRES" th:field="*{payerData}"
+                                              th:value="*{payerData}"/>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">Data</th>
+                            <td class="col-7">
+                                <label>
+                                    <input class="paying-depender" th:type="date" id="date" th:field="*{date}" th:value="*{date}">
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">Termin wpłaty</th>
+                            <td class="col-7">
+                                <label>
+                                    Przelew:
+                                    <input class="paying-depender" id="days-to-paid" type="number" value="0" min="0"> dni
+                                </label>
+                                <label>
+                                    <input id="date-limit" th:field="*{dateLimit}" th:type="date"
+                                           th:value="*{dateLimit}" readonly>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">KATEGORIA:</th>
+                            <td class="col-7">
+                                <select th:field="*{category}" th:value="*{category}">
+                                    <option value="">brak</option>
+                                    <option th:each="method: ${T(pl.jgora.aeroklub.airflightslist.model.NoteCategory).values()}"
+                                            th:text="${method}" th:value="${method}">
+                                    </option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">KWOTA</th>
+                            <td class="col-7">
+                                <label>
+                                    <input th:field="*{value}" type="number" min="0"
+                                           th:value="*{value}" step="0.01" required>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">ZAPŁACONO</th>
+                            <td class="col-7">
+                                <label>
+                                    <input th:field="*{paidValue}" type="number" min="0"
+                                           th:value="*{paidValue}" step="0.01">
+                                </label>
+                            </td>
+                        </tr>
+
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">KONTO</th>
+                            <td class="col-7">
+                                <select th:field="*{account}" th:value="*{account}">
+                                    <option th:each="account: ${accounts}" th:value="${account.id}"
+                                            th:utext="|${account.name} <br> ${account.number}|"></option>
+
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">OPIS</th>
+                            <td class="col-7"><input class="col-6" th:field="*{description}" type="text"
+                                                     th:value="*{description}"></td>
+                        </tr>
+                        <tr class="d-flex">
+                            <th class="col-2" scope="row">NOTATKA</th>
+                            <td class="col-7"><textarea th:field="*{annotation}"
+                                                        th:value="*{annotation}"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>
+                                <input class="btn btn-warning nav-link" th:type="submit" value="Zapisz">
+                            </th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
