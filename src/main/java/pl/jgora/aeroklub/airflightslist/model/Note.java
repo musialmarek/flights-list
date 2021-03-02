@@ -1,6 +1,7 @@
 package pl.jgora.aeroklub.airflightslist.model;
 
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -29,8 +30,10 @@ public class Note {
     private String payerData;
     private Boolean paid;
     private Boolean active;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
     @Column(name = "date_limit")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateLimit;
     private BigDecimal value;
     private BigDecimal paidValue;
@@ -46,7 +49,10 @@ public class Note {
             sb.append(payer.getName()).append("\n").append(payer.getAddress());
             this.payerData = sb.toString();
         }
-        if (value.equals(paidValue)) {
+        if (paidValue == null) {
+            paidValue = new BigDecimal(0);
+        }
+        if (value.compareTo(paidValue) <= 0) {
             paid = true;
         }
     }
