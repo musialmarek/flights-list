@@ -6,6 +6,40 @@ $(function () {
     const $atto = $('#ATTO');
     const $pic = $('.pic');
     const $start = $('#start-time');
+    const $payingDepender = $('.paying-depender');
+    const $daysToPaid = $('#days-to-paid');
+    const $date = $('#date');
+    const $dateLimit = $('#date-limit');
+    const $payer = $('#payer')
+    const $payerData = $('#payer-data')
+
+    function setDateLimit() {
+        return function () {
+            const millisecondsOfNoteDay = new Date($date.val()).valueOf();
+            const millisecondsOfDifference = $daysToPaid.val() * 86400000;
+            let date = new Date(millisecondsOfNoteDay + millisecondsOfDifference)
+            const fullYear = '' + date.getFullYear();
+            let month = date.getMonth() + 1 + '';
+            if (month.length < 2) {
+                month = '0' + month
+            }
+            let day = '' + date.getDate();
+            if (day.length < 2) {
+                day = '0' + day
+            }
+            $dateLimit.val(fullYear + "-" + month + "-" + day)
+        };
+    }
+
+    function setPayerData() {
+        return function () {
+            $payerData.val($(this).children(":selected").text()+'\n'+$(this).children(":selected").attr('address'))
+        }
+    }
+
+    $payer.change(setPayerData())
+    $payingDepender.change(setDateLimit());
+
 
     $start.focusout(function () {
         $('#tow-start-time').val($start.val());
