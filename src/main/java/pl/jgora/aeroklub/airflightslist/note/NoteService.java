@@ -122,4 +122,32 @@ public class NoteService {
         toActivateDeactivate.setActive(active);
         noteRepository.save(toActivateDeactivate);
     }
+
+    public Note save(Note note) {
+        note.setNumber(generateNumber());
+        return noteRepository.save(note);
+    }
+
+    public Note update(Note note) {
+        Note toEdit = new Note();
+        if (note != null && note.getId() != null) {
+            toEdit = noteRepository.findFirstById(note.getId());
+            if (toEdit != null) {
+                toEdit.setActive(note.getActive());
+                toEdit.setAnnotation(note.getAnnotation());
+                toEdit.setCategory(note.getCategory());
+                toEdit.setDate(note.getDate());
+                toEdit.setDateLimit(note.getDateLimit());
+                toEdit.setDescription(note.getDescription());
+                toEdit.setNumber(note.getNumber());
+                toEdit.setPaidValue(note.getPaidValue());
+                toEdit.setPayer(note.getPayer());
+                toEdit.setPayerData(note.getPayerData());
+                toEdit.setValue(note.getValue());
+                toEdit.setAccount(note.getAccount());
+                noteRepository.save(toEdit);
+            }
+        }
+        return toEdit;
+    }
 }
